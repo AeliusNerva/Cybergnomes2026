@@ -1,4 +1,4 @@
-package main.java.frc.robot.src;
+package frc.robot.vector3;
 
 public class vector3 {
     public double x;

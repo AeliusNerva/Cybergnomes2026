@@ -1,4 +1,6 @@
 # Testing
+**THIS IS OUTDATED BUT STILL WORKS PROBABLY**
+
 Unit tests are necessary for quality code. Here's how you can run and create them in this repo.
 
 ---
@@ -8,16 +10,16 @@ Unit tests are necessary for quality code. Here's how you can run and create the
 ## Compiling tests
 To compile all tests, you can run:
 
-**Linux:** `javac -d src/tests/java/frc/robot/bin $(find src/tests/java/frc/robot/src -name "*.java")`
-**Windows:** `javac -d src/tests/java/frc/robot/bin (Get-ChildItem -Recurse src/tests/java/frc/robot/src -Filter *.java | ForEach-Object { $_.FullName })`
+**Linux:** `javac -d src/main/java/frc/robot/bin $(find src/main/java/frc/robot/src -name "*.java")`
+**Windows:** `javac -d src/main/java/frc/robot/bin (Get-ChildItem -Recurse src/main/java/frc/robot/src -Filter *.java | ForEach-Object { $_.FullName })`
 
 ## Running tests
 To run all tests with the test manager, you can run:
 
-**Linux & Windows:** `java -cp src/tests/java/frc/robot/bin main`
+**Linux & Windows:** `java -cp src/main/java/frc/robot/bin main`
 
 ## Creating a new test
-If your test requires an entirely new class (i.e., it has a completely different scope from all the other tests) simply create a new `.java` file in `src/tests/java/frc/robot/src` and start writing methods. Otherwise, simply append a new method to an existing class and the test manager will pick it up automatically.
+If your test requires an entirely new class (i.e., it has a completely different scope from all the other tests) simply create a new `.java` file in `src/main/java/frc/robot/src` and start writing methods. Otherwise, simply append a new method to an existing class and the test manager will pick it up automatically.
 
 One unit test per method you wish to test, please.
 

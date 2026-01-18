@@ -1,3 +1,4 @@
+package frc.robot.tests;
 /*      
         Project:        cybergnomes-2026
         File Purpose:   Test Manager
@@ -40,7 +41,7 @@ public class main {
         int skipped = 0;
         System.out.println("\n" + TEST_MANAGER + "cybergnomes test manager started");
 
-        String testsDirectory = "src/tests/java/frc/robot/bin";
+        String testsDirectory = "src/main/java/frc/robot/tests";
         File dir = new File(testsDirectory);
 
         URL[] urls = {dir.toURI().toURL()};
