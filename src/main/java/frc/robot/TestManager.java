@@ -1,4 +1,4 @@
-package frc.robot.tests;
+package frc.robot;
 /*      
         Project:        cybergnomes-2026
         File Purpose:   Test Manager
@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-public class main {
+public class TestManager {
     // Text styles
     public static final String BOLD = "\u001B[1m";
     public static final String GREEN = "\u001B[32m";

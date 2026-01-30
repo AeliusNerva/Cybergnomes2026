@@ -1,5 +1,5 @@
 # Testing
-**THIS IS OUTDATED BUT STILL WORKS PROBABLY**
+**THIS IS OUTDATED BUT SOME PARTS ARE STILL USEFUL**
 
 Unit tests are necessary for quality code. Here's how you can run and create them in this repo.
 

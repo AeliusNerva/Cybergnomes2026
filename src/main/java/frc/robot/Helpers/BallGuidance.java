@@ -12,17 +12,15 @@
         Notes:          --
 */
 
-package frc.robot.ball_guidance;
+package frc.robot.Helpers;
 
-import frc.robot.vector3.vector3;
-
-public class ball_guidance {
+public class BallGuidance {
     public static final double gravity = 9.81; // Gravity in m/s^2
 
     public static final double ball_weight = 0.227; // Ball weight in kg
     
     // Takes the relative position and velocity and calculates the required ball velocity to land in the hub 
-    public static vector3 get_required_velocity(vector3 delta_pos, double apogee, vector3 delta_velocity) {
+    public static Vector3 get_required_velocity(Vector3 delta_pos, double apogee, Vector3 delta_velocity) {
         /*
 
         Initial velocity for an object to reach a specific height
@@ -35,7 +33,7 @@ public class ball_guidance {
 
         */
 
-        vector3 velocity_vector = new vector3(0, 0, 0);
+        Vector3 velocity_vector = new Vector3(0, 0, 0);
         
         // Find required vertical velocity
         velocity_vector.y = Math.sqrt(2 * gravity * apogee);
@@ -61,14 +59,14 @@ public class ball_guidance {
 
     // This says it returns a vector3, but only two vectors are actually used for angles.
     // x = pitch, y = yaw, z = m/s to huck the ball
-    public static vector3 get_turret_instructions(vector3 velocity_vector) {
-        vector3 euler_angles = new vector3(0, 0, 0);
+    public static Vector3 get_turret_instructions(Vector3 velocity_vector) {
+        Vector3 euler_angles = new Vector3(0, 0, 0);
 
         // Get yaw using arctangent
         euler_angles.y = Math.atan2(velocity_vector.x, velocity_vector.z);
 
         // Get magnitude of x and z axes (lateral) then arctangent with vertical velocity to get pitch
-        vector3 xy = new vector3(velocity_vector.x, 0, velocity_vector.z);
+        Vector3 xy = new Vector3(velocity_vector.x, 0, velocity_vector.z);
         euler_angles.x = Math.atan2(velocity_vector.y, xy.magnitude());
 
         // Scale angles to degrees because radians suck
