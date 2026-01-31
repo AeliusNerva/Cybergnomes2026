@@ -9,8 +9,6 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 
 public class Drive {
-    private static KrakenServo krakenservo = new KrakenServo();
-
     private static double max_speed = Constants.Drive.MAX_SPEED;
     private static double robot_width = Constants.Drive.ROBOT_WIDTH;
     private static double robot_length = Constants.Drive.ROBOT_LENGTH;
@@ -83,7 +81,7 @@ public class Drive {
             double wheel_speed = Math.sqrt(combined_x * combined_x + combined_y * combined_y) / Math.sqrt(2) * max_speed;
     
             // Rotate the module to the desired angle
-            krakenservo.rotate_to(motors[4 + i], wheel_angle);
+            KrakenServo.rotate_to(motors[4 + i], wheel_angle);
     
             // Drive the module at the calculated speed
             motors[i].setControl(new DutyCycleOut(wheel_speed));

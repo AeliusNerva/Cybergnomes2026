@@ -7,7 +7,7 @@ import frc.robot.Constants;
 
 public class KrakenServo {
     private static double rotations_per_degree = Constants.Drive.ROTATIONS_PER_DEGREE;
-    public void rotate_to(TalonFX motor, double position) {
+    public static void rotate_to(TalonFX motor, double position) {
         motor.setControl(new PositionVoltage(0).withPosition(rotations_per_degree));
     }
 }

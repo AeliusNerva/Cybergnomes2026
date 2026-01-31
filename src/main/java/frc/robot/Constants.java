@@ -81,6 +81,19 @@ public class Constants {
         public static final double WHEEL_INSET = 0.071;
     }
 
+    public static final class Collector {
+        // CAN IDs of each motor
+        public static final int COLLECTOR_PIVOT_MOTOR = 15;
+        public static final int COLLECTOR_MOTOR = 16;
+
+        // Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
+        public static final double COLLECTOR_SPEED = 0.5;
+
+        // Collector positions in degrees
+        public static final int LOWERED_DEG = 0;
+        public static final int RAISED_DEG = 0;
+    }
+
     public static final class Arena {
         // Units in meters, measured from bottom left corner of arena specs diagram
 

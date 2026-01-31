@@ -11,6 +11,15 @@ public class Controller {
     private static final double stick_minimum = Constants.Controller.STICK_MINIMUM;
     private static final double trigger_minimum = Constants.Controller.TRIGGER_MINIMUM;
 
+
+    
+    private static boolean releasing_l1 = false;
+    private static boolean releasing_l2 = false;
+    private static boolean releasing_r1 = false;
+    private static boolean releasing_r2 = false;
+
+
+
     public static void input_and_output() {
         double raw_left_stick_x = controller.getLeftX();
         double raw_left_stick_y = controller.getLeftY();
@@ -41,13 +50,23 @@ public class Controller {
             // Spin up turret flywheel if R1 is pressed
             if (r1) {
                 Debug.debug("Spinning up turret flywheel...");
-
+                Turret.spin_up_flywheel();
+                releasing_r1 = true;
+            } else if (releasing_r1) {
+                Debug.debug("Stopping turret flywheel...");
+                Turret.stop_flywheel();
+                releasing_r1 = false;
             }
 
             // Shoot the turret if R2 is pressed
             if (r2) {
                 Debug.debug("Shooting turret...");
-
+                Turret.fire();
+                releasing_r2 = true;
+            } else if (releasing_r2) {
+                Debug.debug("Stopping shooting turret...");
+                Turret.stop_firing();
+                releasing_r2 = false;
             }
 
 
@@ -56,13 +75,23 @@ public class Controller {
             // Spin up puker flywheel if L1 is pressed
             if (l1) {
                 Debug.debug("Spinning up puker flywheel...");
-
+                Puker.spin_up_flywheel();
+                releasing_l1 = true;
+            } else if (releasing_l1) {
+                Debug.debug("Stopping puker flywheel...");
+                Puker.stop_flywheel();
+                releasing_l1 = false;
             }
 
             // Shoot the puker if L2 is pressed
             if (l2) {
                 Debug.debug("Shooting puker...");
-
+                Puker.fire();
+                releasing_l2 = true;
+            } else if (releasing_l2) {
+                Debug.debug("Stopping shooting puker...");
+                Puker.stop_firing();
+                releasing_l2 = false;
             }
 
 
@@ -83,11 +112,13 @@ public class Controller {
             // Raise the collector if the triangle button is pressed
             if (triangle) {
                 Debug.debug("Raising the collector...");
+                Collector.raise_collector();
             }
 
             // Lower the collector if the circle button is pressed
             if (circle) {
                 Debug.debug("Lowering the collector...");
+                Collector.lower_collector();
             } 
     }
 }

@@ -2,8 +2,6 @@ package frc.robot;
 
 import frc.robot.Subsystems.Controller;
 import frc.robot.Subsystems.Drive;
-import frc.robot.Subsystems.Turret;
-import frc.robot.Subsystems.Puker;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -12,8 +10,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     Drive.init_swerve_drive();
-    Turret.init_turret();
-    Puker.init_puker();
   }
 
   @Override

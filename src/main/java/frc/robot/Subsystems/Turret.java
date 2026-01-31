@@ -1,6 +1,5 @@
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -11,9 +10,6 @@ import frc.robot.Helpers.Vector3;
 import frc.robot.Helpers.KrakenServo;
 
 public class Turret {
-    private static final Positioning positioning = new Positioning();
-    private static final KrakenServo krakenservo = new KrakenServo();
-
     private static final Vector3 hub = Constants.Arena.HUB;
     private static final double apogee = hub.y + 1; // Hub's height plus 1 meter for optimal arc
 
@@ -36,28 +32,20 @@ public class Turret {
 
 
 
-    public static void init_turret() {
-        TalonFXConfiguration config = new TalonFXConfiguration();
-        config.Feedback.SensorToMechanismRatio = 1.0; 
-        flywheel_motor.getConfigurator().apply(config);
-    }
-
-
-
     public static void lock_onto_hub() {
-        if (positioning.locked) {
-            Vector3 position = new Vector3(positioning.position.x, 0, positioning.position.y);
+        if (Positioning.locked) {
+            Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
             Vector3 deltapos = position.sub(hub);
     
             Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); // Zero velocity of the hub
-            deltavel.sub(positioning.velocity);
+            deltavel.sub(Positioning.velocity);
     
             Vector3 velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
     
             Vector3 commands = BallGuidance.get_turret_instructions(velocity);
     
-            krakenservo.rotate_to(pitch_motor, commands.x);
-            krakenservo.rotate_to(yaw_motor, commands.y);
+            KrakenServo.rotate_to(pitch_motor, commands.x);
+            KrakenServo.rotate_to(yaw_motor, commands.y);
             last_speed_command = commands.x;
         }
     }
