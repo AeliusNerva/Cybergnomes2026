@@ -1,10 +1,10 @@
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Constants;
-import frc.robot.Helpers.KrakenServo;
+import frc.robot.helpers.KrakenServo;
 
 public class Collector {
     private static final int collector_motor_id = Constants.Collector.COLLECTOR_MOTOR;

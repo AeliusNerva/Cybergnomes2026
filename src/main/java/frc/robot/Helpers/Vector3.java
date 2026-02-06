@@ -1,4 +1,4 @@
-package frc.robot.Helpers;
+package frc.robot.helpers;
 
 public class Vector3 {
     public double x;

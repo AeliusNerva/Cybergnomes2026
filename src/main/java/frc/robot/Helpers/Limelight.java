@@ -1,4 +1,4 @@
-package frc.robot.Helpers;
+package frc.robot.helpers;
 
 import frc.robot.Constants;
 
@@ -19,31 +19,32 @@ t2d {
 */
 
 public class Limelight {
-    private int misscounter = 0;
+    private static int misscounter = 0;
 
-    private double[] t2d = {};
+    private static double[] t2d = {};
 
-    private boolean tv = false;
-    private double tx = 0;
-    private double ty = 0;
-    private int tid = 0;
-    private double tshort = 0;
-    private double thor = 0;
-    private double tvert = 0;
-    private double tyaw = 0;
+    private static boolean tv = false;
+    private static double tx = 0;
+    private static double ty = 0;
+    private static int tid = 0;
+    private static double tshort = 0;
+    private static double thor = 0;
+    private static double tvert = 0;
+    private static double tyaw = 0;
 
-    private double distance = 0;
+    private static double distance = 0;
 
-    public Vector3 robot_world_pos = new Vector3(0, 0, 0); // Z is used for yaw
+    public static Vector3 robot_apriltag_relative_pos = new Vector3(0, 0, 0); // Z is used for tv
 
     private static double normalizeangle(double angle) {
         angle = (angle % 360 + 360) % 360;
         return (angle > 180) ? angle - 360 : angle;
     }
 
-    private void getvalues() {
+    private static void getvalues() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         t2d = table.getEntry("t2d").getDoubleArray(new double[0]);
+        System.out.println(t2d);
         tv = t2d.length > 0 && t2d[0] == 1;
         if (tv) {
             misscounter = 0;
@@ -63,7 +64,7 @@ public class Limelight {
         if (misscounter > 10) {tv = false; tx = 0; ty = 0; tid = 0; tshort = 0; thor = 0; tvert = 0; distance = 0;}
     }
 
-    public void periodic() {
+    public static void periodic() {
         getvalues();
 
         if (tv) {
@@ -77,6 +78,7 @@ public class Limelight {
         }
 
         if (Constants.Arena.APRIL_TAGS.containsKey(tid)) {
+            /*
             Vector3 april_position = Constants.Arena.APRIL_TAGS.get(tid); // Get the position of the apriltag
             double theta = Math.toRadians(normalizeangle(april_position.z)); // Calculate theta (apriltag yaw - cameraspace apriltag yaw)
 
@@ -88,11 +90,14 @@ public class Limelight {
             robot_translation.x = robot_relative_pos.x * Math.cos(theta) - robot_relative_pos.y * Math.sin(theta); // Apply the distance
             robot_translation.y = robot_relative_pos.x * Math.sin(theta) + robot_relative_pos.y * Math.cos(theta);
 
-            robot_world_pos = april_position.sub(robot_translation); // April tag position - robot relative position = robot world position
-        }
+            robot_apriltag_relative_pos = april_position.sub(robot_translation); // April tag position - robot relative position = robot world position
+            */
+            robot_apriltag_relative_pos = new Vector3(0.0, 0.0, 0.0);
+            robot_apriltag_relative_pos.z = tv ? 1.0 : 0.0;
+            }
     }
 
-    public void PrintData() {
+    public static void PrintData() {
         System.out.println("tx: " + tx);
         System.out.println("ty: " + ty);
         System.out.println("tid: " + tid);
@@ -103,7 +108,4 @@ public class Limelight {
         System.out.println("tyaw: " + tyaw);
         System.out.println();
     }
-
-    public Vector3 GetLimelightResults() {return new Vector3(tx, ty, distance);}
-    public Vector3 GetRawLimelightResults() {return new Vector3(tx, ty, tvert);}
 }

@@ -12,7 +12,7 @@
         Notes:          --
 */
 
-package frc.robot.Helpers;
+package frc.robot.helpers;
 
 public class BallGuidance {
     public static final double gravity = 9.81; // Gravity in m/s^2

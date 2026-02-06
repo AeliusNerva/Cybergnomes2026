@@ -1,15 +1,27 @@
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.Helpers.Debug;
+import frc.robot.generated.TunerConstants;
+import frc.robot.helpers.Debug;
+
+import com.ctre.phoenix6.swerve.SwerveModule;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.wpilibj.XboxController;
 
 public class Controller {
     private static final XboxController controller = new XboxController(0);
+    private static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    private static final SwerveRequest.FieldCentric driveReq = new SwerveRequest.FieldCentric()
+        .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
+        .withSteerRequestType(SwerveModule.SteerRequestType.Position);
 
     private static final double stick_minimum = Constants.Controller.STICK_MINIMUM;
     private static final double trigger_minimum = Constants.Controller.TRIGGER_MINIMUM;
+
+    private static final double max_speed = Constants.Drive.MAX_SPEED;
+    private static final double max_angular_speed = Constants.Drive.MAX_ANGULAR_SPEED;
 
 
     
@@ -35,6 +47,7 @@ public class Controller {
         double left_stick_y = (Math.abs(raw_left_stick_y) > stick_minimum) ? raw_left_stick_y : 0.0;
         double right_stick_x = (Math.abs(raw_right_stick_x) > stick_minimum) ? raw_right_stick_x : 0.0;
         double right_stick_y = (Math.abs(raw_right_stick_y) > stick_minimum) ? raw_right_stick_y : 0.0;
+        right_stick_x *= -1;
 
         boolean triangle = controller.getYButton();
         boolean circle = controller.getBButton();
@@ -97,14 +110,12 @@ public class Controller {
 
 
         // -----     DRIVING     -----
-            // Translate the robot if any of the stick inputs are not zero
-            if ((Math.abs(left_stick_x) + Math.abs(left_stick_y) + Math.abs(right_stick_x) + Math.abs(right_stick_y)) > 0) {
-                Debug.debug("Translating...");
-                Drive.translate(0, right_stick_x, right_stick_y, left_stick_x);
-            } else {
-                // Stop the motors
-                Drive.translate(0, 0, 0, 0);
-            }
+            driveReq
+                .withVelocityX(-right_stick_y * max_speed)
+                .withVelocityY(right_stick_x * max_speed)
+                .withRotationalRate(-left_stick_x * max_angular_speed);
+
+            drivetrain.setControl(driveReq);
 
 
 

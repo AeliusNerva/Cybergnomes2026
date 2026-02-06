@@ -1,13 +1,13 @@
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Constants;
-import frc.robot.Helpers.BallGuidance;
-import frc.robot.Helpers.Vector3;
-import frc.robot.Helpers.KrakenServo;
+import frc.robot.helpers.BallGuidance;
+import frc.robot.helpers.Vector3;
+import frc.robot.helpers.KrakenServo;
 
 public class Turret {
     private static final Vector3 hub = Constants.Arena.HUB;

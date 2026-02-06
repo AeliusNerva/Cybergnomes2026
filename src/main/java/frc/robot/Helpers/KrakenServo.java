@@ -1,4 +1,4 @@
-package frc.robot.Helpers;
+package frc.robot.helpers;
 
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
