@@ -53,8 +53,8 @@ public class Positioning {
         Vector3 limelight_data = Limelight.robot_apriltag_relative_pos;
         if (limelight_data.z > 0.0) {
             grounded_position = limelight_data;
-            grounded_position.x = Math.cos(limelight_data.x) - Math.sin(limelight_data.y);
-            grounded_position.y = Math.sin(limelight_data.x) + Math.cos(limelight_data.y);
+            grounded_position.x = limelight_data.x * Math.cos(position.z) - limelight_data.y * Math.sin(position.z);
+            grounded_position.y = limelight_data.x * Math.sin(position.z) + limelight_data.y * Math.cos(position.z);
             relative_position = new Vector3(0.0, 0.0, 0.0);
         }
 

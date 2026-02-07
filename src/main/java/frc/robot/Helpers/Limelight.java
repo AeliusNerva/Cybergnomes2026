@@ -44,7 +44,6 @@ public class Limelight {
     private static void getvalues() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         t2d = table.getEntry("t2d").getDoubleArray(new double[0]);
-        System.out.println(t2d);
         tv = t2d.length > 0 && t2d[0] == 1;
         if (tv) {
             misscounter = 0;
@@ -66,7 +65,7 @@ public class Limelight {
 
     public static void periodic() {
         getvalues();
-
+        PrintData();
         if (tv) {
             double p = Math.log(Constants.Limelight.MEASUREMENT_A[1] / Constants.Limelight.MEASUREMENT_B[1]) / Math.log(Constants.Limelight.MEASUREMENT_A[0] / Constants.Limelight.MEASUREMENT_B[0]);
             double k = Constants.Limelight.MEASUREMENT_A[1] / Math.pow(Constants.Limelight.MEASUREMENT_A[0] , p);
