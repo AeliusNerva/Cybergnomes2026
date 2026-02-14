@@ -1,8 +1,5 @@
 package frc.robot;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import frc.robot.helpers.Vector3;
 
 public final class Constants {
@@ -90,70 +87,10 @@ public final class Constants {
 
       // X: 182.110" -> 4.625m        Y: 158.845" -> 4.034m        Z: 72.000" -> 1.828m
       public static Vector3 HUB = new Vector3(4.625, 4.034, 1.828);
-
-
-
-      // -----     APRIL TAGS     -----
-      // Z axis will be used for yaw rotation
-      // 0 degrees = straight up the Y axis = facing up
-      // 90 degrees = straight on the X axis = facing right
-      public static Map<Integer, Vector3> APRIL_TAGS = new HashMap<Integer, Vector3>();
-      static {
-          // X: 182.110" -> 4.625m        Y: 135.090" -> 3.431m        Z: Facing down -> - -180 degrees
-          APRIL_TAGS.put(2, new Vector3(4.625, 3.431, -180.0));
-
-          // X: 205.870" -> 5.229m        Y: 144.840" -> 3.678m        Z: Facing right -> - 90 degrees
-          APRIL_TAGS.put(3, new Vector3(5.229, 3.678, 90.0));
-
-          // X: 205.870" -> 5.229m        Y: 158.840" -> 4.034m        Z: Facing right -> - 90 degrees
-          APRIL_TAGS.put(4, new Vector3(5.229, 4.034, 90.0));
-
-          // X: 182.110" -> 4.625m        Y: 182.600" -> 4.638m        Z: Facing up -> - 0 degrees
-          APRIL_TAGS.put(5, new Vector3(4.625, 4.638, 0.0));
-
-          // X: 168.110" -> 4.269m        Y: 182.600" -> 4.638m        Z: Facing up -> 0 degrees
-          APRIL_TAGS.put(8, new Vector3(4.269, 4.638, 0.0));
-
-          // X: 158.340" -> 4.021m        Y: 172.840" -> 4.390m        Z: Facing left -> -90 degrees
-          APRIL_TAGS.put(9, new Vector3(4.021, 4.390, -90.0));
-
-          // X: 158.340" -> 4.021m        Y: 158.840" -> 4.034m        Z: Facing left -> -90 degrees
-          APRIL_TAGS.put(10, new Vector3(4.021, 4.034, -90.0));
-
-          // X: 168.110" -> 4.269m        Y: 135.090" -> 3.431m        Z: Facing down -> -180 degrees
-          APRIL_TAGS.put(11, new Vector3(4.269, 3.431, -180.0));
-
-
-          // 2 -> 18
-          APRIL_TAGS.put(18, APRIL_TAGS.get(2));
-
-          // 3 -> 19
-          APRIL_TAGS.put(19, APRIL_TAGS.get(3));
-
-          // 4 -> 20
-          APRIL_TAGS.put(20, APRIL_TAGS.get(4));
-
-          // 5 -> 21
-          APRIL_TAGS.put(21, APRIL_TAGS.get(5));
-
-          // 8 -> 24
-          APRIL_TAGS.put(24, APRIL_TAGS.get(8));
-
-          // 9 -> 25
-          APRIL_TAGS.put(25, APRIL_TAGS.get(9));
-
-          // 10 -> 26
-          APRIL_TAGS.put(26, APRIL_TAGS.get(10));
-
-          // 11 -> 27
-          APRIL_TAGS.put(27, APRIL_TAGS.get(11));
-      }
   }
 
   public static final class Limelight {
-      public static final double APRIL_TAG_HEIGHT = 0.164; // Width in meters
-      public static final double[] MEASUREMENT_A = {0.5, 100}; // Distance in meters, target height in pixels
-      public static final double[] MEASUREMENT_B = {1, 47}; // Distance in meters, target height in pixels
+      
   }
 
   public static class OperatorConstants {

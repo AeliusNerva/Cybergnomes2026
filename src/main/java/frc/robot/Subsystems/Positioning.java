@@ -50,7 +50,7 @@ public class Positioning {
 
 
         // Get the grounded position of the robot
-        Vector3 limelight_data = Limelight.robot_apriltag_relative_pos;
+        Vector3 limelight_data = Limelight.robot_limelight_position;
         if (limelight_data.z > 0.0) {
             grounded_position = limelight_data;
             grounded_position.x = limelight_data.x * Math.cos(position.z) - limelight_data.y * Math.sin(position.z);

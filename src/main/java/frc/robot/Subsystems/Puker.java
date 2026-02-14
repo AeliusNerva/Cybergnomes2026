@@ -27,7 +27,7 @@ public class Puker {
 
 
 
-    public static void get_force_command() {
+    public static void get_acceleration_command() {
         Vector3 position = hub;
         Vector3 offset = new Vector3(-1.0, 0, 0); // 1 meter away from the hub
         position.sub(offset); // Apply
