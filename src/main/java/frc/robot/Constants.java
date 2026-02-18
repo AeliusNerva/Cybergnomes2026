@@ -86,11 +86,23 @@ public final class Constants {
       // -----     POINTS OF INTEREST     -----
 
       // X: 182.110" -> 4.625m        Y: 158.845" -> 4.034m        Z: 72.000" -> 1.828m
-      public static Vector3 HUB = new Vector3(4.625, 4.034, 1.828);
+      public static Vector3 BLUE_HUB = new Vector3(4.625, 4.034, 1.828);
+
+      
+      // X: 182.110" -> 4.625m        Y: 445.845" -> 4.034m        Z: 72.000" -> 1.828m
+      public static Vector3 RED_HUB = new Vector3(4.625, 11.324, 1.828);
   }
 
   public static final class Limelight {
       
+  }
+
+  public static final class RollerFloor {
+      // CAN IDs of each motor
+      public static final int ROLLER_FLOOR_MOTOR = 16;
+
+      // Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
+      public static final double ROLLER_FLOOR_SPEED = 0.5;
   }
 
   public static class OperatorConstants {

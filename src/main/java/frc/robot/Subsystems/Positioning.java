@@ -2,8 +2,10 @@ package frc.robot.subsystems;
 
 import frc.robot.helpers.Vector3;
 import frc.robot.Constants;
+import frc.robot.helpers.KrakenServo;
 import frc.robot.helpers.Limelight;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -24,8 +26,12 @@ public class Positioning {
     private static double last_time = Timer.getFPGATimestamp();
 
     private static int pigeon_id = Constants.Positioning.PIGEON_ID;
+    private static final int turret_yaw_motor_id = Constants.Turret.YAW_MOTOR;
+
 
     private static Pigeon2 pigeon2 = new Pigeon2(pigeon_id);
+    private static final TalonFX turret_yaw_motor = new TalonFX(turret_yaw_motor_id);
+
 
     public static void pigeon_init() {
         // Clear any sticky faults
@@ -52,9 +58,13 @@ public class Positioning {
         // Get the grounded position of the robot
         Vector3 limelight_data = Limelight.robot_limelight_position;
         if (limelight_data.z > 0.0) {
-            grounded_position = limelight_data;
-            grounded_position.x = limelight_data.x * Math.cos(position.z) - limelight_data.y * Math.sin(position.z);
-            grounded_position.y = limelight_data.x * Math.sin(position.z) + limelight_data.y * Math.cos(position.z);
+            double turret_position = KrakenServo.get_position(turret_yaw_motor, 27.0);
+            Vector3 robot_relative_position = new Vector3(0.0, 0.0, 0.0);
+            robot_relative_position.x = limelight_data.x * Math.cos(turret_position) - limelight_data.y * Math.sin(turret_position);
+            robot_relative_position.y = limelight_data.x * Math.sin(turret_position) + limelight_data.y * Math.cos(turret_position);
+            
+            grounded_position.x = robot_relative_position.x * Math.cos(position.z) - robot_relative_position.y * Math.sin(position.z);
+            grounded_position.y = robot_relative_position.x * Math.sin(position.z) + robot_relative_position.y * Math.cos(position.z);
             relative_position = new Vector3(0.0, 0.0, 0.0);
         }
 

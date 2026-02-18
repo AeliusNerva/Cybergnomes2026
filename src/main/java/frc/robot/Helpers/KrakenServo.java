@@ -10,4 +10,8 @@ public class KrakenServo {
     public static void rotate_to(TalonFX motor, double position) {
         motor.setControl(new PositionVoltage(0).withPosition(rotations_per_degree));
     }
+
+    public static double get_position(TalonFX motor, double gear_ratio) {
+        return motor.getPosition().getValueAsDouble() / gear_ratio;
+    }
 }

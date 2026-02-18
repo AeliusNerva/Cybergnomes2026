@@ -1,15 +1,32 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
 import frc.robot.helpers.BallGuidance;
 import frc.robot.helpers.Vector3;
 
 public class Puker {
-    private static final Vector3 hub = Constants.Arena.HUB;
+    private static Vector3 hub;
+    public static Optional<Alliance> ally = DriverStation.getAlliance();
+    static {
+        if (ally.isPresent()) {
+            if (ally.get() == Alliance.Red) {
+                hub = Constants.Arena.RED_HUB;
+            } else if (ally.get() == Alliance.Blue) {
+                hub = Constants.Arena.BLUE_HUB;
+            }
+        } else {
+            hub = Constants.Arena.RED_HUB;
+        }
+    }
+
     private static final double apogee = hub.y + 1; // Hub's height plus 1 meter for optimal arc
 
     private static final int flywheel_motor_id = Constants.Puker.FLYWHEEL_MOTOR;

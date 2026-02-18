@@ -29,6 +29,8 @@ public class Controller {
 
     public static final JoystickButton bumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
 
+    private static int roller_floor_requests = 0;
+
     public static void input_and_output() {
 
         double raw_left_stick_x = controller.getLeftX();
@@ -65,9 +67,11 @@ public class Controller {
         // Shoot the turret if R2 is pressed
         if (r2) {
             Turret.fire();
+            roller_floor_requests += 1;
             releasing_r2 = true;
         } else if (releasing_r2) {
             Turret.stop_firing();
+            roller_floor_requests += -1;
             releasing_r2 = false;
         }
 
@@ -84,9 +88,11 @@ public class Controller {
         // Shoot the puker if L2 is pressed
         if (l2) {
             Puker.fire();
+            roller_floor_requests += 1;
             releasing_l2 = true;
         } else if (releasing_l2) {
             Puker.stop_firing();
+            roller_floor_requests += -1;
             releasing_l2 = false;
         }
 
@@ -102,11 +108,19 @@ public class Controller {
         // Raise the collector if the triangle button is pressed
         if (triangle) {
             Collector.raise_collector();
+            roller_floor_requests += 1;
         }
 
         // Lower the collector if the circle button is pressed
         if (circle) {
             Collector.lower_collector();
+            roller_floor_requests += -1;
+        }
+
+        if (roller_floor_requests != 0) {
+            RollerFloor.start_roller_floor();
+        } else {
+            RollerFloor.stop_roller_floor();
         }
     }
 }

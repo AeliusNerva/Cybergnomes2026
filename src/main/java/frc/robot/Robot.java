@@ -14,7 +14,6 @@ import frc.robot.subsystems.Positioning;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-
   public Robot() {}
 
   @Override
@@ -22,7 +21,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    Controller.input_and_output();
     Positioning.position();
   }
 
@@ -42,7 +40,9 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    Controller.input_and_output();
+  }
 
   @Override
   public void testInit() {}
