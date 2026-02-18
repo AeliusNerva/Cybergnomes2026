@@ -17,12 +17,12 @@ t2d {
 
 public class Limelight {
 
-    public static Vector3 robot_limelight_position = new Vector3(0, 0, 0); // Z is used for tv
+	public static Vector3 robot_limelight_position = new Vector3(0, 0, 0); // Z is used for tv
 
-    public static void periodic() {
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-        double[] pose = table.getEntry("botpose_wpiblue").getDoubleArray(new double[11]);
-        robot_limelight_position.x = pose[0];
-        robot_limelight_position.y = pose[1];
-    }
+	public static void periodic() {
+		NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+		double[] pose = table.getEntry("botpose_wpiblue").getDoubleArray(new double[11]);
+		robot_limelight_position.x = pose[0];
+		robot_limelight_position.y = pose[1];
+	}
 }
