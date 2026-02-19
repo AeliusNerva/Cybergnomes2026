@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -17,6 +18,14 @@ public class Collector {
 
 	private static final double lowered_deg = Constants.Collector.LOWERED_DEG;
 	private static final double raised_deg = Constants.Collector.RAISED_DEG;
+
+	public static void init() {
+		var slot0Configs = new Slot0Configs();
+		slot0Configs.kP = 10.0;
+		slot0Configs.kI = 0.0;
+		slot0Configs.kD = 0.0;
+		collector_pivot_motor.getConfigurator().apply(slot0Configs);
+	}
 
 	public static void lower_collector() {
 		collector_motor.setControl(new DutyCycleOut(collector_speed));

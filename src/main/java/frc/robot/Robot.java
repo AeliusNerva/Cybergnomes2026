@@ -1,6 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Puker;
+import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Controller;
 import frc.robot.subsystems.Positioning;
 
@@ -10,6 +13,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		Collector.init();
+		Turret.init();
+		Puker.init();
 	}
 
 	@Override

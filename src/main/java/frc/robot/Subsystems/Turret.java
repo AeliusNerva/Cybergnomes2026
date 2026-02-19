@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.Optional;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -46,6 +47,16 @@ public class Turret {
 
 	private static double last_speed_command = 0.0;
 
+	public static void init() {
+		var slot0Configs = new Slot0Configs();
+		slot0Configs.kP = 1.0;
+		slot0Configs.kI = 0.0;
+		slot0Configs.kD = 0.0;
+		flywheel_motor_1.getConfigurator().apply(slot0Configs);
+		flywheel_motor_2.getConfigurator().apply(slot0Configs);
+		yaw_motor.getConfigurator().apply(slot0Configs);
+	}
+
 	public static void lock_onto_hub() {
 		Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
 		Vector3 deltapos = position.sub(hub);
@@ -63,21 +74,31 @@ public class Turret {
 		last_speed_command = commands.x;
 	}
 
+	public static void rotate_yaw(double input) {
+		yaw_motor.setControl(new DutyCycleOut(input / 10));
+	}
+
 	public static void spin_up_flywheel() {
-		last_speed_command = 0.5;
+		last_speed_command = 100; // m/s
 		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
-		flywheel_motor_1.setControl(new VelocityVoltage(required_rps));
-		flywheel_motor_2.setControl(new VelocityVoltage(-required_rps));
+
+		System.out.println(flywheel_motor_1.getVelocity().getValueAsDouble());
+
+		flywheel_motor_1.setControl(new DutyCycleOut(0.5));
+		flywheel_motor_2.setControl(new DutyCycleOut(-0.5));
+
+		/*
+		flywheel_motor_1.setControl(new VelocityVoltage(0).withSlot(0).withVelocity(required_rps).withFeedForward(0.5));
+		flywheel_motor_2.setControl(new VelocityVoltage(0).withSlot(0).withVelocity(-required_rps).withFeedForward(0.5));
+		*/
 	}
 
 	public static void stop_flywheel() {
 		flywheel_motor_1.setControl(new DutyCycleOut(0.0));
 		flywheel_motor_2.setControl(new DutyCycleOut(0.0));
-
 	}
 
 	public static void fire() {
-		spin_up_flywheel();
 		intake_motor.setControl(new DutyCycleOut(-intake_speed));
 	}
 

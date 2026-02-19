@@ -7,7 +7,7 @@ public final class Constants {
 	public static boolean DEBUG = true;
 
 	public static final class Positioning {
-		public static final int PIGEON_ID = 29;
+		public static final int PIGEON_ID = 0;
 	}
 
 	public static final class Turret {
@@ -18,14 +18,14 @@ public final class Constants {
 		public static final int PITCH_MOTOR = 9;
 		public static final int YAW_MOTOR = 23;
 		public static final int INTAKE_MOTOR = 24;
-		public static final int FLYWHEEL_MOTOR_1 = 17;
+		public static final int FLYWHEEL_MOTOR_1 = 22;
 		public static final int FLYWHEEL_MOTOR_2 = 21;
 
 		// Motor speed of the intake, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double INTAKE_SPEED = 0.5;
+		public static final double INTAKE_SPEED = 0.25;
 
 		// Radius of the flywheel in meters
-		public static final double FLYWHEEL_RADIUS = 0.050;
+		public static final double FLYWHEEL_RADIUS = 0.054;
 	}
 
 	public static final class Puker {
@@ -37,10 +37,10 @@ public final class Constants {
 		public static final int LOADER_MOTOR = 25;
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double LOADER_SPEED = 0.5;
+		public static final double LOADER_SPEED = 0.25;
 
 		// Radius of the flywheel in meters
-		public static final double FLYWHEEL_RADIUS = 0.050;
+		public static final double FLYWHEEL_RADIUS = 0.054;
 	}
 
 	public static final class Controller {
@@ -80,7 +80,7 @@ public final class Constants {
 
 		// Collector positions in degrees
 		public static final int LOWERED_DEG = 0;
-		public static final int RAISED_DEG = 0;
+		public static final int RAISED_DEG = 90;
 	}
 
 	public static final class Arena {
@@ -104,7 +104,7 @@ public final class Constants {
 		public static final int ROLLER_FLOOR_MOTOR = 20;
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double ROLLER_FLOOR_SPEED = 0.5;
+		public static final double ROLLER_FLOOR_SPEED = 1.0;
 	}
 
 	public static class OperatorConstants {

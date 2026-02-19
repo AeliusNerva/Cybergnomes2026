@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.Optional;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -40,6 +41,14 @@ public class Puker {
 
 	private static double last_speed_command = 0.0;
 
+	public static void init() {
+		var slot0Configs = new Slot0Configs();
+		slot0Configs.kP = 5.0;
+		slot0Configs.kI = 0.0;
+		slot0Configs.kD = 0.0;
+		flywheel_motor.getConfigurator().apply(slot0Configs);
+	}
+
 	public static void get_acceleration_command() {
 		Vector3 position = hub;
 		Vector3 offset = new Vector3(-1.0, 0, 0); // 1 meter away from the hub
@@ -58,9 +67,10 @@ public class Puker {
 	}
 
 	public static void spin_up_flywheel() {
-		last_speed_command = 0.5;
+		last_speed_command = 5;
 		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
-		flywheel_motor.setControl(new VelocityVoltage(required_rps));
+		flywheel_motor.setControl(new DutyCycleOut(-0.4));
+		// flywheel_motor.setControl(new VelocityVoltage(0).withSlot(0).withVelocity(-required_rps).withFeedForward(0.5));
 	}
 
 	public static void stop_flywheel() {
