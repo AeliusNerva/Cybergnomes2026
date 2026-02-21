@@ -70,11 +70,11 @@ public class Controller {
 			Turret.fire();
 			Turret.spin_up_flywheel();
 		} else {
-			Turret.stop_firing();
+			//Turret.stop_firing();
 		}
 
 		if (!(r1 || r2)) {
-			Turret.stop_flywheel();
+			//Turret.stop_flywheel();
 		}
 
 
@@ -90,11 +90,11 @@ public class Controller {
 			Puker.fire();
 			Puker.spin_up_flywheel();
 		} else {
-			Puker.stop_firing();
+			//Puker.stop_firing();
 		}
 
 		if (!(l1 || l2)) {
-			Puker.stop_flywheel();
+			//Puker.stop_flywheel();
 		}
 
 

@@ -45,12 +45,16 @@ public class Turret {
 	private static final TalonFX flywheel_motor_2 = new TalonFX(flywheel_motor_2_id);
 	private static final TalonFX intake_motor = new TalonFX(intake_motor_id);
 
+	private static final VelocityVoltage vv = new VelocityVoltage(0).withSlot(0);
+
 	private static double last_speed_command = 0.0;
 
 	public static void init() {
 		var slot0Configs = new Slot0Configs();
-		slot0Configs.kP = 1.0;
-		slot0Configs.kI = 0.0;
+		slot0Configs.kS = 0.1;
+		slot0Configs.kP = 0.6;
+		slot0Configs.kV = 0.12;
+		slot0Configs.kI = 0.1;
 		slot0Configs.kD = 0.0;
 		flywheel_motor_1.getConfigurator().apply(slot0Configs);
 		flywheel_motor_2.getConfigurator().apply(slot0Configs);
@@ -79,18 +83,23 @@ public class Turret {
 	}
 
 	public static void spin_up_flywheel() {
-		last_speed_command = 100; // m/s
+		last_speed_command = 10; // m/s
 		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
 
-		System.out.println(flywheel_motor_1.getVelocity().getValueAsDouble());
+		System.out.println(flywheel_motor_1.getMotorVoltage().getValueAsDouble());
 
-		flywheel_motor_1.setControl(new DutyCycleOut(0.5));
-		flywheel_motor_2.setControl(new DutyCycleOut(-0.5));
+		System.out.println(required_rps);
+		System.out.println(flywheel_motor_1.getVelocity().getValueAsDouble());
+		System.out.println(flywheel_motor_2.getVelocity().getValueAsDouble());
+		System.out.println();
 
 		/*
-		flywheel_motor_1.setControl(new VelocityVoltage(0).withSlot(0).withVelocity(required_rps).withFeedForward(0.5));
-		flywheel_motor_2.setControl(new VelocityVoltage(0).withSlot(0).withVelocity(-required_rps).withFeedForward(0.5));
+		flywheel_motor_1.setControl(new DutyCycleOut(0.5));
+		flywheel_motor_2.setControl(new DutyCycleOut(-0.5));
 		*/
+
+		flywheel_motor_1.setControl(vv.withVelocity(required_rps));
+		flywheel_motor_2.setControl(vv.withVelocity(-required_rps));
 	}
 
 	public static void stop_flywheel() {

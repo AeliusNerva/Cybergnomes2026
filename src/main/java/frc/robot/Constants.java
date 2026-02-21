@@ -22,7 +22,7 @@ public final class Constants {
 		public static final int FLYWHEEL_MOTOR_2 = 21;
 
 		// Motor speed of the intake, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double INTAKE_SPEED = 0.25;
+		public static final double INTAKE_SPEED = 0.5;
 
 		// Radius of the flywheel in meters
 		public static final double FLYWHEEL_RADIUS = 0.054;
