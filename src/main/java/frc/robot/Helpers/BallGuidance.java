@@ -32,7 +32,6 @@ public class BallGuidance {
 		double time_to_hub_negate = (velocity_vector.y - sqrt_term) / gravity;
 		double time_to_hub_sum = (velocity_vector.y + sqrt_term) / gravity;
 		double time_to_hub = Math.max(time_to_hub_negate, time_to_hub_sum);
-		System.out.println(time_to_hub);
 
 		// Normalise delta_pos.*/time_to_hub -> m/s
 		velocity_vector.x = delta_pos.x / time_to_hub;
@@ -62,6 +61,7 @@ public class BallGuidance {
 
 		// Scale angles to degrees because radians suck
 		euler_angles = euler_angles.scale(180 / Math.PI);
+		euler_angles.y += 90;
 
 		// Add how fast to huck the ball in m/s
 		euler_angles.z = velocity_vector.magnitude();

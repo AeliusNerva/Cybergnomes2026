@@ -1,18 +1,21 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.subsystems.Turret;
-import frc.robot.subsystems.Puker;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.Controller;
 import frc.robot.subsystems.Positioning;
+import frc.robot.subsystems.Puker;
+import frc.robot.subsystems.Turret;
 
 public class Robot extends TimedRobot {
+	private RobotContainer rc;
+
 	public Robot() {
 	}
 
 	@Override
 	public void robotInit() {
+		rc = new RobotContainer();
 		Collector.init();
 		Turret.init();
 		Puker.init();
@@ -20,6 +23,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
+		CommandScheduler.getInstance().run();
 		Positioning.position();
 	}
 
@@ -45,7 +49,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		Controller.input_and_output();
 	}
 
 	@Override

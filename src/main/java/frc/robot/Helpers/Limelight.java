@@ -24,5 +24,6 @@ public class Limelight {
 		double[] pose = table.getEntry("botpose_wpiblue").getDoubleArray(new double[11]);
 		robot_limelight_position.x = pose[0];
 		robot_limelight_position.y = pose[1];
+		robot_limelight_position.z = table.getEntry("tv").getDouble(0.0);
 	}
 }

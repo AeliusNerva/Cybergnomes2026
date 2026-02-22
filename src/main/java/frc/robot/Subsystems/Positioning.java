@@ -1,16 +1,14 @@
 package frc.robot.subsystems;
 
-import frc.robot.helpers.Vector3;
-import frc.robot.Constants;
-import frc.robot.helpers.KrakenServo;
-import frc.robot.helpers.Limelight;
+import com.ctre.phoenix6.configs.MountPoseConfigs;
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
-
-import com.ctre.phoenix6.configs.MountPoseConfigs;
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import frc.robot.Constants;
+import frc.robot.helpers.Limelight;
+import frc.robot.helpers.Vector3;
 
 public class Positioning {
 	// Z is used for yaw position/velocity
@@ -27,6 +25,7 @@ public class Positioning {
 
 	private static int pigeon_id = Constants.Positioning.PIGEON_ID;
 	private static final int turret_yaw_motor_id = Constants.Turret.YAW_MOTOR;
+	private static final double turret_yaw_rotations_per_degrees = Constants.Turret.ROTATIONS_PER_DEGREE;
 
 	private static Pigeon2 pigeon2 = new Pigeon2(pigeon_id);
 	private static final TalonFX turret_yaw_motor = new TalonFX(turret_yaw_motor_id);
@@ -61,7 +60,8 @@ public class Positioning {
 			Turret.lock_onto_hub();
 			Puker.get_acceleration_command();
 
-			double turret_position = KrakenServo.get_position(turret_yaw_motor, 27.0);
+			/*
+			double turret_position = KrakenServo.get_position(turret_yaw_motor, turret_yaw_rotations_per_degrees);
 			Vector3 robot_relative_position = new Vector3(0.0, 0.0, 0.0);
 			robot_relative_position.x = limelight_data.x * Math.cos(turret_position)
 					- limelight_data.y * Math.sin(turret_position);
@@ -72,12 +72,17 @@ public class Positioning {
 					- robot_relative_position.y * Math.sin(position.z);
 			grounded_position.y = robot_relative_position.x * Math.sin(position.z)
 					+ robot_relative_position.y * Math.cos(position.z);
+			*/
+			
+			grounded_position = limelight_data;
+			grounded_position.z = 0.0;
+
 			relative_position = new Vector3(0.0, 0.0, 0.0);
 		}
 
 		// Get the relative position of the robot
 		relative_position.x += pigeon2.getAccelerationX().getValueAsDouble();
-		relative_position.x += pigeon2.getAccelerationY().getValueAsDouble();
+		relative_position.y += pigeon2.getAccelerationY().getValueAsDouble();
 
 		// Get the real position
 		position = grounded_position.add(relative_position);

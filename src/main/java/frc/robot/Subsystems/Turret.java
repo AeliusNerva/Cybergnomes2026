@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
 import frc.robot.helpers.BallGuidance;
-import frc.robot.helpers.Vector3;
 import frc.robot.helpers.KrakenServo;
+import frc.robot.helpers.Vector3;
 
 public class Turret {
 	private static Vector3 hub;
@@ -38,6 +38,8 @@ public class Turret {
 
 	private static final double intake_speed = Constants.Turret.INTAKE_SPEED;
 	private static final double flywheel_radius = Constants.Turret.FLYWHEEL_RADIUS;
+	private static final double yaw_rotations_per_degree = Constants.Turret.ROTATIONS_PER_DEGREE;
+	private static final double yaw_motor_offset = Constants.Turret.MOTOR_START;
 
 	private static final TalonFX pitch_motor = new TalonFX(pitch_motor_id);
 	private static final TalonFX yaw_motor = new TalonFX(yaw_motor_id);
@@ -58,22 +60,32 @@ public class Turret {
 		slot0Configs.kD = 0.0;
 		flywheel_motor_1.getConfigurator().apply(slot0Configs);
 		flywheel_motor_2.getConfigurator().apply(slot0Configs);
+
+		slot0Configs.kS = 0.0;
+		slot0Configs.kP = 0.5;
+		slot0Configs.kV = 0.0;
+		slot0Configs.kI = 0.05;
+		slot0Configs.kD = 0.0;
 		yaw_motor.getConfigurator().apply(slot0Configs);
 	}
 
 	public static void lock_onto_hub() {
 		Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
-		Vector3 deltapos = position.sub(hub);
+		hub = new Vector3(11.324, 1.828, 4.625);
 
+		Vector3 deltapos = hub.sub(position);
+
+		Vector3 velocity = new Vector3(Positioning.velocity.x, 0, Positioning.velocity.y);
 		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); // Zero velocity of the hub
-		deltavel.sub(Positioning.velocity);
+		deltavel.sub(velocity);
 
-		Vector3 velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
+		Vector3 ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
 
-		Vector3 commands = BallGuidance.get_turret_instructions(velocity);
+		Vector3 commands = BallGuidance.get_turret_instructions(ball_velocity);
 
-		KrakenServo.rotate_to(pitch_motor, commands.x);
-		KrakenServo.rotate_to(yaw_motor, commands.y);
+		commands.y += Positioning.position.z;
+
+		KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
 
 		last_speed_command = commands.x;
 	}

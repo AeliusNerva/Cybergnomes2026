@@ -11,15 +11,18 @@ public final class Constants {
 	}
 
 	public static final class Turret {
-		// Highest point of the ball's trajectory in meters 3
-		public static final double apogee = 3;
-
 		// CAN IDs of each axis's motor
 		public static final int PITCH_MOTOR = 9;
 		public static final int YAW_MOTOR = 23;
 		public static final int INTAKE_MOTOR = 24;
 		public static final int FLYWHEEL_MOTOR_1 = 22;
 		public static final int FLYWHEEL_MOTOR_2 = 21;
+
+		// The rotations per degree of the yaw motor
+		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (10.0 / 1.0)) / 360.0;
+
+		// The start position of the motor
+		public static final double MOTOR_START = -28;
 
 		// Motor speed of the intake, 0.0 -> 0% max, 1.0 -> 100% max
 		public static final double INTAKE_SPEED = 0.5;
@@ -29,9 +32,6 @@ public final class Constants {
 	}
 
 	public static final class Puker {
-		// Highest point of the ball's trajectory in meters
-		public static final double apogee = 3;
-
 		// CAN IDs of each motor
 		public static final int FLYWHEEL_MOTOR = 26;
 		public static final int LOADER_MOTOR = 25;
@@ -59,10 +59,6 @@ public final class Constants {
 	}
 
 	public static final class Drive {
-		// The rotations per degree of the Kraken X60s motor, if this isn't right I
-		// geniunely don't know what to do.
-		public static final double ROTATIONS_PER_DEGREE = (150.0 / 7.0) / 360.0;
-
 		// Max speed of the robot in m/s
 		public static final double MAX_SPEED = 2;
 
@@ -78,6 +74,8 @@ public final class Constants {
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
 		public static final double COLLECTOR_SPEED = 0.5;
 
+		public static final double ROTATIONS_PER_DEGREE = 1.0 / 360.0;
+
 		// Collector positions in degrees
 		public static final int LOWERED_DEG = 0;
 		public static final int RAISED_DEG = 90;
@@ -89,10 +87,10 @@ public final class Constants {
 		// ----- POINTS OF INTEREST -----
 
 		// X: 182.110" -> 4.625m Y: 158.845" -> 4.034m Z: 72.000" -> 1.828m
-		public static Vector3 BLUE_HUB = new Vector3(4.625, 4.034, 1.828);
+		public static Vector3 BLUE_HUB = new Vector3(4.034, 1.828, 4.625);
 
-		// X: 182.110" -> 4.625m Y: 445.845" -> 4.034m Z: 72.000" -> 1.828m
-		public static Vector3 RED_HUB = new Vector3(4.625, 11.324, 1.828);
+		// X: 182.110" -> 4.625m Y: 445.845" -> 11.324m Z: 72.000" -> 1.828m
+		public static Vector3 RED_HUB = new Vector3(11.324, 1.828, 4.625);
 	}
 
 	public static final class Limelight {
@@ -105,9 +103,5 @@ public final class Constants {
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
 		public static final double ROLLER_FLOOR_SPEED = 1.0;
-	}
-
-	public static class OperatorConstants {
-		public static final int kDriverControllerPort = 0;
 	}
 }
