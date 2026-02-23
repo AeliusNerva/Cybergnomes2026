@@ -21,11 +21,8 @@ public final class Constants {
 		// The rotations per degree of the yaw motor
 		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (10.0 / 1.0)) / 360.0;
 
-		// The start position of the motor
-		public static final double MOTOR_START = -28;
-
 		// Motor speed of the intake, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double INTAKE_SPEED = 0.5;
+		public static final double LOADER_SPEED = 0.5;
 
 		// Radius of the flywheel in meters
 		public static final double FLYWHEEL_RADIUS = 0.054;
@@ -68,11 +65,11 @@ public final class Constants {
 
 	public static final class Collector {
 		// CAN IDs of each motor
-		public static final int COLLECTOR_PIVOT_MOTOR = 16;
-		public static final int COLLECTOR_MOTOR = 19;
+		public static final int COLLECTOR_PIVOT_MOTOR = 19;
+		public static final int COLLECTOR_MOTOR = 16;
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double COLLECTOR_SPEED = 0.5;
+		public static final double COLLECTOR_SPEED = 1.0;
 
 		public static final double ROTATIONS_PER_DEGREE = 1.0 / 360.0;
 

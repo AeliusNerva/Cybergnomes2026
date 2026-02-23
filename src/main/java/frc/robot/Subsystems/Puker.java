@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -68,8 +69,7 @@ public class Puker {
 	public static void spin_up_flywheel() {
 		last_speed_command = 5;
 		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
-		flywheel_motor.setControl(new DutyCycleOut(-0.4));
-		// flywheel_motor.setControl(new VelocityVoltage(0).withSlot(0).withVelocity(-required_rps).withFeedForward(0.5));
+		flywheel_motor.setControl(new VelocityVoltage(0).withSlot(0).withVelocity(-required_rps).withFeedForward(0.5));
 	}
 
 	public static void stop_flywheel() {

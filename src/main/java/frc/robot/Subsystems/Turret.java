@@ -36,10 +36,9 @@ public class Turret {
 	private static final int flywheel_motor_2_id = Constants.Turret.FLYWHEEL_MOTOR_2;
 	private static final int intake_motor_id = Constants.Turret.INTAKE_MOTOR;
 
-	private static final double intake_speed = Constants.Turret.INTAKE_SPEED;
+	private static final double loader_speed = Constants.Turret.LOADER_SPEED;
 	private static final double flywheel_radius = Constants.Turret.FLYWHEEL_RADIUS;
 	private static final double yaw_rotations_per_degree = Constants.Turret.ROTATIONS_PER_DEGREE;
-	private static final double yaw_motor_offset = Constants.Turret.MOTOR_START;
 
 	private static final TalonFX pitch_motor = new TalonFX(pitch_motor_id);
 	private static final TalonFX yaw_motor = new TalonFX(yaw_motor_id);
@@ -95,7 +94,6 @@ public class Turret {
 	}
 
 	public static void spin_up_flywheel() {
-		last_speed_command = 10; // m/s
 		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
 
 		System.out.println(flywheel_motor_1.getMotorVoltage().getValueAsDouble());
@@ -120,7 +118,7 @@ public class Turret {
 	}
 
 	public static void fire() {
-		intake_motor.setControl(new DutyCycleOut(-intake_speed));
+		intake_motor.setControl(new DutyCycleOut(-loader_speed));
 	}
 
 	public static void stop_firing() {

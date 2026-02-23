@@ -40,8 +40,10 @@ public class RobotContainer {
 
     private final JoystickButton triangle = new JoystickButton(controller, PS4Controller.Button.kTriangle.value);
     private final JoystickButton circle = new JoystickButton(controller, XboxController.Button.kB.value);
+    /*
     private final JoystickButton cross = new JoystickButton(controller, PS4Controller.Button.kCross.value);
     private final JoystickButton square = new JoystickButton(controller, PS4Controller.Button.kSquare.value);
+    */
     
     public static int rollercounter = 0;
 
@@ -83,9 +85,11 @@ public class RobotContainer {
                 drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
-        // ROLLER FLOOR
+        // ROLLER 
+        /*
         Command RollerFloor = new RollerFloor();
-        // rollerfloor.whileTrue(RollerFloor);
+        rollerfloor.whileTrue(RollerFloor);
+        */
     }
 
     public Command getAutonomousCommand() {
