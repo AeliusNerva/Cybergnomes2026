@@ -23,6 +23,13 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
@@ -49,6 +56,45 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 	private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
 	private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
 	private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
+
+	private void configurePathPlanner() {
+		RobotConfig config;
+		try {
+			config = RobotConfig.fromGUISettings(); // Loads mass, MOI, etc. from your PP project
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
+		AutoBuilder.configure(
+			() -> this.getState().Pose,      // 1. Supplier<Pose2d> (Must be a lambda)
+			this::resetPose,                // 2. Consumer<Pose2d>
+			this::getRobotRelativeSpeeds,   // 3. Supplier<ChassisSpeeds>
+			
+			// 4. BiConsumer<ChassisSpeeds, DriveFeedforwards> 
+			// We use the speeds to drive the robot; feedforwards can be ignored if not used.
+			(speeds, feedforwards) -> {
+			this.setControl(new SwerveRequest.ApplyRobotSpeeds()
+				.withSpeeds(speeds));
+			},
+			
+			new PPHolonomicDriveController(
+				new PIDConstants(5.0, 0.0, 0.0), // Translation PID
+				new PIDConstants(5.0, 0.0, 0.0)  // Rotation PID
+			),
+			config,                         // 6. RobotConfig
+			() -> {
+				var alliance = DriverStation.getAlliance();
+				return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
+			},
+			this                            // 8. The Subsystem requirement
+		);
+		}
+
+		// Helper to get robot-relative speeds for PathPlanner
+		private ChassisSpeeds getRobotRelativeSpeeds() {
+		return getState().Speeds;
+		}
 
 	/*
 	 * SysId routine for characterizing translation. This is used to find PID gains

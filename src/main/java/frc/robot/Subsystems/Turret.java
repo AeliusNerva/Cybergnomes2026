@@ -39,6 +39,7 @@ public class Turret {
 	private static final double loader_speed = Constants.Turret.LOADER_SPEED;
 	private static final double flywheel_radius = Constants.Turret.FLYWHEEL_RADIUS;
 	private static final double yaw_rotations_per_degree = Constants.Turret.ROTATIONS_PER_DEGREE;
+	private static final double yaw_degrees_of_freedom = Constants.Turret.TURRET_DEGREES_OF_FREEDOM;
 
 	private static final TalonFX pitch_motor = new TalonFX(pitch_motor_id);
 	private static final TalonFX yaw_motor = new TalonFX(yaw_motor_id);
@@ -49,6 +50,24 @@ public class Turret {
 	private static final VelocityVoltage vv = new VelocityVoltage(0).withSlot(0);
 
 	private static double last_speed_command = 0.0;
+
+	public static double wrap_to_180_and_clamp(double degrees, double max) {
+		degrees = degrees % 360.0;
+
+		if (degrees > 180.0) {
+			degrees -= 360.0;
+		} else if (degrees <= -180.0) {
+			degrees += 360.0;
+		}
+
+		if (degrees > max) {
+			degrees = max;
+		} else if (degrees < -max) {
+			degrees = -max;
+		}
+
+		return degrees;
+	}
 
 	public static void init() {
 		var slot0Configs = new Slot0Configs();
@@ -83,6 +102,8 @@ public class Turret {
 		Vector3 commands = BallGuidance.get_turret_instructions(ball_velocity);
 
 		commands.y += Positioning.position.z;
+
+		commands.y = wrap_to_180_and_clamp(commands.y, yaw_degrees_of_freedom);
 
 		KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
 

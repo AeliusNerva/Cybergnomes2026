@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Positioning;
 import frc.robot.subsystems.Puker;
@@ -35,8 +36,16 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 	}
 
+	private Command autonomousCommand;
 	@Override
 	public void autonomousInit() {
+		// Get the selected auto from RobotContainer
+		autonomousCommand = rc.getAutonomousCommand();
+
+		// Schedule the autonomous command
+		if (autonomousCommand != null) {
+			CommandScheduler.getInstance().schedule(autonomousCommand);
+		}
 	}
 
 	@Override
@@ -45,6 +54,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
+		}
 	}
 
 	@Override
