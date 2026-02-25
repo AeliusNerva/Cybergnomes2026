@@ -16,4 +16,4 @@
 - Convert to velocity vector to shoot ball	-Y
 - Convert into turret pitch, yaw, and ball acceleration		-Y
 
-STATUS: UNTESTED - 17/02/2026
+STATUS: MOSTLY TESTED - 24/02/2026
