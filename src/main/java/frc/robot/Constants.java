@@ -12,7 +12,7 @@ public final class Constants {
 
 	public static final class Turret {
 		// CAN IDs of each axis's motor
-		public static final int PITCH_MOTOR = 9;
+		public static final int PITCH_MOTOR = 100; // NEEDS TO BE CHANGED IN THE EVENT OF A NEW PITCH MOTOR!!!!!
 		public static final int YAW_MOTOR = 23;
 		public static final int INTAKE_MOTOR = 24;
 		public static final int FLYWHEEL_MOTOR_1 = 22;
@@ -82,8 +82,8 @@ public final class Constants {
 		public static final double ROTATIONS_PER_DEGREE = 1.0 / 360.0;
 
 		// Collector positions in degrees
-		public static final int LOWERED_DEG = 0;
-		public static final int RAISED_DEG = 90;
+		public static final double LOWERED_DEG = 0.0;
+		public static final double RAISED_DEG = 90.0;
 	}
 
 	public static final class Arena {

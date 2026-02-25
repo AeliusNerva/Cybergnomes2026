@@ -39,10 +39,8 @@ public class Robot extends TimedRobot {
 	private Command autonomousCommand;
 	@Override
 	public void autonomousInit() {
-		// Get the selected auto from RobotContainer
 		autonomousCommand = rc.getAutonomousCommand();
 
-		// Schedule the autonomous command
 		if (autonomousCommand != null) {
 			CommandScheduler.getInstance().schedule(autonomousCommand);
 		}
@@ -50,6 +48,18 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+	}
+
+	@Override
+	public void autonomousExit() {
+		/*
+			Stops firing the turret after auto period is over. This is here because pathplanner kills
+			all running commands after all of the paths are over, but that doesn't neccessarily mean
+			that we should stop firing. This truly stops firing after auto is over, and cleans up
+			after itself.
+		*/
+		Turret.stop_firing();
+		RobotContainer.rollercounter -= 1;
 	}
 
 	@Override

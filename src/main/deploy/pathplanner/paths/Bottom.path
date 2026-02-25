@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5,
+        "x": 3.75,
         "y": 6.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.098076211353316,
+        "x": 6.348076211353316,
         "y": 4.500000000000001
       },
       "isLocked": false,
@@ -182,6 +182,12 @@
     {
       "name": "Collector Up",
       "waypointRelativePos": 3.5,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Fire",
+      "waypointRelativePos": 6.0,
       "endWaypointRelativePos": null,
       "command": null
     }
