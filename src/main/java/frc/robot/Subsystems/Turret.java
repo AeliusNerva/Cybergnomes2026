@@ -39,7 +39,6 @@ public class Turret {
 	private static final int west_actuator_channel = Constants.Turret.WEST_ACTUATOR;
 	private static final int east_actuator_channel = Constants.Turret.EAST_ACTUATOR;
 
-
 	private static final double loader_speed = Constants.Turret.LOADER_SPEED;
 	private static final double flywheel_radius = Constants.Turret.FLYWHEEL_RADIUS;
 	private static final double yaw_rotations_per_degree = Constants.Turret.ROTATIONS_PER_DEGREE;
@@ -56,7 +55,6 @@ public class Turret {
 	private static final TalonFX intake_motor = new TalonFX(intake_motor_id);
 	private static DigitalOutput west_actuator;
 	private static DigitalOutput east_actuator;
-
 
 	private static final VelocityVoltage vv = new VelocityVoltage(0).withSlot(0);
 
@@ -131,10 +129,11 @@ public class Turret {
 		KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
 
 		// Get actuator actuation distance
-		double actuator_distance = LinearActuator.get_actuation_distance_from_angle(hood_arm_length, rotation_to_actuator_length, commands.x);
+		double actuator_distance = LinearActuator.get_actuation_distance_from_angle(hood_arm_length,
+				rotation_to_actuator_length, commands.x);
 		actuator_distance = Math.abs(actuator_distance);
-		actuator_distance = (actuator_distance > actuator_max)? actuator_max : actuator_distance;
-		actuator_distance = (actuator_distance < actuator_min)? actuator_min : actuator_distance;
+		actuator_distance = (actuator_distance > actuator_max) ? actuator_max : actuator_distance;
+		actuator_distance = (actuator_distance < actuator_min) ? actuator_min : actuator_distance;
 
 		// Actuate the actuators
 		LinearActuator.actuate_to(west_actuator, actuator_distance, actuator_full_stroke);
@@ -152,12 +151,14 @@ public class Turret {
 	public static void spin_up_flywheel() {
 		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
 
-		System.out.println(flywheel_motor_1.getMotorVoltage().getValueAsDouble());
-
-		System.out.println(required_rps);
-		System.out.println(flywheel_motor_1.getVelocity().getValueAsDouble());
-		System.out.println(flywheel_motor_2.getVelocity().getValueAsDouble());
-		System.out.println();
+		/*
+		 * System.out.println(flywheel_motor_1.getMotorVoltage().getValueAsDouble());
+		 * 
+		 * System.out.println(required_rps);
+		 * System.out.println(flywheel_motor_1.getVelocity().getValueAsDouble());
+		 * System.out.println(flywheel_motor_2.getVelocity().getValueAsDouble());
+		 * System.out.println();
+		 */
 
 		flywheel_motor_1.setControl(vv.withVelocity(required_rps));
 		flywheel_motor_2.setControl(vv.withVelocity(-required_rps));
