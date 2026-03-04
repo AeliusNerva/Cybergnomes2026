@@ -12,11 +12,14 @@ public final class Constants {
 
 	public static final class Turret {
 		// CAN IDs of each axis's motor
-		public static final int PITCH_MOTOR = 100; // NEEDS TO BE CHANGED IN THE EVENT OF A NEW PITCH MOTOR!!!!!
 		public static final int YAW_MOTOR = 23;
 		public static final int INTAKE_MOTOR = 24;
 		public static final int FLYWHEEL_MOTOR_1 = 22;
 		public static final int FLYWHEEL_MOTOR_2 = 21;
+
+		// Linear actuator channels
+		public static final int WEST_ACTUATOR = 0;
+		public static final int EAST_ACTUATOR = 0;
 
 		// The rotations per degree of the yaw motor
 		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (10.0 / 1.0)) / 360.0;
@@ -26,6 +29,19 @@ public final class Constants {
 
 		// Radius of the flywheel in meters
 		public static final double FLYWHEEL_RADIUS = 0.054;
+
+		// Hood modulation arm length in meters
+		public static final double HOOD_ARM_LENGTH = 0.24;
+
+		// Length from the end of the actuator to the rotation point of the hood arm
+		public static final double ROTATION_TO_ACTUATOR_LENGTH = 0.16;
+
+		// Actuator full stroke length in meters
+		public static final double ACTUATOR_FULL_STROKE = 0.1;
+
+		// Actuator software max and minimum actuation in meters
+		public static final double ACTUATOR_MAX = 0.8;
+		public static final double ACTUATOR_MIN = 0.2;
 
 		/*
 		 * Maximum absolute rotation of the turret in degrees, 10 degrees means

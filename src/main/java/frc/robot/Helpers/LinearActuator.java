@@ -3,20 +3,20 @@ package frc.robot.helpers;
 import edu.wpi.first.wpilibj.DigitalOutput;
 
 public class LinearActuator {
-	public DigitalOutput init_pwm(int channel) {
+	public static DigitalOutput init_pwm(int channel) {
 		DigitalOutput pwm = new DigitalOutput(channel);
 		pwm.setPWMRate(1000.0);
 		pwm.enablePWM(0.0);
 		return pwm;
 	}
 
-	public void disable_pwm(DigitalOutput pwm) {
+	public static void disable_pwm(DigitalOutput pwm) {
 		pwm.disablePWM();
 		pwm.close();
 	}
 
-	public void actuate_to(DigitalOutput pwm, double meters, double fullstrokemeters) {
-		double percent = meters / fullstrokemeters;
+	public static void actuate_to(DigitalOutput pwm, double actuation_length, double full_stroke) {
+		double percent = actuation_length / full_stroke;
 		if (percent < 0.0)
 			percent = 0.0;
 		if (percent > 1.0)
@@ -40,7 +40,7 @@ public class LinearActuator {
 	 * 
 	 * This is what this function does.
 	 */
-	public double get_actuation_distance_from_angle(double a, double b, double theta) {
+	public static double get_actuation_distance_from_angle(double a, double b, double theta) {
 		return Math.sqrt(a * a + b * b - 2 * a * b * Math.cos(theta));
 	}
 }

@@ -10,16 +10,14 @@ public class BallGuidance {
 	public static Vector3 get_required_velocity(Vector3 delta_pos, double apogee, Vector3 delta_velocity) {
 		/*
 		 * 
-		 * Initial velocity for an object to reach a specific height
+		 * Initial velocity for an object to reach a specific height:
 		 * starting_velocity = sqrt(2 * gravity * apogee)
 		 * 
 		 * Time for an object to hit the ground given a starting and ending height, and
-		 * a vertical inital velocity
-		 * time = (starting_velocity ± sqrt(starting_velocity^2 - 2 * gravity *
-		 * delta_y)) / gravity
+		 * a vertical inital velocity:
+		 * time = (starting_velocity ± sqrt(starting_velocity^2 - 2 * gravity * delta_y)) / gravity
 		 * 
 		 * There can be two solutions. Evaluate both and then pick the positive one.
-		 * 
 		 */
 
 		Vector3 velocity_vector = new Vector3(0, 0, 0);

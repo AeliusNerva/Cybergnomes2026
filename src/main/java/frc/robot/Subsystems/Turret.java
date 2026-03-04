@@ -7,11 +7,13 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
 import frc.robot.helpers.BallGuidance;
 import frc.robot.helpers.KrakenServo;
+import frc.robot.helpers.LinearActuator;
 import frc.robot.helpers.Vector3;
 
 public class Turret {
@@ -30,22 +32,31 @@ public class Turret {
 	}
 	private static final double apogee = hub.y + 1; // Hub's height plus 1 meter for optimal arc
 
-	private static final int pitch_motor_id = Constants.Turret.PITCH_MOTOR;
 	private static final int yaw_motor_id = Constants.Turret.YAW_MOTOR;
 	private static final int flywheel_motor_1_id = Constants.Turret.FLYWHEEL_MOTOR_1;
 	private static final int flywheel_motor_2_id = Constants.Turret.FLYWHEEL_MOTOR_2;
 	private static final int intake_motor_id = Constants.Turret.INTAKE_MOTOR;
+	private static final int west_actuator_channel = Constants.Turret.WEST_ACTUATOR;
+	private static final int east_actuator_channel = Constants.Turret.EAST_ACTUATOR;
+
 
 	private static final double loader_speed = Constants.Turret.LOADER_SPEED;
 	private static final double flywheel_radius = Constants.Turret.FLYWHEEL_RADIUS;
 	private static final double yaw_rotations_per_degree = Constants.Turret.ROTATIONS_PER_DEGREE;
 	private static final double yaw_degrees_of_freedom = Constants.Turret.TURRET_DEGREES_OF_FREEDOM;
+	private static final double hood_arm_length = Constants.Turret.HOOD_ARM_LENGTH;
+	private static final double rotation_to_actuator_length = Constants.Turret.ROTATION_TO_ACTUATOR_LENGTH;
+	private static final double actuator_full_stroke = Constants.Turret.ACTUATOR_FULL_STROKE;
+	private static final double actuator_max = Constants.Turret.ACTUATOR_MAX;
+	private static final double actuator_min = Constants.Turret.ACTUATOR_MIN;
 
-	private static final TalonFX pitch_motor = new TalonFX(pitch_motor_id);
 	private static final TalonFX yaw_motor = new TalonFX(yaw_motor_id);
 	private static final TalonFX flywheel_motor_1 = new TalonFX(flywheel_motor_1_id);
 	private static final TalonFX flywheel_motor_2 = new TalonFX(flywheel_motor_2_id);
 	private static final TalonFX intake_motor = new TalonFX(intake_motor_id);
+	private static DigitalOutput west_actuator;
+	private static DigitalOutput east_actuator;
+
 
 	private static final VelocityVoltage vv = new VelocityVoltage(0).withSlot(0);
 
@@ -85,6 +96,9 @@ public class Turret {
 		slot0Configs.kI = 0.05;
 		slot0Configs.kD = 0.0;
 		yaw_motor.getConfigurator().apply(slot0Configs);
+
+		west_actuator = LinearActuator.init_pwm(west_actuator_channel);
+		east_actuator = LinearActuator.init_pwm(east_actuator_channel);
 	}
 
 	public static void lock_onto_hub() {
@@ -95,6 +109,10 @@ public class Turret {
 		Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
 		hub = new Vector3(11.324, 1.828, 4.625); // GET RID OF!!!!!!!!!!!
 		Vector3 deltapos = hub.sub(position);
+
+		System.out.println(hub.x);
+		System.out.println(hub.y);
+		System.out.println(hub.z);
 
 		Vector3 velocity = new Vector3(Positioning.velocity.x, 0, Positioning.velocity.y);
 		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); // Zero velocity of the hub
@@ -112,9 +130,19 @@ public class Turret {
 		// Rotate the turret
 		KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
 
+		// Get actuator actuation distance
+		double actuator_distance = LinearActuator.get_actuation_distance_from_angle(hood_arm_length, rotation_to_actuator_length, commands.x);
+		actuator_distance = Math.abs(actuator_distance);
+		actuator_distance = (actuator_distance > actuator_max)? actuator_max : actuator_distance;
+		actuator_distance = (actuator_distance < actuator_min)? actuator_min : actuator_distance;
+
+		// Actuate the actuators
+		LinearActuator.actuate_to(west_actuator, actuator_distance, actuator_full_stroke);
+		LinearActuator.actuate_to(east_actuator, actuator_distance, actuator_full_stroke);
+
 		// Save the speed command for spin_up_flywheel(), this doesn't need to be
 		// perfect.
-		last_speed_command = commands.x;
+		last_speed_command = commands.z;
 	}
 
 	public static void rotate_yaw(double input) {

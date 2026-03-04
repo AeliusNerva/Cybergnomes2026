@@ -64,7 +64,7 @@ public class Puker {
 		Vector3 commands = BallGuidance.get_turret_instructions(velocity);
 
 		// Get the speed command, this is really all the puker needs.
-		last_speed_command = commands.x;
+		last_speed_command = commands.z;
 	}
 
 	public static void spin_up_flywheel() {
