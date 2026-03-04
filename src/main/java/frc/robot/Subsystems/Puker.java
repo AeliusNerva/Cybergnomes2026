@@ -50,26 +50,27 @@ public class Puker {
 	}
 
 	public static void get_acceleration_command() {
-		Vector3 position = hub;
-		Vector3 offset = new Vector3(-1.0, 0, 0); // 1 meter away from the hub
-		position.sub(offset); // Apply
-		position.y = 0; // Set y to zero cause
-		Vector3 deltapos = position.sub(hub);
+		/*
+		 * Simplified commands. The turret is meant to be a sophisticated way to get
+		 * balls into the hub, while the puker is meant to just get it out as fast as
+		 * possible.
+		 */
+		Vector3 deltapos = new Vector3(-1.0, 0, 0); // 1 meter away from the hub
 
-		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); // Zero velocity of the hub
-		deltavel.sub(Positioning.velocity);
+		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); // Zero dv
 
+		// Get commands
 		Vector3 velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
-
 		Vector3 commands = BallGuidance.get_turret_instructions(velocity);
 
+		// Get the speed command, this is really all the puker needs.
 		last_speed_command = commands.x;
 	}
 
 	public static void spin_up_flywheel() {
-		last_speed_command = 5;
 		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
-		flywheel_motor.setControl(new VelocityVoltage(0).withSlot(0).withVelocity(-required_rps).withFeedForward(0.5));
+		flywheel_motor.setControl(
+				new VelocityVoltage(0).withSlot(0).withVelocity(-required_rps).withFeedForward(0.5));
 	}
 
 	public static void stop_flywheel() {
@@ -84,7 +85,7 @@ public class Puker {
 		loader_motor.setControl(new DutyCycleOut(0.0));
 	}
 
-    public static double getFlywheel_radius() {
-        return flywheel_radius;
-    }
+	public static double getFlywheel_radius() {
+		return flywheel_radius;
+	}
 }

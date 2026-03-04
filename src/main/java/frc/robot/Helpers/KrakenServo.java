@@ -5,6 +5,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 public class KrakenServo {
 	private static final PositionVoltage pv = new PositionVoltage(0).withSlot(0);
+
 	public static void rotate_to(TalonFX motor, double position, double gear_ratio) {
 		motor.setControl(pv.withPosition(position * gear_ratio));
 	}

@@ -88,25 +88,32 @@ public class Turret {
 	}
 
 	public static void lock_onto_hub() {
+		/*
+		 * Collect required positions and velocities, and make sure all of their
+		 * coordinate systems match
+		 */
 		Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
-		hub = new Vector3(11.324, 1.828, 4.625);
-
+		hub = new Vector3(11.324, 1.828, 4.625); // GET RID OF!!!!!!!!!!!
 		Vector3 deltapos = hub.sub(position);
 
 		Vector3 velocity = new Vector3(Positioning.velocity.x, 0, Positioning.velocity.y);
 		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); // Zero velocity of the hub
 		deltavel.sub(velocity);
 
+		// Get turret commands
 		Vector3 ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
-
 		Vector3 commands = BallGuidance.get_turret_instructions(ball_velocity);
 
+		// Offset from robot position to become world position and wrap and clamp for
+		// the turret
 		commands.y += Positioning.position.z;
-
 		commands.y = wrap_to_180_and_clamp(commands.y, yaw_degrees_of_freedom);
 
+		// Rotate the turret
 		KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
 
+		// Save the speed command for spin_up_flywheel(), this doesn't need to be
+		// perfect.
 		last_speed_command = commands.x;
 	}
 
@@ -123,11 +130,6 @@ public class Turret {
 		System.out.println(flywheel_motor_1.getVelocity().getValueAsDouble());
 		System.out.println(flywheel_motor_2.getVelocity().getValueAsDouble());
 		System.out.println();
-
-		/*
-		flywheel_motor_1.setControl(new DutyCycleOut(0.5));
-		flywheel_motor_2.setControl(new DutyCycleOut(-0.5));
-		*/
 
 		flywheel_motor_1.setControl(vv.withVelocity(required_rps));
 		flywheel_motor_2.setControl(vv.withVelocity(-required_rps));

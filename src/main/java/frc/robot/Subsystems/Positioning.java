@@ -54,7 +54,7 @@ public class Positioning {
 		if (limelight_data.z > 0.0) {
 			Turret.lock_onto_hub();
 			Puker.get_acceleration_command();
-			
+
 			grounded_position = limelight_data;
 			grounded_position.z = 0.0;
 

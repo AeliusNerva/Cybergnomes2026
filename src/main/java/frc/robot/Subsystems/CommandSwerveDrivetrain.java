@@ -67,34 +67,35 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 		}
 
 		AutoBuilder.configure(
-			() -> this.getState().Pose,      // 1. Supplier<Pose2d> (Must be a lambda)
-			this::resetPose,                // 2. Consumer<Pose2d>
-			this::getRobotRelativeSpeeds,   // 3. Supplier<ChassisSpeeds>
-			
-			// 4. BiConsumer<ChassisSpeeds, DriveFeedforwards> 
-			// We use the speeds to drive the robot; feedforwards can be ignored if not used.
-			(speeds, feedforwards) -> {
-			this.setControl(new SwerveRequest.ApplyRobotSpeeds()
-				.withSpeeds(speeds));
-			},
-			
-			new PPHolonomicDriveController(
-				new PIDConstants(5.0, 0.0, 0.0), // Translation PID
-				new PIDConstants(5.0, 0.0, 0.0)  // Rotation PID
-			),
-			config,                         // 6. RobotConfig
-			() -> {
-				var alliance = DriverStation.getAlliance();
-				return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
-			},
-			this                            // 8. The Subsystem requirement
-		);
-		}
+				() -> this.getState().Pose, // 1. Supplier<Pose2d> (Must be a lambda)
+				this::resetPose, // 2. Consumer<Pose2d>
+				this::getRobotRelativeSpeeds, // 3. Supplier<ChassisSpeeds>
 
-		// Helper to get robot-relative speeds for PathPlanner
-		private ChassisSpeeds getRobotRelativeSpeeds() {
+				// 4. BiConsumer<ChassisSpeeds, DriveFeedforwards>
+				// We use the speeds to drive the robot; feedforwards can be ignored if not
+				// used.
+				(speeds, feedforwards) -> {
+					this.setControl(new SwerveRequest.ApplyRobotSpeeds()
+							.withSpeeds(speeds));
+				},
+
+				new PPHolonomicDriveController(
+						new PIDConstants(5.0, 0.0, 0.0), // Translation PID
+						new PIDConstants(5.0, 0.0, 0.0) // Rotation PID
+				),
+				config, // 6. RobotConfig
+				() -> {
+					var alliance = DriverStation.getAlliance();
+					return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
+				},
+				this // 8. The Subsystem requirement
+		);
+	}
+
+	// Helper to get robot-relative speeds for PathPlanner
+	private ChassisSpeeds getRobotRelativeSpeeds() {
 		return getState().Speeds;
-		}
+	}
 
 	/*
 	 * SysId routine for characterizing translation. This is used to find PID gains
@@ -188,7 +189,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 	 * Constructs a CTRE SwerveDrivetrain using the specified constants.
 	 * <p>
 	 * This constructs the underlying hardware devices, so users should not
-	 * construct
+	 * constructF
 	 * the devices themselves. If they need the devices, they can access them
 	 * through
 	 * getters in the classes.

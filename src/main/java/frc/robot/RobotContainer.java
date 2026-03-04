@@ -25,88 +25,86 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
 
-    private final XboxController controller = new XboxController(0);
-    private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+	private final XboxController controller = new XboxController(0);
+	private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-    private static final SwerveRequest.FieldCentric driveReq = new SwerveRequest.FieldCentric()
-            .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
-            .withSteerRequestType(SwerveModule.SteerRequestType.Position);
+	private static final SwerveRequest.FieldCentric driveReq = new SwerveRequest.FieldCentric()
+			.withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
+			.withSteerRequestType(SwerveModule.SteerRequestType.Position);
 
-    private final double max_speed = Constants.Drive.MAX_SPEED;
-    private final double max_angular_speed = Constants.Drive.MAX_ANGULAR_SPEED;
+	private final double max_speed = Constants.Drive.MAX_SPEED;
+	private final double max_angular_speed = Constants.Drive.MAX_ANGULAR_SPEED;
 
-    private final Trigger rollerfloor = new Trigger(() -> rollercounter > 0);
+	private final Trigger rollerfloor = new Trigger(() -> rollercounter > 0);
 
-    private final JoystickButton l1 = new JoystickButton(controller, PS4Controller.Button.kL1.value);
-    private final Trigger l2 = new Trigger(() -> controller.getLeftTriggerAxis() > 0.5);
-    private final JoystickButton r1 = new JoystickButton(controller, PS4Controller.Button.kR1.value);
-    private final Trigger r2 = new Trigger(() -> controller.getRightTriggerAxis() > 0.5);
+	private final JoystickButton l1 = new JoystickButton(controller, PS4Controller.Button.kL1.value);
+	private final Trigger l2 = new Trigger(() -> controller.getLeftTriggerAxis() > 0.5);
+	private final JoystickButton r1 = new JoystickButton(controller, PS4Controller.Button.kR1.value);
+	private final Trigger r2 = new Trigger(() -> controller.getRightTriggerAxis() > 0.5);
 
-    private final JoystickButton triangle = new JoystickButton(controller, PS4Controller.Button.kTriangle.value);
-    private final JoystickButton circle = new JoystickButton(controller, XboxController.Button.kB.value);
-    /*
-    private final JoystickButton cross = new JoystickButton(controller, PS4Controller.Button.kCross.value);
-    private final JoystickButton square = new JoystickButton(controller, PS4Controller.Button.kSquare.value);
-    */
-    
-    public static int rollercounter = 0;
+	private final JoystickButton triangle = new JoystickButton(controller, PS4Controller.Button.kTriangle.value);
+	private final JoystickButton circle = new JoystickButton(controller, XboxController.Button.kB.value);
+	/*
+	 * private final JoystickButton cross = new JoystickButton(controller,
+	 * PS4Controller.Button.kCross.value);
+	 * private final JoystickButton square = new JoystickButton(controller,
+	 * PS4Controller.Button.kSquare.value);
+	 */
 
-    private final SendableChooser<Command> autoChooser;
+	public static int rollercounter = 0;
 
-public Command getAutonomousCommand() {
-    // This returns the command for the auto you picked on the Dashboard
-    return autoChooser.getSelected();
-}
+	private final SendableChooser<Command> autoChooser;
 
-    public RobotContainer() {
-	NamedCommands.registerCommand("Collector Down", new CollectorDown());
-	NamedCommands.registerCommand("Collector Up", new CollectorUp());
+	public Command getAutonomousCommand() {
+		// This returns the command for the auto you picked on the Dashboard
+		return autoChooser.getSelected();
+	}
 
-	autoChooser = AutoBuilder.buildAutoChooser();
+	public RobotContainer() {
+		NamedCommands.registerCommand("Collector Down", new CollectorDown());
+		NamedCommands.registerCommand("Collector Up", new CollectorUp());
 
-        configureBindings();
+		autoChooser = AutoBuilder.buildAutoChooser();
 
-        SmartDashboard.putData("Auto Chooser", autoChooser);
-    }
+		configureBindings();
 
-    private void configureBindings() {
-        // TURRET
-        Command TurretFlywheel = new TurretFlywheel();
-        r1.whileTrue(TurretFlywheel);
-        Command TurretFire = new TurretFire();
-        r2.whileTrue(TurretFire);
+		SmartDashboard.putData("Auto Chooser", autoChooser);
+	}
 
-        // PUKER
-        Command PukerFlywheel = new PukerFlywheel();
-        l1.whileTrue(PukerFlywheel);
-        Command PukerFire = new PukerFire();
-        l2.whileTrue(PukerFire);
+	private void configureBindings() {
+		// TURRET
+		Command TurretFlywheel = new TurretFlywheel();
+		r1.whileTrue(TurretFlywheel);
+		Command TurretFire = new TurretFire();
+		r2.whileTrue(TurretFire);
 
-        // COLLECTOR
-        Command CollectorUp = new CollectorUp();
-        triangle.whileTrue(CollectorUp);
-        Command CollectorDown = new CollectorDown();
-        circle.whileTrue(CollectorDown);
+		// PUKER
+		Command PukerFlywheel = new PukerFlywheel();
+		l1.whileTrue(PukerFlywheel);
+		Command PukerFire = new PukerFire();
+		l2.whileTrue(PukerFire);
 
-        // SWERVES
-        drivetrain.setDefaultCommand(
-                drivetrain.applyRequest(()
-                        -> driveReq
-                        .withVelocityX(controller.getLeftY() * max_speed)
-                        .withVelocityY(-controller.getLeftX() * max_speed)
-                        .withRotationalRate(-controller.getRightX() * max_angular_speed)
-                )
-        );
+		// COLLECTOR
+		Command CollectorUp = new CollectorUp();
+		triangle.whileTrue(CollectorUp);
+		Command CollectorDown = new CollectorDown();
+		circle.whileTrue(CollectorDown);
 
-        final var idle = new SwerveRequest.Idle();
-        RobotModeTriggers.disabled().whileTrue(
-                drivetrain.applyRequest(() -> idle).ignoringDisable(true)
-        );
+		// SWERVES
+		drivetrain.setDefaultCommand(
+				drivetrain.applyRequest(() -> driveReq
+						.withVelocityX(controller.getLeftY() * max_speed)
+						.withVelocityY(-controller.getLeftX() * max_speed)
+						.withRotationalRate(-controller.getRightX() * max_angular_speed)));
 
-        // ROLLER 
-        /*
-        Command RollerFloor = new RollerFloor();
-        rollerfloor.whileTrue(RollerFloor);
-        */
-    }
+		final var idle = new SwerveRequest.Idle();
+		RobotModeTriggers.disabled().whileTrue(
+				drivetrain.applyRequest(() -> idle).ignoringDisable(true));
+
+		// ROLLER
+		/*
+		 * Command RollerFloor = new RollerFloor();
+		 * rollerfloor.whileTrue(RollerFloor);
+		 */
+	}
 }

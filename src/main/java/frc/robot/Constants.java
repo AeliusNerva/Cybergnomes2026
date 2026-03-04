@@ -28,11 +28,11 @@ public final class Constants {
 		public static final double FLYWHEEL_RADIUS = 0.054;
 
 		/*
-			Maximum absolute rotation of the turret in degrees, 10 degrees means 
-			it can only rotate 10 degrees to the left and 10 degrees to the right,
-			and 180 degrees means it can only do a full 180 degree turn before
-			having to go around the way it came.
-		*/
+		 * Maximum absolute rotation of the turret in degrees, 10 degrees means
+		 * it can only rotate 10 degrees to the left and 10 degrees to the right,
+		 * and 180 degrees means it can only do a full 180 degree turn before
+		 * having to go around the way it came.
+		 */
 		public static final double TURRET_DEGREES_OF_FREEDOM = 90.0;
 	}
 
