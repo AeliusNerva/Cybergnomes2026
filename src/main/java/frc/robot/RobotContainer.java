@@ -102,9 +102,7 @@ public class RobotContainer {
 				drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
 		// ROLLER
-		/*
-		 * Command RollerFloor = new RollerFloor();
-		 * rollerfloor.whileTrue(RollerFloor);
-		 */
+		Command RollerFloor = new RollerFloor();
+		rollerfloor.whileTrue(RollerFloor);
 	}
 }

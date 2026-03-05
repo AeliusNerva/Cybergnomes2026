@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Positioning;
 import frc.robot.subsystems.Puker;
-import frc.robot.subsystems.RollerFloor;
 import frc.robot.subsystems.Turret;
 
 public class Robot extends TimedRobot {
@@ -21,7 +20,6 @@ public class Robot extends TimedRobot {
 		Collector.init();
 		Turret.init();
 		Puker.init();
-		RollerFloor.start_roller_floor();
 	}
 
 	@Override
