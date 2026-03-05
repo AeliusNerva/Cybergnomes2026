@@ -28,7 +28,7 @@ public class Puker {
 		}
 	}
 
-	private static final double apogee = hub.y + 1; // Hub's height plus 1 meter for optimal arc
+	private static final double apogee = Constants.Strategy.NORMAL_APOGEE;
 
 	private static final int flywheel_motor_id = Constants.Puker.FLYWHEEL_MOTOR;
 	private static final int loader_motor_id = Constants.Puker.LOADER_MOTOR;

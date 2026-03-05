@@ -3,8 +3,33 @@ package frc.robot;
 import frc.robot.helpers.Vector3;
 
 public final class Constants {
-	// Enables/disables all debug prints
-	public static boolean DEBUG = true;
+	public static final class Strategy {
+		// The apogee of the ball within shooting areas
+		public static final double NORMAL_APOGEE = 3.0;
+
+		/*
+		 * Our snowblowing strategy will be to shoot the ball in the direction of the
+		 * human collection zone, so that the balls will first touch the ground exactly
+		 * 3 meters away from it, and will then have the distance to slowly lose their
+		 * bounce and start rolling into the ball recepticle. Best case scenario: they
+		 * land in the human collection zone and they can be loaded into our teammates
+		 * or our ball shooters. Worst case scenario: the balls are in a good position
+		 * to be collected and shot manually by a robot.
+		 */
+
+		// The apogee of the ball outside of shooting areas; while snowblowing.
+		public static final double CENTER_APOGEE = 4.0;
+
+		/*
+		 * Human collection zone positions units in meters, measured from top right
+		 * corner of arena specs diagram. Y is for up and down.
+		 */
+		// X: 0.540" -> 0.013m Y: 0.000" -> 0.000m Z: 25.620" -> 0.6507m
+		public static Vector3 BLUE_COLLECTION_ZONE = new Vector3(0.013, 0.000, 0.6507);
+
+		// X: 649.580" -> 16.499m Y: 0.000" -> 0.000m Z: 291.020" -> 7.392m
+		public static Vector3 RED_HUB = new Vector3(16.499, 0.000, 7.392);
+	}
 
 	public static final class Positioning {
 		public static final int PIGEON_ID = 0;
@@ -18,8 +43,8 @@ public final class Constants {
 		public static final int FLYWHEEL_MOTOR_2 = 21;
 
 		// Linear actuator channels
-		public static final int WEST_ACTUATOR = 0;
-		public static final int EAST_ACTUATOR = 0;
+		public static final int WEST_ACTUATOR = 2;
+		public static final int EAST_ACTUATOR = 3;
 
 		// The rotations per degree of the yaw motor
 		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (10.0 / 1.0)) / 360.0;
@@ -40,8 +65,11 @@ public final class Constants {
 		public static final double ACTUATOR_FULL_STROKE = 0.1;
 
 		// Actuator software max and minimum actuation in meters
-		public static final double ACTUATOR_MAX = 0.8;
-		public static final double ACTUATOR_MIN = 0.2;
+		public static final double ACTUATOR_MAX = 0.07;
+		public static final double ACTUATOR_MIN = 0.00;
+
+		// The length of the actuator that should be subtracted from the command
+		public static final double ACTUATOR_START = 0.09;
 
 		/*
 		 * Maximum absolute rotation of the turret in degrees, 10 degrees means
@@ -103,14 +131,14 @@ public final class Constants {
 	}
 
 	public static final class Arena {
-		// Units in meters, measured from bottom left corner of arena specs diagram
+		// Units in meters, measured from top right corner of arena specs diagram
 
 		// ----- POINTS OF INTEREST -----
 
-		// X: 182.110" -> 4.625m Y: 158.845" -> 4.034m Z: 72.000" -> 1.828m
+		// X: 182.110" -> 4.625m Y: 72.000" -> 1.828m Z: 158.845" -> 4.034m
 		public static Vector3 BLUE_HUB = new Vector3(4.034, 1.828, 4.625);
 
-		// X: 182.110" -> 4.625m Y: 445.845" -> 11.324m Z: 72.000" -> 1.828m
+		// X: 182.110" -> 4.625m Y: 72.000" -> 1.828m Z: 445.845" -> 11.324m
 		public static Vector3 RED_HUB = new Vector3(11.324, 1.828, 4.625);
 	}
 

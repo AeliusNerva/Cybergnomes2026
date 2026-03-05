@@ -30,7 +30,7 @@ public class Turret {
 			hub = Constants.Arena.RED_HUB;
 		}
 	}
-	private static final double apogee = hub.y + 1; // Hub's height plus 1 meter for optimal arc
+	private static final double apogee = Constants.Strategy.NORMAL_APOGEE;
 
 	private static final int yaw_motor_id = Constants.Turret.YAW_MOTOR;
 	private static final int flywheel_motor_1_id = Constants.Turret.FLYWHEEL_MOTOR_1;
@@ -48,6 +48,7 @@ public class Turret {
 	private static final double actuator_full_stroke = Constants.Turret.ACTUATOR_FULL_STROKE;
 	private static final double actuator_max = Constants.Turret.ACTUATOR_MAX;
 	private static final double actuator_min = Constants.Turret.ACTUATOR_MIN;
+	private static final double actuator_start = Constants.Turret.ACTUATOR_START;
 
 	private static final TalonFX yaw_motor = new TalonFX(yaw_motor_id);
 	private static final TalonFX flywheel_motor_1 = new TalonFX(flywheel_motor_1_id);
@@ -131,7 +132,7 @@ public class Turret {
 		// Get actuator actuation distance
 		double actuator_distance = LinearActuator.get_actuation_distance_from_angle(hood_arm_length,
 				rotation_to_actuator_length, commands.x);
-		actuator_distance = Math.abs(actuator_distance);
+		actuator_distance -= actuator_start;
 		actuator_distance = (actuator_distance > actuator_max) ? actuator_max : actuator_distance;
 		actuator_distance = (actuator_distance < actuator_min) ? actuator_min : actuator_distance;
 
