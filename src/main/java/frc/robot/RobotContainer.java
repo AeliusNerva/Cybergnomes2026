@@ -43,6 +43,7 @@ public class RobotContainer {
 
 	private final JoystickButton triangle = new JoystickButton(controller, XboxController.Button.kY.value);
 	private final JoystickButton circle = new JoystickButton(controller, XboxController.Button.kB.value);
+	private final JoystickButton cross = new JoystickButton(controller, XboxController.Button.kA.value);
 
 	public static int rollercounter = 0;
 
@@ -105,6 +106,6 @@ public class RobotContainer {
 
 		// ROLLER
 		Command RollerFloor = new RollerFloor();
-		rollerfloor.whileTrue(RollerFloor);
+		cross.whileTrue(RollerFloor);
 	}
 }

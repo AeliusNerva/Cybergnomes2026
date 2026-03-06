@@ -20,6 +20,7 @@ public class Robot extends TimedRobot {
 		Collector.init();
 		Turret.init();
 		Puker.init();
+		Puker.get_acceleration_command();
 	}
 
 	@Override

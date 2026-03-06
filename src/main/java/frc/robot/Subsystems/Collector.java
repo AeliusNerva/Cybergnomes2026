@@ -22,8 +22,8 @@ public class Collector {
 
 	public static void init() {
 		var slot0Configs = new Slot0Configs();
-		slot0Configs.kP = 1.0;
-		slot0Configs.kI = 0.0;
+		slot0Configs.kP = 2.0;
+		slot0Configs.kI = 0.2;
 		slot0Configs.kD = 0.0;
 		collector_pivot_motor.getConfigurator().apply(slot0Configs);
 	}
@@ -31,10 +31,12 @@ public class Collector {
 	public static void lower_collector() {
 		collector_motor.setControl(new DutyCycleOut(collector_speed));
 		KrakenServo.rotate_to(collector_pivot_motor, lowered_deg, collector_rotations_per_degree);
+		System.out.println(collector_pivot_motor.getPosition().getValueAsDouble());
 	}
 
 	public static void raise_collector() {
 		collector_motor.setControl(new DutyCycleOut(0.0));
 		KrakenServo.rotate_to(collector_pivot_motor, raised_deg, collector_rotations_per_degree);
+		System.out.println(collector_pivot_motor.getPosition().getValueAsDouble());
 	}
 }

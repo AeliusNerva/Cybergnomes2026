@@ -116,14 +116,16 @@ public class Turret {
 		Vector3 ball_velocity;
 		Vector3 commands;
 
-		if (Positioning.position.x > left_center_boundary && Positioning.position.x < right_center_boundary) {
+		if (position.x > left_center_boundary && position.x < right_center_boundary) {
 			// Collect required positions and velocities
 			hub = new Vector3(11.324, 1.828, 4.625); // GET RID OF!!!!!!!!!!!
 			Vector3 deltapos = hub.sub(position);
 
+			/*
 			System.out.println(hub.x);
 			System.out.println(hub.y);
 			System.out.println(hub.z);
+			*/
 
 			// Get turret commands
 			ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
@@ -131,9 +133,11 @@ public class Turret {
 			// Collect required positions and velocities
 			Vector3 deltapos = human_collection_zone.sub(position);
 
+			/*
 			System.out.println(human_collection_zone.x);
 			System.out.println(human_collection_zone.y);
 			System.out.println(human_collection_zone.z);
+			*/
 
 			// Get velocity
 			ball_velocity = BallGuidance.get_required_snowblowing_velocity(deltapos, apogee, deltavel);

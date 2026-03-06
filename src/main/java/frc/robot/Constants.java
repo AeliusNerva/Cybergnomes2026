@@ -33,8 +33,8 @@ public final class Constants {
 		public static final int FLYWHEEL_MOTOR_2 = 21;
 
 		// Linear actuator channels
-		public static final int WEST_ACTUATOR = 2;
-		public static final int EAST_ACTUATOR = 3;
+		public static final int WEST_ACTUATOR = 0;
+		public static final int EAST_ACTUATOR = 1;
 
 		// The rotations per degree of the yaw motor
 		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (10.0 / 1.0)) / 360.0;
@@ -113,7 +113,7 @@ public final class Constants {
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
 		public static final double COLLECTOR_SPEED = 1.0;
 
-		public static final double ROTATIONS_PER_DEGREE = 1.0 / 360.0;
+		public static final double ROTATIONS_PER_DEGREE = 3.0 / 360.0;
 
 		// Collector positions in degrees
 		public static final double LOWERED_DEG = 0.0;

@@ -52,8 +52,8 @@ public class Positioning {
 		Limelight.periodic();
 		Vector3 limelight_data = Limelight.robot_limelight_position;
 		if (limelight_data.z > 0.0) {
+
 			Turret.lock_onto_hub();
-			Puker.get_acceleration_command();
 
 			grounded_position = limelight_data;
 			grounded_position.z = 0.0;
@@ -66,9 +66,16 @@ public class Positioning {
 		relative_position.y += pigeon.getAccelerationY().getValueAsDouble();
 
 		// Get the real position
-		position = grounded_position.add(relative_position);
+		position.x = relative_position.x + grounded_position.x;
+		position.y = relative_position.y + grounded_position.y;
 		position.z = pigeon.getYaw().getValueAsDouble();
 
 		velocity = (position.sub(last_position)).scalar_divide(dt);
+
+		/*
+		System.out.println(position.x);
+		System.out.println(position.y);
+		System.out.println(position.z);
+		*/
 	}
 }
