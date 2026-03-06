@@ -9,11 +9,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Collector.CollectorDown;
 import frc.robot.commands.Collector.CollectorUp;
+import frc.robot.commands.Collector.StopPivot;
 import frc.robot.commands.Puker.PukerFire;
 import frc.robot.commands.Puker.PukerFlywheel;
 import frc.robot.commands.RollerFloor.RollerFloor;
@@ -44,6 +47,8 @@ public class RobotContainer {
 	private final JoystickButton triangle = new JoystickButton(controller, XboxController.Button.kY.value);
 	private final JoystickButton circle = new JoystickButton(controller, XboxController.Button.kB.value);
 	private final JoystickButton cross = new JoystickButton(controller, XboxController.Button.kA.value);
+	private final JoystickButton square = new JoystickButton(controller, XboxController.Button.kX.value);
+
 
 	public static int rollercounter = 0;
 
@@ -91,12 +96,14 @@ public class RobotContainer {
 		triangle.whileTrue(CollectorUp);
 		Command CollectorDown = new CollectorDown();
 		circle.whileTrue(CollectorDown);
+		Command StopPivot = new StopPivot();
+		square.whileTrue(StopPivot);
 
 		// SWERVES
 
 		drivetrain.setDefaultCommand(
 				drivetrain.applyRequest(() -> driveReq
-						.withVelocityX(stick_deadband(controller.getLeftY(), 0.1) * max_speed)
+						.withVelocityX(stick_deadband(-controller.getLeftY(), 0.1) * max_speed)
 						.withVelocityY(stick_deadband(controller.getLeftX(), 0.1) * max_speed)
 						.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1) * max_angular_speed)));
 

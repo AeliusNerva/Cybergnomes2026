@@ -113,10 +113,10 @@ public final class Constants {
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
 		public static final double COLLECTOR_SPEED = 1.0;
 
-		public static final double ROTATIONS_PER_DEGREE = 3.0 / 360.0;
+		public static final double ROTATIONS_PER_DEGREE = (3.0 / 1.0) / 360.0;
 
 		// Collector positions in degrees
-		public static final double LOWERED_DEG = 0.0;
+		public static final double LOWERED_DEG = -400.0;
 		public static final double RAISED_DEG = 90.0;
 	}
 
@@ -145,6 +145,18 @@ public final class Constants {
 
 		// X: 649.580" -> 16.499m Y: 0.000" -> 0.000m Z: 291.020" -> 7.392m
 		public static Vector3 RED_COLLECTION_ZONE = new Vector3(16.499, 0.000, 7.392);
+
+		// X: 0.540" -> 0.013m Y: 0.000" -> 0.000m Z: 25.620" -> 0.6507m
+		public static Vector3 BLUE_START_LEFT = new Vector3(0.013, 0.000, 0.6507);
+
+		// X: 649.580" -> 16.499m Y: 0.000" -> 0.000m Z: 291.020" -> 7.392m
+		public static Vector3 BLUE_START_RIGHT = new Vector3(16.499, 0.000, 7.392);
+
+		// X: 0.540" -> 0.013m Y: 0.000" -> 0.000m Z: 25.620" -> 0.6507m
+		public static Vector3 RED_START_LEFT = new Vector3(0.013, 0.000, 0.6507);
+
+		// X: 649.580" -> 16.499m Y: 0.000" -> 0.000m Z: 291.020" -> 7.392m
+		public static Vector3 RED_START_RIGHT = new Vector3(16.499, 0.000, 7.392);
 	}
 
 	public static final class Limelight {
