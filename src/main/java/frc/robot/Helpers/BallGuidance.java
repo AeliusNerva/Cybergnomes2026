@@ -15,7 +15,8 @@ public class BallGuidance {
 		 * 
 		 * Time for an object to hit the ground given a starting and ending height, and
 		 * a vertical inital velocity:
-		 * time = (starting_velocity ± sqrt(starting_velocity^2 - 2 * gravity * delta_y)) / gravity
+		 * time = (starting_velocity ± sqrt(starting_velocity^2 - 2 * gravity *
+		 * delta_y)) / gravity
 		 * 
 		 * There can be two solutions. Evaluate both and then pick the positive one.
 		 */
@@ -65,5 +66,51 @@ public class BallGuidance {
 		euler_angles.z = velocity_vector.magnitude();
 
 		return euler_angles;
+	}
+
+	public static Vector3 get_required_snowblowing_velocity(Vector3 delta_pos, double apogee,
+			Vector3 delta_velocity) {
+		/*
+		 * The same as get_required_velocity() but will always land 3m away from the
+		 * human collection zone, so the ball can slowly stop bouncing and roll to the
+		 * human collection zone. To do this, we will do the normal math, and then
+		 * scalar multiply x and z to get the ball to first land exactly 3 meters away
+		 * from the human lection zone.
+		 */
+
+		Vector3 velocity_vector = new Vector3(0, 0, 0);
+
+		// Find required vertical velocity
+		velocity_vector.y = Math.sqrt(2 * gravity * apogee);
+
+		// Find time for object to enter hub
+		double sqrt_term = Math.sqrt(velocity_vector.y * velocity_vector.y - 2 * gravity * delta_pos.y);
+		double time_to_hub_negate = (velocity_vector.y - sqrt_term) / gravity;
+		double time_to_hub_sum = (velocity_vector.y + sqrt_term) / gravity;
+		double time_to_hub = Math.max(time_to_hub_negate, time_to_hub_sum);
+
+		// Normalise delta_pos.*/time_to_hub -> m/s
+		velocity_vector.x = delta_pos.x / time_to_hub;
+		velocity_vector.z = delta_pos.z / time_to_hub;
+
+		// Preserve Y axis.
+		double y = velocity_vector.y;
+
+		// Find the magnitudes of the two vectors
+		double delta_pos_magnitude = new Vector3(delta_pos.x, 0.0, delta_pos.z).magnitude();
+
+		// Multiply
+		double scalar = (delta_pos_magnitude - 3) / delta_pos_magnitude;
+		velocity_vector.scale(scalar);
+
+		// Restore Y axis
+		velocity_vector.y = y;
+
+		// Cancel out relative velocity
+		velocity_vector.x -= delta_velocity.x;
+		velocity_vector.y -= delta_velocity.y;
+		velocity_vector.z -= delta_velocity.z;
+
+		return velocity_vector;
 	}
 }

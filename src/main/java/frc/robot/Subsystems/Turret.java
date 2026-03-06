@@ -18,13 +18,21 @@ import frc.robot.helpers.Vector3;
 
 public class Turret {
 	private static Vector3 hub;
-	public static Optional<Alliance> ally = DriverStation.getAlliance();
+	private static Vector3 human_collection_zone;
+
+	private static final double left_center_boundary = Constants.Arena.LEFT_CENTER_BOUNDARY;
+	private static final double right_center_boundary = Constants.Arena.RIGHT_CENTER_BOUNDARY;
+
+	private static Optional<Alliance> ally = DriverStation.getAlliance();
 	static {
 		if (ally.isPresent()) {
 			if (ally.get() == Alliance.Red) {
 				hub = Constants.Arena.RED_HUB;
+				human_collection_zone = Constants.Arena.RED_COLLECTION_ZONE;
 			} else if (ally.get() == Alliance.Blue) {
 				hub = Constants.Arena.BLUE_HUB;
+				human_collection_zone = Constants.Arena.BLUE_COLLECTION_ZONE;
+
 			}
 		} else {
 			hub = Constants.Arena.RED_HUB;
@@ -101,28 +109,42 @@ public class Turret {
 	}
 
 	public static void lock_onto_hub() {
-		/*
-		 * Collect required positions and velocities, and make sure all of their
-		 * coordinate systems match
-		 */
 		Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
-		hub = new Vector3(11.324, 1.828, 4.625); // GET RID OF!!!!!!!!!!!
-		Vector3 deltapos = hub.sub(position);
-
-		System.out.println(hub.x);
-		System.out.println(hub.y);
-		System.out.println(hub.z);
-
 		Vector3 velocity = new Vector3(Positioning.velocity.x, 0, Positioning.velocity.y);
-		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); // Zero velocity of the hub
-		deltavel.sub(velocity);
+		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0).sub(velocity); // Zero velocity of the human collection zone
 
-		// Get turret commands
-		Vector3 ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
-		Vector3 commands = BallGuidance.get_turret_instructions(ball_velocity);
+		Vector3 ball_velocity;
+		Vector3 commands;
 
-		// Offset from robot position to become world position and wrap and clamp for
-		// the turret
+		if (Positioning.position.x > left_center_boundary && Positioning.position.x < right_center_boundary) {
+			// Collect required positions and velocities
+			hub = new Vector3(11.324, 1.828, 4.625); // GET RID OF!!!!!!!!!!!
+			Vector3 deltapos = hub.sub(position);
+
+			System.out.println(hub.x);
+			System.out.println(hub.y);
+			System.out.println(hub.z);
+
+			// Get turret commands
+			ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
+		} else {
+			// Collect required positions and velocities
+			Vector3 deltapos = human_collection_zone.sub(position);
+
+			System.out.println(human_collection_zone.x);
+			System.out.println(human_collection_zone.y);
+			System.out.println(human_collection_zone.z);
+
+			// Get velocity
+			ball_velocity = BallGuidance.get_required_snowblowing_velocity(deltapos, apogee, deltavel);
+		}
+
+		commands = BallGuidance.get_turret_instructions(ball_velocity);
+
+		/*
+		 * Offset from robot position to become world position and wrap and clamp for
+		 * the turret
+		 */
 		commands.y += Positioning.position.z;
 		commands.y = wrap_to_180_and_clamp(commands.y, yaw_degrees_of_freedom);
 

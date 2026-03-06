@@ -5,7 +5,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,23 +36,25 @@ public class RobotContainer {
 
 	private final Trigger rollerfloor = new Trigger(() -> rollercounter > 0);
 
-	private final JoystickButton l1 = new JoystickButton(controller, PS4Controller.Button.kL1.value);
+	private final JoystickButton l1 = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
 	private final Trigger l2 = new Trigger(() -> controller.getLeftTriggerAxis() > 0.5);
-	private final JoystickButton r1 = new JoystickButton(controller, PS4Controller.Button.kR1.value);
+	private final JoystickButton r1 = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
 	private final Trigger r2 = new Trigger(() -> controller.getRightTriggerAxis() > 0.5);
 
-	private final JoystickButton triangle = new JoystickButton(controller, PS4Controller.Button.kTriangle.value);
+	private final JoystickButton triangle = new JoystickButton(controller, XboxController.Button.kY.value);
 	private final JoystickButton circle = new JoystickButton(controller, XboxController.Button.kB.value);
-	/*
-	 * private final JoystickButton cross = new JoystickButton(controller,
-	 * PS4Controller.Button.kCross.value);
-	 * private final JoystickButton square = new JoystickButton(controller,
-	 * PS4Controller.Button.kSquare.value);
-	 */
 
 	public static int rollercounter = 0;
 
 	private final SendableChooser<Command> autoChooser;
+
+	private double stick_deadband(double input, double deadband) {
+		if (Math.abs(input) > Math.abs(deadband)) {
+			return input;
+		} else {
+			return 0.0;
+		}
+	}
 
 	public Command getAutonomousCommand() {
 		// This returns the command for the auto you picked on the Dashboard
@@ -91,11 +92,12 @@ public class RobotContainer {
 		circle.whileTrue(CollectorDown);
 
 		// SWERVES
+
 		drivetrain.setDefaultCommand(
 				drivetrain.applyRequest(() -> driveReq
-						.withVelocityX(controller.getLeftY() * max_speed)
-						.withVelocityY(-controller.getLeftX() * max_speed)
-						.withRotationalRate(-controller.getRightX() * max_angular_speed)));
+						.withVelocityX(stick_deadband(controller.getLeftY(), 0.1) * max_speed)
+						.withVelocityY(stick_deadband(controller.getLeftX(), 0.1) * max_speed)
+						.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1) * max_angular_speed)));
 
 		final var idle = new SwerveRequest.Idle();
 		RobotModeTriggers.disabled().whileTrue(

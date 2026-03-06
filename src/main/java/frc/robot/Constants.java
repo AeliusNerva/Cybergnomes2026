@@ -19,16 +19,6 @@ public final class Constants {
 
 		// The apogee of the ball outside of shooting areas; while snowblowing.
 		public static final double CENTER_APOGEE = 4.0;
-
-		/*
-		 * Human collection zone positions units in meters, measured from top right
-		 * corner of arena specs diagram. Y is for up and down.
-		 */
-		// X: 0.540" -> 0.013m Y: 0.000" -> 0.000m Z: 25.620" -> 0.6507m
-		public static Vector3 BLUE_COLLECTION_ZONE = new Vector3(0.013, 0.000, 0.6507);
-
-		// X: 649.580" -> 16.499m Y: 0.000" -> 0.000m Z: 291.020" -> 7.392m
-		public static Vector3 RED_HUB = new Vector3(16.499, 0.000, 7.392);
 	}
 
 	public static final class Positioning {
@@ -77,7 +67,7 @@ public final class Constants {
 		 * and 180 degrees means it can only do a full 180 degree turn before
 		 * having to go around the way it came.
 		 */
-		public static final double TURRET_DEGREES_OF_FREEDOM = 90.0;
+		public static final double TURRET_DEGREES_OF_FREEDOM = 135.0;
 	}
 
 	public static final class Puker {
@@ -133,6 +123,15 @@ public final class Constants {
 	public static final class Arena {
 		// Units in meters, measured from top right corner of arena specs diagram
 
+		// ----- BOUNDARIES -----
+		// X: 444.800" -> 11.298m
+		public static double LEFT_CENTER_BOUNDARY = 11.298;
+
+		// X: 205.320" -> 5.215m
+		public static double RIGHT_CENTER_BOUNDARY = 5.215;
+
+
+
 		// ----- POINTS OF INTEREST -----
 
 		// X: 182.110" -> 4.625m Y: 72.000" -> 1.828m Z: 158.845" -> 4.034m
@@ -140,6 +139,12 @@ public final class Constants {
 
 		// X: 182.110" -> 4.625m Y: 72.000" -> 1.828m Z: 445.845" -> 11.324m
 		public static Vector3 RED_HUB = new Vector3(11.324, 1.828, 4.625);
+
+		// X: 0.540" -> 0.013m Y: 0.000" -> 0.000m Z: 25.620" -> 0.6507m
+		public static Vector3 BLUE_COLLECTION_ZONE = new Vector3(0.013, 0.000, 0.6507);
+
+		// X: 649.580" -> 16.499m Y: 0.000" -> 0.000m Z: 291.020" -> 7.392m
+		public static Vector3 RED_COLLECTION_ZONE = new Vector3(16.499, 0.000, 7.392);
 	}
 
 	public static final class Limelight {
