@@ -4,7 +4,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Puker;
 
 public class PukerFlywheel extends Command {
-	public PukerFlywheel() {}
+	public PukerFlywheel() {
+	}
 
 	@Override
 	public void initialize() {
@@ -12,7 +13,8 @@ public class PukerFlywheel extends Command {
 	}
 
 	@Override
-	public void execute() {}
+	public void execute() {
+	}
 
 	@Override
 	public void end(boolean interrupted) {

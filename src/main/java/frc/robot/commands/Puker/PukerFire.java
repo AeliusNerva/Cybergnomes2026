@@ -5,7 +5,8 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Puker;
 
 public class PukerFire extends Command {
-	public PukerFire() {}
+	public PukerFire() {
+	}
 
 	@Override
 	public void initialize() {
@@ -14,7 +15,8 @@ public class PukerFire extends Command {
 	}
 
 	@Override
-	public void execute() {}
+	public void execute() {
+	}
 
 	@Override
 	public void end(boolean interrupted) {

@@ -21,7 +21,6 @@ public class Robot extends TimedRobot {
 		Collector.init();
 		Turret.init();
 		Puker.init();
-		Puker.get_acceleration_command();
 	}
 
 	@Override
@@ -74,8 +73,15 @@ public class Robot extends TimedRobot {
 		 * but that doesn't neccessarily mean that we should stop firing. This truly
 		 * stops firing after auto is over, and cleans up after itself.
 		 */
+		/*
 		Turret.stop_firing();
 		RobotContainer.rollercounter -= 1;
+		*/
+
+		Puker.stop_firing();
+		Turret.stop_firing();
+		Puker.stop_flywheel();
+		Turret.stop_flywheel();
 	}
 
 	@Override

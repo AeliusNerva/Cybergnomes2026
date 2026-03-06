@@ -5,7 +5,8 @@ import frc.robot.subsystems.Collector;
 import frc.robot.RobotContainer;
 
 public class CollectorDown extends Command {
-	public CollectorDown() {}
+	public CollectorDown() {
+	}
 
 	@Override
 	public void initialize() {
@@ -14,10 +15,13 @@ public class CollectorDown extends Command {
 	}
 
 	@Override
-	public void execute() {}
+	public void execute() {
+	}
 
 	@Override
-	public void end(boolean interrupted) {}
+	public void end(boolean interrupted) {
+		Collector.stop_arm();
+	}
 
 	@Override
 	public boolean isFinished() {

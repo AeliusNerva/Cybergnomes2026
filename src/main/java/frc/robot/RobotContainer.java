@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Collector.RunCollector;
 import frc.robot.commands.Collector.CollectorDown;
-import frc.robot.commands.Collector.CollectorUp;
-import frc.robot.commands.Collector.StopPivot;
+// import frc.robot.commands.Collector.CollectorUp;
 import frc.robot.commands.Puker.PukerFire;
 import frc.robot.commands.Puker.PukerFlywheel;
 import frc.robot.commands.RollerFloor.RollerFloor;
@@ -42,10 +42,10 @@ public class RobotContainer {
 	private final JoystickButton r1 = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
 	private final Trigger r2 = new Trigger(() -> controller.getRightTriggerAxis() > 0.5);
 
-	private final JoystickButton triangle = new JoystickButton(controller, XboxController.Button.kY.value);
-	private final JoystickButton circle = new JoystickButton(controller, XboxController.Button.kB.value);
-	private final JoystickButton cross = new JoystickButton(controller, XboxController.Button.kA.value);
-	private final JoystickButton square = new JoystickButton(controller, XboxController.Button.kX.value);
+	private final JoystickButton button_y = new JoystickButton(controller, XboxController.Button.kY.value);
+	private final JoystickButton button_b = new JoystickButton(controller, XboxController.Button.kB.value);
+	private final JoystickButton button_a = new JoystickButton(controller, XboxController.Button.kA.value);
+	private final JoystickButton button_x = new JoystickButton(controller, XboxController.Button.kX.value);
 
 	public static int rollercounter = 0;
 
@@ -66,7 +66,7 @@ public class RobotContainer {
 
 	public RobotContainer() {
 		NamedCommands.registerCommand("Collector Down", new CollectorDown());
-		NamedCommands.registerCommand("Collector Up", new CollectorUp());
+		// NamedCommands.registerCommand("Collector Up", new CollectorUp());
 
 		autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -89,15 +89,16 @@ public class RobotContainer {
 		l2.whileTrue(PukerFire);
 
 		// COLLECTOR
+		/*
 		Command CollectorUp = new CollectorUp();
-		triangle.whileTrue(CollectorUp);
+		button_y.whileTrue(CollectorUp);
+		*/
+		Command RunCollector = new RunCollector();
+		button_y.whileTrue(RunCollector);
 		Command CollectorDown = new CollectorDown();
-		circle.whileTrue(CollectorDown);
-		Command StopPivot = new StopPivot();
-		square.whileTrue(StopPivot);
+		button_b.whileTrue(CollectorDown);
 
 		// SWERVES
-
 		drivetrain.setDefaultCommand(
 				drivetrain.applyRequest(() -> driveReq
 						.withVelocityX(stick_deadband(controller.getLeftY(), 0.1) * max_speed)
@@ -112,7 +113,7 @@ public class RobotContainer {
 		// ROLLER
 		/*
 		Command RollerFloor = new RollerFloor();
-		cross.whileTrue(RollerFloor);
+		button_a.whileTrue(RollerFloor);
 		*/
 	}
 }

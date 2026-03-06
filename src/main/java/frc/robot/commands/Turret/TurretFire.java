@@ -5,7 +5,8 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Turret;
 
 public class TurretFire extends Command {
-	public TurretFire() {}
+	public TurretFire() {
+	}
 
 	@Override
 	public void initialize() {
@@ -14,7 +15,8 @@ public class TurretFire extends Command {
 	}
 
 	@Override
-	public void execute() {}
+	public void execute() {
+	}
 
 	@Override
 	public void end(boolean interrupted) {

@@ -2,22 +2,24 @@ package frc.robot.commands.Collector;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
-import frc.robot.RobotContainer;
 
-public class CollectorUp extends Command {
-	public CollectorUp() {}
-
-	@Override
-	public void initialize() {
-		Collector.raise_collector();
-		RobotContainer.rollercounter -= 1;
+public class RunCollector extends Command {
+	public RunCollector() {
 	}
 
 	@Override
-	public void execute() {}
+	public void initialize() {
+		Collector.start_driver();
+	}
 
 	@Override
-	public void end(boolean interrupted) {}
+	public void execute() {
+	}
+
+	@Override
+	public void end(boolean interrupted) {
+		Collector.stop_driver();
+	}
 
 	@Override
 	public boolean isFinished() {

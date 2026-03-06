@@ -5,7 +5,8 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Turret;
 
 public class TurretFireWithoutStopping extends Command {
-	public TurretFireWithoutStopping() {}
+	public TurretFireWithoutStopping() {
+	}
 
 	@Override
 	public void initialize() {
@@ -14,11 +15,13 @@ public class TurretFireWithoutStopping extends Command {
 	}
 
 	@Override
-	public void execute() {}
+	public void execute() {
+	}
 
 	@Override
 	public void end(boolean interrupted) {
-}
+	}
+
 	@Override
 	public boolean isFinished() {
 		return false;

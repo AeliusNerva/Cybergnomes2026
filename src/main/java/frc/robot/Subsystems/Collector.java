@@ -18,7 +18,6 @@ public class Collector {
 	private static final double collector_rotations_per_degree = Constants.Collector.ROTATIONS_PER_DEGREE;
 
 	private static final double lowered_deg = Constants.Collector.LOWERED_DEG;
-	private static final double raised_deg = Constants.Collector.RAISED_DEG;
 
 	public static void init() {
 		var slot0Configs = new Slot0Configs();
@@ -29,15 +28,15 @@ public class Collector {
 	}
 
 	public static void lower_collector() {
-		collector_motor.setControl(new DutyCycleOut(collector_speed));
 		KrakenServo.rotate_to(collector_pivot_motor, lowered_deg, collector_rotations_per_degree);
-		System.out.println(collector_pivot_motor.getPosition().getValueAsDouble());
 	}
 
-	public static void raise_collector() {
+	public static void start_driver() {
+		collector_motor.setControl(new DutyCycleOut(collector_speed));
+	}
+
+	public static void stop_driver() {
 		collector_motor.setControl(new DutyCycleOut(0.0));
-		// KrakenServo.rotate_to(collector_pivot_motor, raised_deg, collector_rotations_per_degree);
-		System.out.println(collector_pivot_motor.getPosition().getValueAsDouble());
 	}
 
 	public static void stop_arm() {

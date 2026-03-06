@@ -6,17 +6,12 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Constants;
-import frc.robot.helpers.BallGuidance;
-import frc.robot.helpers.Vector3;
 
 public class Puker {
-	private static final double apogee = Constants.Strategy.NORMAL_APOGEE;
-
 	private static final int flywheel_motor_id = Constants.Puker.FLYWHEEL_MOTOR;
 	private static final int loader_motor_id = Constants.Puker.LOADER_MOTOR;
 
 	private static final double loader_speed = Constants.Puker.LOADER_SPEED;
-	private static final double flywheel_radius = Constants.Puker.FLYWHEEL_RADIUS;
 
 	private static final TalonFX flywheel_motor = new TalonFX(flywheel_motor_id);
 	private static final TalonFX loader_motor = new TalonFX(loader_motor_id);
@@ -36,29 +31,9 @@ public class Puker {
 		loader_motor.getConfigurator().apply(slot0Configs);
 	}
 
-	public static void get_acceleration_command() {
-		/*
-		 * Simplified commands. The turret is meant to be a sophisticated way to get
-		 * balls into the hub, while the puker is meant to just get it out as fast as
-		 * possible.
-		 */
-		Vector3 deltapos = new Vector3(-1.0, 2, 0); // 1 meter away from the hub, with the hub 2 meters off the ground.
-
-		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); // Zero dv
-
-		// Get commands
-		Vector3 velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
-		Vector3 commands = BallGuidance.get_turret_instructions(velocity);
-
-		// Get the speed command, this is really all the puker needs.
-		last_speed_command = commands.z;
-	}
-
 	public static void spin_up_flywheel() {
-		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
 		System.out.println(last_speed_command);
 		flywheel_motor.setControl(vv.withVelocity(-55));
-		//flywheel_motor.setControl(new DutyCycleOut(1.0));
 	}
 
 	public static void stop_flywheel() {
@@ -71,9 +46,5 @@ public class Puker {
 
 	public static void stop_firing() {
 		loader_motor.setControl(new DutyCycleOut(0.0));
-	}
-
-	public static double getFlywheel_radius() {
-		return flywheel_radius;
 	}
 }

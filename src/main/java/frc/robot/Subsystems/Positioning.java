@@ -52,7 +52,7 @@ public class Positioning {
 		Limelight.periodic();
 		Vector3 limelight_data = Limelight.robot_limelight_position;
 		Vector3 last_grounded_position = new Vector3(0.0, 0.0, 0.0);
-		if ((int)Math.round((grounded_position.x + grounded_position.y) * 100) != 0) {
+		if ((int) Math.round((grounded_position.x + grounded_position.y) * 100) != 0) {
 			last_grounded_position = grounded_position;
 		}
 		if (limelight_data.z > 0.0) {
@@ -64,7 +64,7 @@ public class Positioning {
 
 			relative_position = new Vector3(0.0, 0.0, 0.0);
 		}
-		if ((int)Math.round((grounded_position.x + grounded_position.y) * 100) == 0) {
+		if ((int) Math.round((grounded_position.x + grounded_position.y) * 100) == 0) {
 			grounded_position = last_grounded_position;
 		}
 

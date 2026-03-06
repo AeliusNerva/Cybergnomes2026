@@ -96,6 +96,7 @@ public class Turret {
 		slot0Configs.kD = 0.0;
 		flywheel_motor_1.getConfigurator().apply(slot0Configs);
 		flywheel_motor_2.getConfigurator().apply(slot0Configs);
+		intake_motor.getConfigurator().apply(slot0Configs);
 
 		slot0Configs.kS = 0.0;
 		slot0Configs.kP = 0.5;
@@ -111,7 +112,8 @@ public class Turret {
 	public static void lock_onto_hub() {
 		Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
 		Vector3 velocity = new Vector3(Positioning.velocity.x, 0, Positioning.velocity.y);
-		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0).sub(velocity); // Zero velocity of the human collection zone
+		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0).sub(velocity); // Zero velocity of the human collection
+										// zone
 
 		Vector3 ball_velocity;
 		Vector3 commands;
@@ -122,10 +124,10 @@ public class Turret {
 			Vector3 deltapos = hub.sub(position);
 
 			/*
-			System.out.println(hub.x);
-			System.out.println(hub.y);
-			System.out.println(hub.z);
-			*/
+			 * System.out.println(hub.x);
+			 * System.out.println(hub.y);
+			 * System.out.println(hub.z);
+			 */
 
 			// Get turret commands
 			ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
@@ -134,10 +136,10 @@ public class Turret {
 			Vector3 deltapos = human_collection_zone.sub(position);
 
 			/*
-			System.out.println(human_collection_zone.x);
-			System.out.println(human_collection_zone.y);
-			System.out.println(human_collection_zone.z);
-			*/
+			 * System.out.println(human_collection_zone.x);
+			 * System.out.println(human_collection_zone.y);
+			 * System.out.println(human_collection_zone.z);
+			 */
 
 			// Get velocity
 			ball_velocity = BallGuidance.get_required_snowblowing_velocity(deltapos, apogee, deltavel);
@@ -197,7 +199,7 @@ public class Turret {
 	}
 
 	public static void fire() {
-		intake_motor.setControl(new DutyCycleOut(-loader_speed));
+		intake_motor.setControl(vv.withVelocity(-loader_speed));
 	}
 
 	public static void stop_firing() {
