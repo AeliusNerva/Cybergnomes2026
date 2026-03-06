@@ -49,7 +49,6 @@ public class RobotContainer {
 	private final JoystickButton cross = new JoystickButton(controller, XboxController.Button.kA.value);
 	private final JoystickButton square = new JoystickButton(controller, XboxController.Button.kX.value);
 
-
 	public static int rollercounter = 0;
 
 	private final SendableChooser<Command> autoChooser;
@@ -105,14 +104,17 @@ public class RobotContainer {
 				drivetrain.applyRequest(() -> driveReq
 						.withVelocityX(stick_deadband(-controller.getLeftY(), 0.1) * max_speed)
 						.withVelocityY(stick_deadband(controller.getLeftX(), 0.1) * max_speed)
-						.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1) * max_angular_speed)));
+						.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
+								* max_angular_speed)));
 
 		final var idle = new SwerveRequest.Idle();
 		RobotModeTriggers.disabled().whileTrue(
 				drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
 		// ROLLER
+		/*
 		Command RollerFloor = new RollerFloor();
 		cross.whileTrue(RollerFloor);
+		*/
 	}
 }

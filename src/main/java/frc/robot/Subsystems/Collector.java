@@ -36,7 +36,7 @@ public class Collector {
 
 	public static void raise_collector() {
 		collector_motor.setControl(new DutyCycleOut(0.0));
-		KrakenServo.rotate_to(collector_pivot_motor, raised_deg, collector_rotations_per_degree);
+		// KrakenServo.rotate_to(collector_pivot_motor, raised_deg, collector_rotations_per_degree);
 		System.out.println(collector_pivot_motor.getPosition().getValueAsDouble());
 	}
 

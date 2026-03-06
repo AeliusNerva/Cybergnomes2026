@@ -75,8 +75,8 @@ public final class Constants {
 		public static final int FLYWHEEL_MOTOR = 26;
 		public static final int LOADER_MOTOR = 25;
 
-		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double LOADER_SPEED = 0.25;
+		// Motor velocity of the loader in rotations per second
+		public static final double LOADER_SPEED = 40;
 
 		// Radius of the flywheel in meters
 		public static final double FLYWHEEL_RADIUS = 0.054;

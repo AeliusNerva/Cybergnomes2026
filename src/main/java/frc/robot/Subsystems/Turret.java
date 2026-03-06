@@ -187,8 +187,8 @@ public class Turret {
 		 * System.out.println();
 		 */
 
-		flywheel_motor_1.setControl(vv.withVelocity(required_rps));
-		flywheel_motor_2.setControl(vv.withVelocity(-required_rps));
+		flywheel_motor_1.setControl(vv.withVelocity(55));
+		flywheel_motor_2.setControl(vv.withVelocity(-55));
 	}
 
 	public static void stop_flywheel() {

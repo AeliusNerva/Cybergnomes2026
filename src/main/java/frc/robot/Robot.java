@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,11 +43,17 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		/*
 		autonomousCommand = rc.getAutonomousCommand();
 
 		if (autonomousCommand != null) {
 			CommandScheduler.getInstance().schedule(autonomousCommand);
 		}
+		*/
+		Puker.spin_up_flywheel();
+		Puker.fire();
+		Turret.spin_up_flywheel();
+		Turret.fire();
 	}
 
 	@Override

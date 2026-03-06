@@ -27,10 +27,13 @@ public class Puker {
 
 	public static void init() {
 		var slot0Configs = new Slot0Configs();
-		slot0Configs.kP = 5.0;
-		slot0Configs.kI = 0.0;
+		slot0Configs.kS = 0.1;
+		slot0Configs.kP = 0.6;
+		slot0Configs.kV = 0.12;
+		slot0Configs.kI = 0.1;
 		slot0Configs.kD = 0.0;
 		flywheel_motor.getConfigurator().apply(slot0Configs);
+		loader_motor.getConfigurator().apply(slot0Configs);
 	}
 
 	public static void get_acceleration_command() {
@@ -53,7 +56,9 @@ public class Puker {
 
 	public static void spin_up_flywheel() {
 		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
-		flywheel_motor.setControl(vv.withVelocity(-required_rps));
+		System.out.println(last_speed_command);
+		flywheel_motor.setControl(vv.withVelocity(-55));
+		//flywheel_motor.setControl(new DutyCycleOut(1.0));
 	}
 
 	public static void stop_flywheel() {
@@ -61,7 +66,7 @@ public class Puker {
 	}
 
 	public static void fire() {
-		loader_motor.setControl(new DutyCycleOut(loader_speed));
+		loader_motor.setControl(vv.withVelocity(loader_speed));
 	}
 
 	public static void stop_firing() {
