@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -102,7 +100,7 @@ public class RobotContainer {
 
 		drivetrain.setDefaultCommand(
 				drivetrain.applyRequest(() -> driveReq
-						.withVelocityX(stick_deadband(-controller.getLeftY(), 0.1) * max_speed)
+						.withVelocityX(stick_deadband(controller.getLeftY(), 0.1) * max_speed)
 						.withVelocityY(stick_deadband(controller.getLeftX(), 0.1) * max_speed)
 						.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
 								* max_angular_speed)));

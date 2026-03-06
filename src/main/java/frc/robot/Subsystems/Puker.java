@@ -42,7 +42,7 @@ public class Puker {
 		 * balls into the hub, while the puker is meant to just get it out as fast as
 		 * possible.
 		 */
-		Vector3 deltapos = new Vector3(-1.0, 0, 0); // 1 meter away from the hub
+		Vector3 deltapos = new Vector3(-1.0, 2, 0); // 1 meter away from the hub, with the hub 2 meters off the ground.
 
 		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); // Zero dv
 
