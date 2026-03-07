@@ -5,7 +5,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -90,9 +92,9 @@ public class RobotContainer {
 
 		// COLLECTOR
 		/*
-		Command CollectorUp = new CollectorUp();
-		button_y.whileTrue(CollectorUp);
-		*/
+		 * Command CollectorUp = new CollectorUp();
+		 * button_y.whileTrue(CollectorUp);
+		 */
 		Command RunCollector = new RunCollector();
 		button_y.whileTrue(RunCollector);
 		Command CollectorDown = new CollectorDown();
@@ -101,6 +103,16 @@ public class RobotContainer {
 		// SWERVES
 		drivetrain.setDefaultCommand(
 				drivetrain.applyRequest(() -> driveReq
+						/*
+						 * on this date (2026-03-06) as per Andrew's request I hereby declare
+						 * that Xbox controllers can be directly mapped to our swerve drives
+						 * with no inverting, just Y goes to X and vice versa
+						 */
+						//.withForwardPerspective( 
+						//	DriverStation.getAlliance().orElse( Alliance.Red ) == Alliance.Red 
+						//	?  kRedAlliancePerspectiveRotation
+						//	: kBlueAlliancePerspectiveRotation
+						//)
 						.withVelocityX(stick_deadband(controller.getLeftY(), 0.1) * max_speed)
 						.withVelocityY(stick_deadband(controller.getLeftX(), 0.1) * max_speed)
 						.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
@@ -112,8 +124,8 @@ public class RobotContainer {
 
 		// ROLLER
 		/*
-		Command RollerFloor = new RollerFloor();
-		button_a.whileTrue(RollerFloor);
-		*/
+		 * Command RollerFloor = new RollerFloor();
+		 * button_a.whileTrue(RollerFloor);
+		 */
 	}
 }

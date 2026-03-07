@@ -118,31 +118,20 @@ public class Turret {
 		Vector3 ball_velocity;
 		Vector3 commands;
 
-		if (position.x > left_center_boundary && position.x < right_center_boundary) {
-			// Collect required positions and velocities
-			hub = new Vector3(11.324, 1.828, 4.625); // GET RID OF!!!!!!!!!!!
-			Vector3 deltapos = hub.sub(position);
-
-			/*
-			 * System.out.println(hub.x);
-			 * System.out.println(hub.y);
-			 * System.out.println(hub.z);
-			 */
-
-			// Get turret commands
-			ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
-		} else {
-			// Collect required positions and velocities
+		
+		System.out.println(position.x);
+		if (position.x < left_center_boundary && position.x > right_center_boundary) {
+			// Collect required positions
 			Vector3 deltapos = human_collection_zone.sub(position);
-
-			/*
-			 * System.out.println(human_collection_zone.x);
-			 * System.out.println(human_collection_zone.y);
-			 * System.out.println(human_collection_zone.z);
-			 */
 
 			// Get velocity
 			ball_velocity = BallGuidance.get_required_snowblowing_velocity(deltapos, apogee, deltavel);
+		} else {
+			// Collect required positions
+			Vector3 deltapos = hub.sub(position);
+
+			// Get turret commands
+			ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
 		}
 
 		commands = BallGuidance.get_turret_instructions(ball_velocity);
@@ -155,7 +144,9 @@ public class Turret {
 		commands.y = wrap_to_180_and_clamp(commands.y, yaw_degrees_of_freedom);
 
 		// Rotate the turret
-		KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
+		//KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
+
+		System.out.println(commands.y);
 
 		// Get actuator actuation distance
 		double actuator_distance = LinearActuator.get_actuation_distance_from_angle(hood_arm_length,

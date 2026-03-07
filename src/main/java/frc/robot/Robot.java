@@ -57,11 +57,16 @@ public class Robot extends TimedRobot {
 		Turret.spin_up_flywheel();
 	}
 
+	private boolean timerdone = false;
+
 	@Override
 	public void autonomousPeriodic() {
-		if (autoTimer.get() > 1.0) {
-			Puker.fire();
-			Turret.fire();
+		if (!timerdone) {
+			if (autoTimer.get() > 2.0) {
+				timerdone = true;
+				Puker.fire();
+				Turret.fire();
+			}
 		}
 	}
 

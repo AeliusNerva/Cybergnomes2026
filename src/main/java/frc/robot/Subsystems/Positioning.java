@@ -51,26 +51,22 @@ public class Positioning {
 		// Get the grounded position of the robot
 		Limelight.periodic();
 		Vector3 limelight_data = Limelight.robot_limelight_position;
-		Vector3 last_grounded_position = new Vector3(0.0, 0.0, 0.0);
-		if ((int) Math.round((grounded_position.x + grounded_position.y) * 100) != 0) {
-			last_grounded_position = grounded_position;
-		}
+
 		if (limelight_data.z > 0.0) {
 
 			Turret.lock_onto_hub();
 
-			grounded_position = limelight_data;
-			grounded_position.z = 0.0;
+			grounded_position = new Vector3(
+					limelight_data.x,
+					limelight_data.y,
+					0.0);
 
 			relative_position = new Vector3(0.0, 0.0, 0.0);
 		}
-		if ((int) Math.round((grounded_position.x + grounded_position.y) * 100) == 0) {
-			grounded_position = last_grounded_position;
-		}
 
 		// Get the relative position of the robot
-		relative_position.x += pigeon.getAccelerationX().getValueAsDouble();
-		relative_position.y += pigeon.getAccelerationY().getValueAsDouble();
+		relative_position.x += pigeon.getAccelerationX().getValueAsDouble() * dt;
+		relative_position.y += pigeon.getAccelerationY().getValueAsDouble() * dt;
 
 		// Get the real position
 		position.x = relative_position.x + grounded_position.x;
