@@ -21,8 +21,8 @@ public class Collector {
 
 	public static void init() {
 		var slot0Configs = new Slot0Configs();
-		slot0Configs.kP = 1.0;
-		slot0Configs.kI = 0.2;
+		slot0Configs.kP = 2.0;
+		slot0Configs.kI = 0.0;
 		slot0Configs.kD = 0.0;
 		collector_pivot_motor.getConfigurator().apply(slot0Configs);
 	}
@@ -41,5 +41,9 @@ public class Collector {
 
 	public static void stop_arm() {
 		collector_pivot_motor.setControl(new DutyCycleOut(0.0));
+	}
+
+	public static void reverse_driver() {
+		collector_motor.setControl(new DutyCycleOut(collector_speed));
 	}
 }

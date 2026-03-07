@@ -5,21 +5,18 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Reversing.*;
 import frc.robot.commands.Collector.RunCollector;
 import frc.robot.commands.Collector.CollectorDown;
-// import frc.robot.commands.Collector.CollectorUp;
 import frc.robot.commands.Puker.PukerFire;
 import frc.robot.commands.Puker.PukerFlywheel;
-import frc.robot.commands.RollerFloor.RollerFloor;
 import frc.robot.commands.Turret.TurretFire;
 import frc.robot.commands.Turret.TurretFlywheel;
 import frc.robot.generated.TunerConstants;
@@ -28,9 +25,9 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 public class RobotContainer {
 
 	private final XboxController controller = new XboxController(0);
-	private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+	public static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-	private static final SwerveRequest.FieldCentric driveReq = new SwerveRequest.FieldCentric()
+	public static final SwerveRequest.FieldCentric driveReq = new SwerveRequest.FieldCentric()
 			.withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
 			.withSteerRequestType(SwerveModule.SteerRequestType.Position);
 
@@ -78,27 +75,35 @@ public class RobotContainer {
 	}
 
 	private void configureBindings() {
+		// REVERSING
+		Command ReverseTurret = new ReverseTurret();
+		Command ReversePuker = new ReversePuker();
+		Command ReverseCollector = new ReverseCollector();
+		button_y.whileTrue(ReverseTurret);
+		button_y.whileTrue(ReversePuker);
+		button_x.whileTrue(ReverseCollector);
+
+
 		// TURRET
 		Command TurretFlywheel = new TurretFlywheel();
-		r1.whileTrue(TurretFlywheel);
 		Command TurretFire = new TurretFire();
+		r1.whileTrue(TurretFlywheel);
 		r2.whileTrue(TurretFire);
+
 
 		// PUKER
 		Command PukerFlywheel = new PukerFlywheel();
-		l1.whileTrue(PukerFlywheel);
 		Command PukerFire = new PukerFire();
+		l1.whileTrue(PukerFlywheel);
 		l2.whileTrue(PukerFire);
 
+
 		// COLLECTOR
-		/*
-		 * Command CollectorUp = new CollectorUp();
-		 * button_y.whileTrue(CollectorUp);
-		 */
 		Command RunCollector = new RunCollector();
-		button_y.whileTrue(RunCollector);
 		Command CollectorDown = new CollectorDown();
+		button_a.whileTrue(RunCollector);
 		button_b.whileTrue(CollectorDown);
+
 
 		// SWERVES
 		drivetrain.setDefaultCommand(
@@ -121,6 +126,7 @@ public class RobotContainer {
 		final var idle = new SwerveRequest.Idle();
 		RobotModeTriggers.disabled().whileTrue(
 				drivetrain.applyRequest(() -> idle).ignoringDisable(true));
+
 
 		// ROLLER
 		/*

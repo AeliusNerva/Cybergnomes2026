@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,36 +37,22 @@ public class Robot extends TimedRobot {
 	}
 
 	private Command autonomousCommand;
-	private Timer autoTimer = new Timer();
+	private Autos autos = new Autos();
 
 	@Override
 	public void autonomousInit() {
 		/*
-		autonomousCommand = rc.getAutonomousCommand();
-
-		if (autonomousCommand != null) {
-			CommandScheduler.getInstance().schedule(autonomousCommand);
-		}
-		*/
-
-		autoTimer.reset();
-   		autoTimer.start();
-
-		Puker.spin_up_flywheel();
-		Turret.spin_up_flywheel();
+		 * autonomousCommand = rc.getAutonomousCommand();
+		 * 
+		 * if (autonomousCommand != null) {
+		 * CommandScheduler.getInstance().schedule(autonomousCommand);
+		 * }
+		 */
+		autos.BasicPukerAuto();
 	}
-
-	private boolean timerdone = false;
 
 	@Override
 	public void autonomousPeriodic() {
-		if (!timerdone) {
-			if (autoTimer.get() > 2.0) {
-				timerdone = true;
-				Puker.fire();
-				Turret.fire();
-			}
-		}
 	}
 
 	@Override
@@ -79,14 +64,9 @@ public class Robot extends TimedRobot {
 		 * stops firing after auto is over, and cleans up after itself.
 		 */
 		/*
-		Turret.stop_firing();
-		RobotContainer.rollercounter -= 1;
-		*/
-
-		Puker.stop_firing();
-		Turret.stop_firing();
-		Puker.stop_flywheel();
-		Turret.stop_flywheel();
+		 * Turret.stop_firing();
+		 * RobotContainer.rollercounter -= 1;
+		 */
 	}
 
 	@Override

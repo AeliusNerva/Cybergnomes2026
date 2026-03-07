@@ -12,6 +12,8 @@ public class Puker {
 	private static final int loader_motor_id = Constants.Puker.LOADER_MOTOR;
 
 	private static final double loader_speed = Constants.Puker.LOADER_SPEED;
+	private static final double flywheel_speed = Constants.Puker.FLYWHEEL_SPEED;
+
 
 	private static final TalonFX flywheel_motor = new TalonFX(flywheel_motor_id);
 	private static final TalonFX loader_motor = new TalonFX(loader_motor_id);
@@ -33,7 +35,7 @@ public class Puker {
 
 	public static void spin_up_flywheel() {
 		System.out.println(last_speed_command);
-		flywheel_motor.setControl(vv.withVelocity(-55));
+		flywheel_motor.setControl(vv.withVelocity(-flywheel_speed));
 	}
 
 	public static void stop_flywheel() {
@@ -46,5 +48,15 @@ public class Puker {
 
 	public static void stop_firing() {
 		loader_motor.setControl(new DutyCycleOut(0.0));
+	}
+
+	public static void reverse_everything() {
+		flywheel_motor.setControl(vv.withVelocity(flywheel_speed));
+		loader_motor.setControl(vv.withVelocity(-loader_speed));
+	}
+
+	public static void stop_everything() {
+		stop_firing();
+		stop_flywheel();
 	}
 }

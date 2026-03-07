@@ -77,6 +77,9 @@ public final class Constants {
 
 		// Motor velocity of the loader in rotations per second
 		public static final double LOADER_SPEED = 40;
+
+		// Motor velocity of the flywheel in rotations per second
+		public static final double FLYWHEEL_SPEED = 55;
 	}
 
 	public static final class Controller {
