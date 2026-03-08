@@ -14,11 +14,12 @@ public class Puker {
 	private static final double loader_speed = Constants.Puker.LOADER_SPEED;
 	private static final double flywheel_speed = Constants.Puker.FLYWHEEL_SPEED;
 
-
 	private static final TalonFX flywheel_motor = new TalonFX(flywheel_motor_id);
 	private static final TalonFX loader_motor = new TalonFX(loader_motor_id);
 
 	private static double last_speed_command = 0.0;
+	private static boolean shooting = false;
+	private static int not_shooting_counter = 0;
 
 	private static final VelocityVoltage vv = new VelocityVoltage(0).withSlot(0);
 
@@ -43,16 +44,35 @@ public class Puker {
 	}
 
 	public static void fire() {
+		shooting = true;
 		loader_motor.setControl(vv.withVelocity(loader_speed));
 	}
 
 	public static void stop_firing() {
+		shooting = false;
 		loader_motor.setControl(new DutyCycleOut(0.0));
 	}
 
 	public static void reverse_everything() {
-		flywheel_motor.setControl(vv.withVelocity(flywheel_speed));
-		loader_motor.setControl(vv.withVelocity(-loader_speed));
+		if (!shooting) {
+			flywheel_motor.setControl(vv.withVelocity(flywheel_speed));
+			loader_motor.setControl(vv.withVelocity(-loader_speed));
+		}
+	}
+
+	public static void reverse_against_the_floor() {
+		if (!shooting) {
+			not_shooting_counter++;
+			loader_motor.setControl(vv.withVelocity(-loader_speed));
+		} else {
+			not_shooting_counter = 0;
+		}
+	}
+
+	public static void stop_floor() {
+		if (not_shooting_counter > 0) {
+			stop_everything();
+		}
 	}
 
 	public static void stop_everything() {

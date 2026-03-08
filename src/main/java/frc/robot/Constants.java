@@ -72,7 +72,7 @@ public final class Constants {
 
 	public static final class Puker {
 		// CAN IDs of each motor
-		public static final int FLYWHEEL_MOTOR = 26;
+		public static final int FLYWHEEL_MOTOR = 27;
 		public static final int LOADER_MOTOR = 25;
 
 		// Motor velocity of the loader in rotations per second
@@ -149,9 +149,9 @@ public final class Constants {
 
 	public static final class RollerFloor {
 		// CAN IDs of each motor
-		public static final int ROLLER_FLOOR_MOTOR = 20;
+		public static final int ROLLER_FLOOR_MOTOR = 26;
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double ROLLER_FLOOR_SPEED = 1.0;
+		public static final double ROLLER_FLOOR_SPEED = 0.5;
 	}
 }

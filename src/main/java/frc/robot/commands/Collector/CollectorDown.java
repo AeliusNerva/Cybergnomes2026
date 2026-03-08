@@ -2,7 +2,6 @@ package frc.robot.commands.Collector;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
-import frc.robot.RobotContainer;
 
 public class CollectorDown extends Command {
 	public CollectorDown() {
@@ -11,7 +10,6 @@ public class CollectorDown extends Command {
 	@Override
 	public void initialize() {
 		Collector.lower_collector();
-		RobotContainer.rollercounter += 1;
 	}
 
 	@Override

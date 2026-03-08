@@ -13,7 +13,7 @@ public class RollerFloor {
 	private static final double roller_floor_speed = Constants.RollerFloor.ROLLER_FLOOR_SPEED;
 
 	public static void start_roller_floor() {
-		roller_floor_motor.setControl(new DutyCycleOut(roller_floor_speed));
+		roller_floor_motor.setControl(new DutyCycleOut(-roller_floor_speed));
 	}
 
 	public static void stop_roller_floor() {

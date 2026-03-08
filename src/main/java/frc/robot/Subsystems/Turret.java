@@ -24,6 +24,7 @@ public class Turret {
 	private static final double right_center_boundary = Constants.Arena.RIGHT_CENTER_BOUNDARY;
 
 	private static Optional<Alliance> ally = DriverStation.getAlliance();
+
 	static {
 		if (ally.isPresent()) {
 			if (ally.get() == Alliance.Red) {
@@ -68,6 +69,8 @@ public class Turret {
 	private static final VelocityVoltage vv = new VelocityVoltage(0).withSlot(0);
 
 	private static double last_speed_command = 0.0;
+	private static boolean shooting = false;
+	private static int not_shooting_counter = 0;
 
 	public static double wrap_to_180_and_clamp(double degrees, double max) {
 		degrees = degrees % 360.0;
@@ -191,10 +194,12 @@ public class Turret {
 	}
 
 	public static void fire() {
+		shooting = true;
 		intake_motor.setControl(vv.withVelocity(-loader_speed));
 	}
 
 	public static void stop_firing() {
+		shooting = false;
 		intake_motor.setControl(new DutyCycleOut(0.0));
 	}
 
@@ -202,6 +207,21 @@ public class Turret {
 		flywheel_motor_1.setControl(vv.withVelocity(-55));
 		flywheel_motor_2.setControl(vv.withVelocity(55));
 		intake_motor.setControl(vv.withVelocity(loader_speed));
+	}
+
+	public static void reverse_against_the_floor() {
+		if (!shooting) {
+			not_shooting_counter++;
+			intake_motor.setControl(vv.withVelocity(loader_speed));
+		} else {
+			not_shooting_counter = 0;
+		}
+	}
+
+	public static void stop_floor() {
+		if (not_shooting_counter > 0) {
+			stop_everything();
+		}
 	}
 
 	public static void stop_everything() {
