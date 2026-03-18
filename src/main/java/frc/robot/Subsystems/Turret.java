@@ -102,9 +102,9 @@ public class Turret {
 		intake_motor.getConfigurator().apply(slot0Configs);
 
 		slot0Configs.kS = 0.0;
-		slot0Configs.kP = 0.5;
+		slot0Configs.kP = 1.0;
 		slot0Configs.kV = 0.0;
-		slot0Configs.kI = 0.05;
+		slot0Configs.kI = 0.25;
 		slot0Configs.kD = 0.0;
 		yaw_motor.getConfigurator().apply(slot0Configs);
 
@@ -121,14 +121,17 @@ public class Turret {
 		Vector3 ball_velocity;
 		Vector3 commands;
 
-		System.out.println(position.x);
 		if (position.x < left_center_boundary && position.x > right_center_boundary) {
+			// SNOWBLOWING OPTION
+
 			// Collect required positions
 			Vector3 deltapos = human_collection_zone.sub(position);
 
 			// Get velocity
 			ball_velocity = BallGuidance.get_required_snowblowing_velocity(deltapos, apogee, deltavel);
 		} else {
+			// HUB OPTION
+
 			// Collect required positions
 			Vector3 deltapos = hub.sub(position);
 
@@ -142,13 +145,14 @@ public class Turret {
 		 * Offset from robot position to become world position and wrap and clamp for
 		 * the turret
 		 */
+
 		commands.y += Positioning.position.z;
 		commands.y = wrap_to_180_and_clamp(commands.y, yaw_degrees_of_freedom);
 
 		// Rotate the turret
-		// KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
-
-		System.out.println(commands.y);
+		
+		// Vector3.println(Positioning.velocity, 4); <----------------------------------------------------------------------------- 
+		KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
 
 		// Get actuator actuation distance
 		double actuator_distance = LinearActuator.get_actuation_distance_from_angle(hood_arm_length,
@@ -158,18 +162,17 @@ public class Turret {
 		actuator_distance = (actuator_distance < actuator_min) ? actuator_min : actuator_distance;
 
 		// Actuate the actuators
-		LinearActuator.actuate_to(west_actuator, actuator_distance, actuator_full_stroke);
-		LinearActuator.actuate_to(east_actuator, actuator_distance, actuator_full_stroke);
+		/*
+		 * LinearActuator.actuate_to(west_actuator, actuator_distance,
+		 * actuator_full_stroke);
+		 * LinearActuator.actuate_to(east_actuator, actuator_distance,
+		 * actuator_full_stroke);
+		 */
 
 		/*
-		 * Save the speed command for spin_up_flywheel(), this doesn't need to be
-		 * perfect.
+		 * Save the speed command for spin_up_flywheel()
 		 */
 		last_speed_command = commands.z;
-	}
-
-	public static void rotate_yaw(double input) {
-		yaw_motor.setControl(new DutyCycleOut(input / 10));
 	}
 
 	public static void spin_up_flywheel() {

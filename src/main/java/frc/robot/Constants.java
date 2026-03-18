@@ -23,6 +23,19 @@ public final class Constants {
 
 	public static final class Positioning {
 		public static final int PIGEON_ID = 0;
+
+		/*
+		 * Time in seconds at the start of the positioning loop that will be spent
+		 * calibrating the Pigeon
+		 */
+		public static final double CALIBRATION_TIME = 1.0;
+
+		// Gravity in m/s **DO NOT MAKE THIS NEGATIVE PLEASEEE**
+		public static final double GRAVITY = 9.80665;
+
+		// Guess and test these
+		public static final double PIGEON_ACCELEROMETER_X_SCALAR = 1;
+		public static final double PIGEON_ACCELEROMETER_Y_SCALAR = 1;
 	}
 
 	public static final class Turret {
@@ -67,7 +80,7 @@ public final class Constants {
 		 * and 180 degrees means it can only do a full 180 degree turn before
 		 * having to go around the way it came.
 		 */
-		public static final double TURRET_DEGREES_OF_FREEDOM = 90.0;
+		public static final double TURRET_DEGREES_OF_FREEDOM = 135.0;
 	}
 
 	public static final class Puker {
@@ -131,20 +144,17 @@ public final class Constants {
 
 		// ----- POINTS OF INTEREST -----
 
-		// X: 182.110" -> 4.625m Y: 72.000" -> 1.828m Z: 158.845" -> 4.034m
-		public static Vector3 BLUE_HUB = new Vector3(4.034, 1.828, 4.625);
+		// X: 157.790" -> 4.008m Y: 72.000" -> 1.828m Z: 158.845" -> 4.034m
+		public static Vector3 BLUE_HUB = new Vector3(4.008, 1.828, 4.034);
 
-		// X: 182.110" -> 4.625m Y: 72.000" -> 1.828m Z: 445.845" -> 11.324m
-		public static Vector3 RED_HUB = new Vector3(11.324, 1.828, 4.625);
+		// X: 468.560" -> 11.901m Y: 72.000" -> 1.828m Z: 158.845" -> 4.034m
+		public static Vector3 RED_HUB = new Vector3(11.901, 1.828, 4.034);
 
 		// X: 0.540" -> 0.013m Y: 0.000" -> 0.000m Z: 25.620" -> 0.6507m
 		public static Vector3 BLUE_COLLECTION_ZONE = new Vector3(0.013, 0.000, 0.6507);
 
 		// X: 649.580" -> 16.499m Y: 0.000" -> 0.000m Z: 291.020" -> 7.392m
 		public static Vector3 RED_COLLECTION_ZONE = new Vector3(16.499, 0.000, 7.392);
-	}
-
-	public static final class Limelight {
 	}
 
 	public static final class RollerFloor {

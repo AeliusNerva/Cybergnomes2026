@@ -9,6 +9,7 @@ import frc.robot.subsystems.Puker;
 import frc.robot.subsystems.Turret;
 
 public class Robot extends TimedRobot {
+	@SuppressWarnings("unused")
 	private RobotContainer rc;
 
 	public Robot() {

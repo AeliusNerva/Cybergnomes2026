@@ -17,7 +17,6 @@ public class Puker {
 	private static final TalonFX flywheel_motor = new TalonFX(flywheel_motor_id);
 	private static final TalonFX loader_motor = new TalonFX(loader_motor_id);
 
-	private static double last_speed_command = 0.0;
 	private static boolean shooting = false;
 	private static int not_shooting_counter = 0;
 
@@ -35,7 +34,6 @@ public class Puker {
 	}
 
 	public static void spin_up_flywheel() {
-		System.out.println(last_speed_command);
 		flywheel_motor.setControl(vv.withVelocity(-flywheel_speed));
 	}
 

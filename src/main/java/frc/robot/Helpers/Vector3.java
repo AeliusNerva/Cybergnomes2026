@@ -11,6 +11,12 @@ public class Vector3 {
 		this.z = z;
 	}
 
+	// Precision is in amount of zeros
+	public static void println(Vector3 v, int precision) {
+		double scaler = Math.pow(10, precision);
+		System.out.println("x: " + Math.round(v.x * scaler) / scaler + " y: " + Math.round(v.y * scaler) / scaler + " z: " + Math.round(v.z * scaler) / scaler);
+	}
+
 	public Vector3 add(Vector3 v) {
 		return new Vector3(x + v.x, y + v.y, z + v.z);
 	}
