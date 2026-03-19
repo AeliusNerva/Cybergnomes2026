@@ -34,7 +34,7 @@ public class Puker {
 	}
 
 	public static void spin_up_flywheel() {
-		flywheel_motor.setControl(vv.withVelocity(-flywheel_speed));
+		flywheel_motor.setControl(vv.withVelocity(flywheel_speed));
 	}
 
 	public static void stop_flywheel() {
@@ -43,7 +43,7 @@ public class Puker {
 
 	public static void fire() {
 		shooting = true;
-		loader_motor.setControl(vv.withVelocity(loader_speed));
+		loader_motor.setControl(vv.withVelocity(-loader_speed));
 	}
 
 	public static void stop_firing() {
@@ -53,15 +53,15 @@ public class Puker {
 
 	public static void reverse_everything() {
 		if (!shooting) {
-			flywheel_motor.setControl(vv.withVelocity(flywheel_speed));
-			loader_motor.setControl(vv.withVelocity(-loader_speed));
+			flywheel_motor.setControl(vv.withVelocity(-flywheel_speed));
+			loader_motor.setControl(vv.withVelocity(loader_speed));
 		}
 	}
 
 	public static void reverse_against_the_floor() {
 		if (!shooting) {
 			not_shooting_counter++;
-			loader_motor.setControl(vv.withVelocity(-loader_speed));
+			loader_motor.setControl(vv.withVelocity(loader_speed));
 		} else {
 			not_shooting_counter = 0;
 		}

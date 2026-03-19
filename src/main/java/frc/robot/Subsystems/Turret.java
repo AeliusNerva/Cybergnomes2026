@@ -102,7 +102,7 @@ public class Turret {
 		intake_motor.getConfigurator().apply(slot0Configs);
 
 		slot0Configs.kS = 0.0;
-		slot0Configs.kP = 1.0;
+		slot0Configs.kP = 0.5;
 		slot0Configs.kV = 0.0;
 		slot0Configs.kI = 0.25;
 		slot0Configs.kD = 0.0;
@@ -112,11 +112,17 @@ public class Turret {
 		east_actuator = LinearActuator.init_pwm(east_actuator_channel);
 	}
 
+	public static void actuate(double input) {
+		LinearActuator.actuate_to(west_actuator, input / 10,
+				actuator_full_stroke);
+		LinearActuator.actuate_to(east_actuator, input / 10,
+				actuator_full_stroke);
+	}
+
 	public static void lock_onto_hub() {
 		Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
 		Vector3 velocity = new Vector3(Positioning.velocity.x, 0, Positioning.velocity.y);
-		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0).sub(velocity); // Zero velocity of the human collection
-										// zone
+		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0).sub(velocity);
 
 		Vector3 ball_velocity;
 		Vector3 commands;
@@ -134,6 +140,7 @@ public class Turret {
 
 			// Collect required positions
 			Vector3 deltapos = hub.sub(position);
+			Vector3.println(position, 2);
 
 			// Get turret commands
 			ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
@@ -149,10 +156,12 @@ public class Turret {
 		commands.y += Positioning.position.z;
 		commands.y = wrap_to_180_and_clamp(commands.y, yaw_degrees_of_freedom);
 
+		Vector3.println(velocity, 2);
+		System.out.println("orientation: " + Positioning.position.z);
+		System.out.println("command: " + commands.y);
+
 		// Rotate the turret
-		
-		// Vector3.println(Positioning.velocity, 4); <----------------------------------------------------------------------------- 
-		KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
+		// KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
 
 		// Get actuator actuation distance
 		double actuator_distance = LinearActuator.get_actuation_distance_from_angle(hood_arm_length,
@@ -162,12 +171,10 @@ public class Turret {
 		actuator_distance = (actuator_distance < actuator_min) ? actuator_min : actuator_distance;
 
 		// Actuate the actuators
-		/*
-		 * LinearActuator.actuate_to(west_actuator, actuator_distance,
-		 * actuator_full_stroke);
-		 * LinearActuator.actuate_to(east_actuator, actuator_distance,
-		 * actuator_full_stroke);
-		 */
+		// LinearActuator.actuate_to(west_actuator, 0.1,
+		// actuator_full_stroke);
+		// LinearActuator.actuate_to(east_actuator, 0.1,
+		// actuator_full_stroke);
 
 		/*
 		 * Save the speed command for spin_up_flywheel()

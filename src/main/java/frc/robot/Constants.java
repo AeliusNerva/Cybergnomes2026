@@ -23,19 +23,6 @@ public final class Constants {
 
 	public static final class Positioning {
 		public static final int PIGEON_ID = 0;
-
-		/*
-		 * Time in seconds at the start of the positioning loop that will be spent
-		 * calibrating the Pigeon
-		 */
-		public static final double CALIBRATION_TIME = 1.0;
-
-		// Gravity in m/s **DO NOT MAKE THIS NEGATIVE PLEASEEE**
-		public static final double GRAVITY = 9.80665;
-
-		// Guess and test these
-		public static final double PIGEON_ACCELEROMETER_X_SCALAR = 1;
-		public static final double PIGEON_ACCELEROMETER_Y_SCALAR = 1;
 	}
 
 	public static final class Turret {
@@ -50,7 +37,7 @@ public final class Constants {
 		public static final int EAST_ACTUATOR = 1;
 
 		// The rotations per degree of the yaw motor
-		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (10.0 / 1.0)) / 360.0;
+		public static final double ROTATIONS_PER_DEGREE = ((9.0 / 1.0) * (10.0 / 1.0)) / 360.0;
 
 		// Motor velocity of the loader in rotations per second
 		public static final double LOADER_SPEED = 40;
@@ -85,8 +72,8 @@ public final class Constants {
 
 	public static final class Puker {
 		// CAN IDs of each motor
-		public static final int FLYWHEEL_MOTOR = 27;
-		public static final int LOADER_MOTOR = 25;
+		public static final int FLYWHEEL_MOTOR = 25;
+		public static final int LOADER_MOTOR = 27;
 
 		// Motor velocity of the loader in rotations per second
 		public static final double LOADER_SPEED = 40;
@@ -124,12 +111,13 @@ public final class Constants {
 		public static final int COLLECTOR_MOTOR = 16;
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double COLLECTOR_SPEED = 1.0;
+		public static final double COLLECTOR_SPEED = -1.0;
 
-		public static final double ROTATIONS_PER_DEGREE = (3.0 / 1.0) / 360.0;
+		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (8.0 / 5.0)) / 360.0;
 
 		// Collector positions in degrees
-		public static final double LOWERED_DEG = -400.0;
+		public static final double RAISED_DEG = -10.0;
+		public static final double LOWERED_DEG = -145.0;
 	}
 
 	public static final class Arena {
@@ -163,5 +151,10 @@ public final class Constants {
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
 		public static final double ROLLER_FLOOR_SPEED = 0.5;
+	}
+
+	public static final class Filters {
+		// Maximum number of samples for the low-pass filters
+		public static final int LOW_PASS_MAX_SAMPLES = 5;
 	}
 }

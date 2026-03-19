@@ -17,6 +17,7 @@ import frc.robot.commands.Reversing.ReverseTurret;
 import frc.robot.commands.Reversing.ReversePuker;
 import frc.robot.commands.RollerFloor.RollerFloor;
 import frc.robot.commands.Collector.RunCollector;
+import frc.robot.commands.Collector.CollectorUp;
 import frc.robot.commands.Collector.CollectorDown;
 import frc.robot.commands.Puker.PukerFire;
 import frc.robot.commands.Puker.PukerFlywheel;
@@ -48,6 +49,9 @@ public class RobotContainer {
 	private final JoystickButton button_b = new JoystickButton(controller, XboxController.Button.kB.value);
 	private final JoystickButton button_a = new JoystickButton(controller, XboxController.Button.kA.value);
 	private final JoystickButton button_x = new JoystickButton(controller, XboxController.Button.kX.value);
+
+	private final Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
+
 
 	public static int rollercounter = 0;
 
@@ -103,8 +107,10 @@ public class RobotContainer {
 
 		// COLLECTOR
 		Command RunCollector = new RunCollector();
+		Command CollectorUp = new CollectorUp();
 		Command CollectorDown = new CollectorDown();
 		button_a.whileTrue(RunCollector);
+		dpad_up.whileTrue(CollectorUp);
 		button_b.whileTrue(CollectorDown);
 
 
@@ -116,11 +122,6 @@ public class RobotContainer {
 						 * that Xbox controllers can be directly mapped to our swerve drives
 						 * with no inverting, just Y goes to X and vice versa
 						 */
-						//.withForwardPerspective( 
-						//	DriverStation.getAlliance().orElse( Alliance.Red ) == Alliance.Red 
-						//	?  kRedAlliancePerspectiveRotation
-						//	: kBlueAlliancePerspectiveRotation
-						//)
 						.withVelocityX(stick_deadband(controller.getLeftY(), 0.1) * max_speed)
 						.withVelocityY(stick_deadband(controller.getLeftX(), 0.1) * max_speed)
 						.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)

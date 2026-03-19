@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -17,22 +17,34 @@ public class Collector {
 	private static final double collector_speed = Constants.Collector.COLLECTOR_SPEED;
 	private static final double collector_rotations_per_degree = Constants.Collector.ROTATIONS_PER_DEGREE;
 
+	private static final double raised_deg = Constants.Collector.RAISED_DEG;
 	private static final double lowered_deg = Constants.Collector.LOWERED_DEG;
 
 	public static void init() {
-		var slot0Configs = new Slot0Configs();
-		slot0Configs.kP = 2.0;
-		slot0Configs.kI = 0.0;
-		slot0Configs.kD = 0.0;
-		collector_pivot_motor.getConfigurator().apply(slot0Configs);
+		TalonFXConfiguration config = new TalonFXConfiguration();
+		config.MotionMagic.MotionMagicAcceleration = 90;
+		config.MotionMagic.MotionMagicCruiseVelocity = 45;
+		config.Slot0.kP = 0.25;
+		config.Slot0.kI = 0.0;
+		config.Slot0.kD = 0.0;
+
+		config.Slot1.kP = 0.5;
+		config.Slot1.kI = 0.0;
+		config.Slot1.kD = 0.0;
+
+		collector_pivot_motor.getConfigurator().apply(config);
+	}
+
+	public static void raise_collector() {
+		KrakenServo.rotate_to_with_mm(collector_pivot_motor, raised_deg, collector_rotations_per_degree, 1);
 	}
 
 	public static void lower_collector() {
-		KrakenServo.rotate_to(collector_pivot_motor, lowered_deg, collector_rotations_per_degree);
+		KrakenServo.rotate_to_with_mm(collector_pivot_motor, lowered_deg, collector_rotations_per_degree, 0);
 	}
 
 	public static void start_driver() {
-		collector_motor.setControl(new DutyCycleOut(-collector_speed));
+		collector_motor.setControl(new DutyCycleOut(collector_speed));
 	}
 
 	public static void stop_driver() {
@@ -44,6 +56,6 @@ public class Collector {
 	}
 
 	public static void reverse_driver() {
-		collector_motor.setControl(new DutyCycleOut(collector_speed));
+		collector_motor.setControl(new DutyCycleOut(-collector_speed));
 	}
 }
