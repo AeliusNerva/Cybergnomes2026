@@ -67,7 +67,9 @@ public final class Constants {
 		 * and 180 degrees means it can only do a full 180 degree turn before
 		 * having to go around the way it came.
 		 */
-		public static final double TURRET_DEGREES_OF_FREEDOM = 135.0;
+		public static final double TURRET_DEGREES_OF_FREEDOM = 105.0;
+
+		public static final double FLYWHEEL_SPEED_SCALAR = 3.0;
 	}
 
 	public static final class Puker {
@@ -79,7 +81,7 @@ public final class Constants {
 		public static final double LOADER_SPEED = 40;
 
 		// Motor velocity of the flywheel in rotations per second
-		public static final double FLYWHEEL_SPEED = 55;
+		public static final double FLYWHEEL_SPEED = 60;
 	}
 
 	public static final class Controller {

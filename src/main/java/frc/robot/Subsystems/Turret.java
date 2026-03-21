@@ -73,6 +73,8 @@ public class Turret {
 	private static boolean shooting = false;
 	private static int not_shooting_counter = 0;
 
+	private static final double flywheel_speed_scalar = Constants.Turret.FLYWHEEL_SPEED_SCALAR;
+
 	private static final LowPassFilter yaw_filter = new LowPassFilter();
 
 	public static double wrap_to_180_and_clamp(double degrees, double max) {
@@ -107,7 +109,7 @@ public class Turret {
 		slot0Configs.kS = 0.0;
 		slot0Configs.kP = 0.5;
 		slot0Configs.kV = 0.0;
-		slot0Configs.kI = 0.25;
+		slot0Configs.kI = 0.0;
 		slot0Configs.kD = 0.0;
 		yaw_motor.getConfigurator().apply(slot0Configs);
 
@@ -125,8 +127,8 @@ public class Turret {
 	public static void lock_onto_hub() {
 		Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
 
-		Vector3 velocity = new Vector3(Positioning.velocity.x, 0, Positioning.velocity.y);
-		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0).sub(velocity);
+		// Vector3 velocity = new Vector3(Positioning.velocity.x, 0, Positioning.velocity.y);
+		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0); //.sub(velocity);
 
 		Vector3 ball_velocity;
 		Vector3 commands;
@@ -144,7 +146,6 @@ public class Turret {
 
 			// Collect required positions
 			Vector3 deltapos = hub.sub(position);
-			//Vector3.println(position, 2);
 
 			// Get turret commands
 			ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
@@ -158,14 +159,11 @@ public class Turret {
 		 */
 
 		commands.y += Positioning.position.z;
-		//commands.y = yaw_filter.low_pass(commands.y);
+		commands.y = yaw_filter.low_pass(commands.y);
 		commands.y = wrap_to_180_and_clamp(commands.y, yaw_degrees_of_freedom);
 
-		//System.out.println("position: " + yaw_motor.getPosition().getValueAsDouble());
-		//System.out.println("command: " + commands.y + "\n");
-
 		// Rotate the turret
-		//KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
+		KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
 
 		// Get actuator actuation distance
 		double actuator_distance = LinearActuator.get_actuation_distance_from_angle(hood_arm_length,
@@ -188,18 +186,10 @@ public class Turret {
 
 	public static void spin_up_flywheel() {
 		double required_rps = last_speed_command / (2 * Math.PI * flywheel_radius);
+		required_rps *= flywheel_speed_scalar;
 
-		/*
-		 * System.out.println(flywheel_motor_1.getMotorVoltage().getValueAsDouble());
-		 * 
-		 * System.out.println(required_rps);
-		 * System.out.println(flywheel_motor_1.getVelocity().getValueAsDouble());
-		 * System.out.println(flywheel_motor_2.getVelocity().getValueAsDouble());
-		 * System.out.println();
-		 */
-
-		flywheel_motor_1.setControl(vv.withVelocity(55));
-		flywheel_motor_2.setControl(vv.withVelocity(-55));
+		flywheel_motor_1.setControl(vv.withVelocity(required_rps));
+		flywheel_motor_2.setControl(vv.withVelocity(-required_rps));
 	}
 
 	public static void stop_flywheel() {

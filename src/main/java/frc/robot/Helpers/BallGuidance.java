@@ -20,7 +20,7 @@ public class BallGuidance {
 		 * 
 		 * There can be two solutions. Evaluate both and then pick the positive one.
 		 */
-
+		
 		Vector3 velocity_vector = new Vector3(0, 0, 0);
 
 		// Find required vertical velocity
@@ -30,6 +30,7 @@ public class BallGuidance {
 		double sqrt_term = Math.sqrt(velocity_vector.y * velocity_vector.y - 2 * gravity * delta_pos.y);
 		double time_to_hub_negate = (velocity_vector.y - sqrt_term) / gravity;
 		double time_to_hub_sum = (velocity_vector.y + sqrt_term) / gravity;
+
 		double time_to_hub = Math.max(time_to_hub_negate, time_to_hub_sum);
 
 		// Normalise delta_pos.*/time_to_hub -> m/s

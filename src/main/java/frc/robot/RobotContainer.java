@@ -94,15 +94,15 @@ public class RobotContainer {
 		// TURRET
 		Command TurretFlywheel = new TurretFlywheel();
 		Command TurretFire = new TurretFire();
-		r1.whileTrue(TurretFlywheel);
-		r2.whileTrue(TurretFire);
+		l1.whileTrue(TurretFlywheel);
+		l2.whileTrue(TurretFire);
 
 
 		// PUKER
 		Command PukerFlywheel = new PukerFlywheel();
 		Command PukerFire = new PukerFire();
-		l1.whileTrue(PukerFlywheel);
-		l2.whileTrue(PukerFire);
+		r1.whileTrue(PukerFlywheel);
+		r2.whileTrue(PukerFire);
 
 
 		// COLLECTOR

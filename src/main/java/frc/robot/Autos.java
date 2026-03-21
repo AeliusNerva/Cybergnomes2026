@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Puker;
+import frc.robot.subsystems.RollerFloor;
 import frc.robot.subsystems.Turret;
 
 public class Autos {
@@ -15,6 +16,7 @@ public class Autos {
 
 		Puker.spin_up_flywheel();
 		Turret.spin_up_flywheel();
+		RollerFloor.start_roller_floor();
 
 		boolean movedone = false;
 		boolean shootdone = false;
@@ -65,6 +67,7 @@ public class Autos {
 					Turret.stop_firing();
 					Puker.stop_flywheel();
 					Turret.stop_flywheel();
+					RollerFloor.stop_roller_floor();
 				}
 			}
 			Timer.delay(0.05);

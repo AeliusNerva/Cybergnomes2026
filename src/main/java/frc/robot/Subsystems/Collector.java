@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Volts;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -22,25 +24,20 @@ public class Collector {
 
 	public static void init() {
 		TalonFXConfiguration config = new TalonFXConfiguration();
-		config.MotionMagic.MotionMagicAcceleration = 90;
-		config.MotionMagic.MotionMagicCruiseVelocity = 45;
+		config.Voltage.withPeakForwardVoltage(Volts.of(4)).withPeakReverseVoltage(Volts.of(-4));
 		config.Slot0.kP = 0.25;
 		config.Slot0.kI = 0.0;
 		config.Slot0.kD = 0.0;
-
-		config.Slot1.kP = 0.5;
-		config.Slot1.kI = 0.0;
-		config.Slot1.kD = 0.0;
 
 		collector_pivot_motor.getConfigurator().apply(config);
 	}
 
 	public static void raise_collector() {
-		KrakenServo.rotate_to_with_mm(collector_pivot_motor, raised_deg, collector_rotations_per_degree, 1);
+		KrakenServo.rotate_to(collector_pivot_motor, raised_deg, collector_rotations_per_degree);
 	}
 
 	public static void lower_collector() {
-		KrakenServo.rotate_to_with_mm(collector_pivot_motor, lowered_deg, collector_rotations_per_degree, 0);
+		KrakenServo.rotate_to(collector_pivot_motor, lowered_deg, collector_rotations_per_degree);
 	}
 
 	public static void start_driver() {

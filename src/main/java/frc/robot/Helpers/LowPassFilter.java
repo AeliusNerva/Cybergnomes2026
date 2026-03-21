@@ -19,7 +19,7 @@ public class LowPassFilter {
 	private int low_pass_samples = 0;
 
 	public double low_pass(double new_input) {
-		// Not best practice but this fixes everything
+		// Not best practice but this fixes a lot
 		if (new_input != 0.0) {
 			if (low_pass_samples < low_pass_array.length) {
 				low_pass_array[low_pass_samples] = new_input;

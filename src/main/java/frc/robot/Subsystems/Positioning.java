@@ -60,14 +60,13 @@ public class Positioning {
 					last_time = time;
 					return;
 				}
-				last_position = position;
+				last_position = position.copy();
 
 				first_lock = true;
 				position.x = limelight_data.x;
 				position.y = limelight_data.y;
 				position.x = position_x.low_pass(position.x);
 				position.y = position_y.low_pass(position.y);
-				Vector3.println(position, 2);
 
 				Vector3 difference = position.sub(last_position);
 				difference.x = difference_x.low_pass(difference.x);
@@ -77,6 +76,8 @@ public class Positioning {
 		}
 
 		position.z = pigeon.getYaw().getValueAsDouble();
+
+		velocity = velocity.scalar_divide(1.2);
 
 		if (first_lock) {
 			Turret.lock_onto_hub();
