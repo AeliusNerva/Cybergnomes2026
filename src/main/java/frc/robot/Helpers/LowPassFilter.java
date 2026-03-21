@@ -19,12 +19,16 @@ public class LowPassFilter {
 	private int low_pass_samples = 0;
 
 	public double low_pass(double new_input) {
-		if (low_pass_samples < low_pass_array.length) {
-			low_pass_array[low_pass_samples] = new_input;
-			low_pass_samples++;
-		} else {
-			push_back(low_pass_array, new_input);
+		// Not best practice but this fixes everything
+		if (new_input != 0.0) {
+			if (low_pass_samples < low_pass_array.length) {
+				low_pass_array[low_pass_samples] = new_input;
+				low_pass_samples++;
+			} else {
+				push_back(low_pass_array, new_input);
+			}
 		}
+
 		double sum = 0.0;
 		for (int i = 0; i < low_pass_array.length; i++) {
 			sum += low_pass_array[i];

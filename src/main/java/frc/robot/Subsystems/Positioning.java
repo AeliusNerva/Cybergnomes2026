@@ -16,8 +16,6 @@ public class Positioning {
 	public static Vector3 velocity = new Vector3(0.0, 0.0, 0.0);
 	private static boolean first_lock = false;
 
-	private static Vector3 grounded_position = new Vector3(0.0, 0.0, 0.0);
-
 	private static Vector3 last_position = new Vector3(0.0, 0.0, 0.0);
 	private static double dt = 0.02; // Should be 20ms (0.020s) so we're gonna start with that
 	private static double time = Timer.getFPGATimestamp();
@@ -52,30 +50,32 @@ public class Positioning {
 		Vector3 limelight_data = Limelight.robot_limelight_position;
 
 		if (limelight_data.z > 0.0) {
-			// Finding and responsibly managing delta time
-			last_time = time;
-			time = Timer.getFPGATimestamp();
-			dt = time - last_time;
-			if (dt > 0.1) {
-				// Throw away bad delta times and exit
+			if (limelight_data.x != 0.0 && limelight_data.y != 0.0) {
+				// Finding and responsibly managing delta time
 				last_time = time;
-				return;
+				time = Timer.getFPGATimestamp();
+				dt = time - last_time;
+				if (dt > 0.1) {
+					// Throw away bad delta times and exit
+					last_time = time;
+					return;
+				}
+				last_position = position;
+
+				first_lock = true;
+				position.x = limelight_data.x;
+				position.y = limelight_data.y;
+				position.x = position_x.low_pass(position.x);
+				position.y = position_y.low_pass(position.y);
+				Vector3.println(position, 2);
+
+				Vector3 difference = position.sub(last_position);
+				difference.x = difference_x.low_pass(difference.x);
+				difference.y = difference_y.low_pass(difference.y);
+				velocity = difference.scalar_divide(dt);
 			}
-			last_position = grounded_position;
-
-			first_lock = true;
-			grounded_position = limelight_data;
-
-			Vector3 difference = grounded_position.sub(last_position);
-			difference.x = difference_x.low_pass(difference.x);
-			difference.y = difference_y.low_pass(difference.y);
-			difference.z = 0.0;
-
-			velocity = difference.scalar_divide(dt);
 		}
 
-		position.x = position_x.low_pass(position.x);
-		position.y = position_y.low_pass(position.y);
 		position.z = pigeon.getYaw().getValueAsDouble();
 
 		if (first_lock) {

@@ -117,7 +117,7 @@ public final class Constants {
 
 		// Collector positions in degrees
 		public static final double RAISED_DEG = -10.0;
-		public static final double LOWERED_DEG = -145.0;
+		public static final double LOWERED_DEG = -115.0;
 	}
 
 	public static final class Arena {

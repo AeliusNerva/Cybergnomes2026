@@ -14,6 +14,7 @@ import frc.robot.Constants;
 import frc.robot.helpers.BallGuidance;
 import frc.robot.helpers.KrakenServo;
 import frc.robot.helpers.LinearActuator;
+import frc.robot.helpers.LowPassFilter;
 import frc.robot.helpers.Vector3;
 
 public class Turret {
@@ -72,6 +73,8 @@ public class Turret {
 	private static boolean shooting = false;
 	private static int not_shooting_counter = 0;
 
+	private static final LowPassFilter yaw_filter = new LowPassFilter();
+
 	public static double wrap_to_180_and_clamp(double degrees, double max) {
 		degrees = degrees % 360.0;
 
@@ -121,6 +124,7 @@ public class Turret {
 
 	public static void lock_onto_hub() {
 		Vector3 position = new Vector3(Positioning.position.x, 0, Positioning.position.y);
+
 		Vector3 velocity = new Vector3(Positioning.velocity.x, 0, Positioning.velocity.y);
 		Vector3 deltavel = new Vector3(0.0, 0.0, 0.0).sub(velocity);
 
@@ -140,7 +144,7 @@ public class Turret {
 
 			// Collect required positions
 			Vector3 deltapos = hub.sub(position);
-			Vector3.println(position, 2);
+			//Vector3.println(position, 2);
 
 			// Get turret commands
 			ball_velocity = BallGuidance.get_required_velocity(deltapos, apogee, deltavel);
@@ -154,14 +158,14 @@ public class Turret {
 		 */
 
 		commands.y += Positioning.position.z;
+		//commands.y = yaw_filter.low_pass(commands.y);
 		commands.y = wrap_to_180_and_clamp(commands.y, yaw_degrees_of_freedom);
 
-		Vector3.println(velocity, 2);
-		System.out.println("orientation: " + Positioning.position.z);
-		System.out.println("command: " + commands.y);
+		//System.out.println("position: " + yaw_motor.getPosition().getValueAsDouble());
+		//System.out.println("command: " + commands.y + "\n");
 
 		// Rotate the turret
-		// KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
+		//KrakenServo.rotate_to(yaw_motor, commands.y, yaw_rotations_per_degree);
 
 		// Get actuator actuation distance
 		double actuator_distance = LinearActuator.get_actuation_distance_from_angle(hood_arm_length,
