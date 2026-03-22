@@ -5,7 +5,11 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -51,7 +55,7 @@ public class RobotContainer {
 	private final JoystickButton button_x = new JoystickButton(controller, XboxController.Button.kX.value);
 
 	private final Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
-
+	private final Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
 
 	public static int rollercounter = 0;
 
@@ -90,20 +94,17 @@ public class RobotContainer {
 		button_y.whileTrue(ReversePuker);
 		button_x.whileTrue(ReverseCollector);
 
-
 		// TURRET
 		Command TurretFlywheel = new TurretFlywheel();
 		Command TurretFire = new TurretFire();
 		l1.whileTrue(TurretFlywheel);
 		l2.whileTrue(TurretFire);
 
-
 		// PUKER
 		Command PukerFlywheel = new PukerFlywheel();
 		Command PukerFire = new PukerFire();
 		r1.whileTrue(PukerFlywheel);
 		r2.whileTrue(PukerFire);
-
 
 		// COLLECTOR
 		Command RunCollector = new RunCollector();
@@ -113,8 +114,11 @@ public class RobotContainer {
 		dpad_up.whileTrue(CollectorUp);
 		button_b.whileTrue(CollectorDown);
 
-
 		// SWERVES
+		dpad_down.whileTrue(drivetrain.DriveToPose(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? 
+		(new Pose2d(3,4, new Rotation2d().fromDegrees(0))) : 
+		(new Pose2d(3.0+4.1375,4, new Rotation2d().fromDegrees(180.0)))));
+
 		drivetrain.setDefaultCommand(
 				drivetrain.applyRequest(() -> driveReq
 						/*
@@ -126,11 +130,12 @@ public class RobotContainer {
 						.withVelocityY(stick_deadband(controller.getLeftX(), 0.1) * max_speed)
 						.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
 								* max_angular_speed)));
+		
+		
 
 		final var idle = new SwerveRequest.Idle();
 		RobotModeTriggers.disabled().whileTrue(
 				drivetrain.applyRequest(() -> idle).ignoringDisable(true));
-
 
 		// ROLLER
 		Command RollerFloor = new RollerFloor();

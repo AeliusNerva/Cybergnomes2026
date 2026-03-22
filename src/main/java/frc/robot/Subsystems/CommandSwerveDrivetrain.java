@@ -12,6 +12,7 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
@@ -280,6 +281,24 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 	 */
 	public Command sysIdDynamic(SysIdRoutine.Direction direction) {
 		return m_sysIdRoutineToApply.dynamic(direction);
+	}
+
+	private PIDController xYvController = new PIDController(4,0,0.15);
+	private PIDController rotController = new PIDController(4, 0, 0);
+	public Command DriveToPose(Pose2d targetPose) {
+		xYvController.calculate(Double.MAX_VALUE,0); //Check Distance doesn't instantly give 0
+		rotController.calculate(Double.MAX_VALUE ,0); //Check Rotation doesn't instantly give 0
+		rotController.enableContinuousInput(0, 2*Math.PI);
+		xYvController.setTolerance(0.1,0); // Distance & Velocity
+		SwerveRequest.FieldCentric alignRequest = new SwerveRequest.FieldCentric();
+		return applyRequest(() -> {
+			double distanceError = targetPose.getTranslation().getDistance(this.getState().Pose.getTranslation());
+			double velocity = xYvController.calculate(distanceError,0);
+			double angle = (targetPose.getTranslation().minus(this.getState().Pose.getTranslation())).getAngle().getRadians();
+			double angleVel = rotController.calculate(this.getState().Pose.getRotation().getRadians(),targetPose.getRotation().getRadians());
+			return alignRequest.withVelocityX(Math.cos(angle)*velocity).withVelocityY(Math.sin(angle)*velocity).withRotationalRate(angleVel);
+		})
+		.withName("DriveToPose");
 	}
 
 	@Override
