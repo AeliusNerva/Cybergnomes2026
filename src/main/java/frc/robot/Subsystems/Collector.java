@@ -27,7 +27,7 @@ public class Collector {
 		config.Voltage.withPeakForwardVoltage(Volts.of(4)).withPeakReverseVoltage(Volts.of(-4));
 		config.Slot0.kP = 0.25;
 		config.Slot0.kI = 0.0;
-		config.Slot0.kD = 0.0;
+		config.Slot0.kD = 0.1;
 
 		collector_pivot_motor.getConfigurator().apply(config);
 	}

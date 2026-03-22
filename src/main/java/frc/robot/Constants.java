@@ -1,5 +1,8 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 import frc.robot.helpers.Vector3;
 
 public final class Constants {
@@ -112,10 +115,10 @@ public final class Constants {
 
 	public static final class Drive {
 		// Max speed of the robot in m/s
-		public static final double MAX_SPEED = 4;
+		public static final double MAX_SPEED = 5.23;
 
 		// Max angular speed of the robot in radians/s (1 radian = ~57 degrees)
-		public static final double MAX_ANGULAR_SPEED = 4.5;
+		public static final double MAX_ANGULAR_SPEED = RotationsPerSecond.of(0.75).in(RadiansPerSecond);
 	}
 
 	public static final class Collector {
