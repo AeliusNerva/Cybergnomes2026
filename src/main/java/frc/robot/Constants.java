@@ -19,6 +19,8 @@ public final class Constants {
 
 		// The apogee of the ball outside of shooting areas; while snowblowing.
 		public static final double CENTER_APOGEE = 4.0;
+
+		public static final boolean SNOWBLOWING = false;
 	}
 
 	public static final class Positioning {
@@ -40,7 +42,7 @@ public final class Constants {
 		public static final double ROTATIONS_PER_DEGREE = ((9.0 / 1.0) * (10.0 / 1.0)) / 360.0;
 
 		// Motor velocity of the loader in rotations per second
-		public static final double LOADER_SPEED = 40;
+		public static final double LOADER_SPEED = 30;
 
 		// Radius of the flywheel in meters
 		public static final double FLYWHEEL_RADIUS = 0.054;
@@ -69,7 +71,16 @@ public final class Constants {
 		 */
 		public static final double TURRET_DEGREES_OF_FREEDOM = 105.0;
 
-		public static final double FLYWHEEL_SPEED_SCALAR = 3.0;
+		// Unitless scalar for the turret's flywheel speed
+		public static final double FLYWHEEL_SPEED_SCALAR = 2.0;
+
+		/*
+		 * Unitless divisor for the turret's scan function to slow down the scan's sine
+		 * wave.
+		 */
+		public static final double TURRET_SCAN_DIVISOR = 1.0;
+
+		public static final double TURRET_DEFAULT_SPEED_COMMAND = 50;
 	}
 
 	public static final class Puker {
@@ -78,10 +89,10 @@ public final class Constants {
 		public static final int LOADER_MOTOR = 27;
 
 		// Motor velocity of the loader in rotations per second
-		public static final double LOADER_SPEED = 40;
+		public static final double LOADER_SPEED = 30;
 
 		// Motor velocity of the flywheel in rotations per second
-		public static final double FLYWHEEL_SPEED = 60;
+		public static final double FLYWHEEL_SPEED = 65;
 	}
 
 	public static final class Controller {
@@ -101,10 +112,10 @@ public final class Constants {
 
 	public static final class Drive {
 		// Max speed of the robot in m/s
-		public static final double MAX_SPEED = 2;
+		public static final double MAX_SPEED = 4;
 
 		// Max angular speed of the robot in radians/s (1 radian = ~57 degrees)
-		public static final double MAX_ANGULAR_SPEED = 3;
+		public static final double MAX_ANGULAR_SPEED = 4.5;
 	}
 
 	public static final class Collector {
@@ -113,7 +124,7 @@ public final class Constants {
 		public static final int COLLECTOR_MOTOR = 16;
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double COLLECTOR_SPEED = -1.0;
+		public static final double COLLECTOR_SPEED = 0.75;
 
 		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (8.0 / 5.0)) / 360.0;
 

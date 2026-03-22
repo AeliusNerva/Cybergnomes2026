@@ -48,7 +48,7 @@ public class BallGuidance {
 	// This says it returns a vector3, but only two vectors are actually used for
 	// angles.
 	// x = pitch, y = yaw, z = m/s to huck the ball
-	public static Vector3 get_turret_instructions(Vector3 velocity_vector) {
+	public static Vector3 get_turret_instructions(Vector3 velocity_vector, double offset) {
 		Vector3 euler_angles = new Vector3(0, 0, 0);
 
 		// Get yaw using arctangent
@@ -61,7 +61,7 @@ public class BallGuidance {
 
 		// Scale angles to degrees because radians suck
 		euler_angles = euler_angles.scale(180 / Math.PI);
-		euler_angles.y += 90;
+		euler_angles.y += offset;
 
 		// Add how fast to huck the ball in m/s
 		euler_angles.z = velocity_vector.magnitude();

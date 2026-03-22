@@ -41,7 +41,7 @@ public class Collector {
 	}
 
 	public static void start_driver() {
-		collector_motor.setControl(new DutyCycleOut(collector_speed));
+		collector_motor.setControl(new DutyCycleOut(-collector_speed));
 	}
 
 	public static void stop_driver() {
@@ -53,6 +53,6 @@ public class Collector {
 	}
 
 	public static void reverse_driver() {
-		collector_motor.setControl(new DutyCycleOut(-collector_speed));
+		collector_motor.setControl(new DutyCycleOut(collector_speed));
 	}
 }
