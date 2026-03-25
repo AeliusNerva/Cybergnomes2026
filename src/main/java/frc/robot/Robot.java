@@ -72,6 +72,8 @@ public class Robot extends TimedRobot {
 		 * Turret.stop_firing();
 		 * RobotContainer.rollercounter -= 1;
 		 */
+
+		autos.BasicPukerAutoStopEverythingAnyway();
 	}
 
 	@Override

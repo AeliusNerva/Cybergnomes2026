@@ -17,6 +17,7 @@ public class Autos {
 		Puker.spin_up_flywheel();
 		Turret.spin_up_flywheel();
 		RollerFloor.start_roller_floor();
+		Collector.raise_collector();
 
 		boolean movedone = false;
 		boolean shootdone = false;
@@ -46,6 +47,7 @@ public class Autos {
 					shootdone = true;
 					Puker.fire();
 					Turret.fire();
+					Collector.stop_arm();
 				}
 			}
 			if (!done_time_to_start_collector) {
@@ -72,5 +74,13 @@ public class Autos {
 			}
 			Timer.delay(0.05);
 		}
+	}
+
+	public void BasicPukerAutoStopEverythingAnyway() {
+		Puker.stop_firing();
+		Turret.stop_firing();
+		Puker.stop_flywheel();
+		Turret.stop_flywheel();
+		RollerFloor.stop_roller_floor();
 	}
 }

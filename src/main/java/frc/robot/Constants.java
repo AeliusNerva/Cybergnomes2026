@@ -95,7 +95,7 @@ public final class Constants {
 		public static final double LOADER_SPEED = 30;
 
 		// Motor velocity of the flywheel in rotations per second
-		public static final double FLYWHEEL_SPEED = 65;
+		public static final double FLYWHEEL_SPEED = 70;
 	}
 
 	public static final class Controller {
@@ -127,7 +127,7 @@ public final class Constants {
 		public static final int COLLECTOR_MOTOR = 16;
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double COLLECTOR_SPEED = 0.75;
+		public static final double COLLECTOR_SPEED = 0.9;
 
 		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (8.0 / 5.0)) / 360.0;
 
