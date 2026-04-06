@@ -6,96 +6,33 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import frc.robot.helpers.Vector3;
 
 public final class Constants {
-	public static final class Strategy {
-		// The apogee of the ball within shooting areas
-		public static final double NORMAL_APOGEE = 3.0;
-
-		/*
-		 * Our snowblowing strategy will be to shoot the ball in the direction of the
-		 * human collection zone, so that the balls will first touch the ground exactly
-		 * 3 meters away from it, and will then have the distance to slowly lose their
-		 * bounce and start rolling into the ball recepticle. Best case scenario: they
-		 * land in the human collection zone and they can be loaded into our teammates
-		 * or our ball shooters. Worst case scenario: the balls are in a good position
-		 * to be collected and shot manually by a robot.
-		 */
-
-		// The apogee of the ball outside of shooting areas; while snowblowing.
-		public static final double CENTER_APOGEE = 4.0;
-
-		public static final boolean SNOWBLOWING = false;
-	}
-
 	public static final class Positioning {
 		public static final int PIGEON_ID = 0;
-	}
+	}	
 
-	public static final class Turret {
-		// CAN IDs of each axis's motor
-		public static final int YAW_MOTOR = 23;
-		public static final int INTAKE_MOTOR = 24;
-		public static final int FLYWHEEL_MOTOR_1 = 22;
-		public static final int FLYWHEEL_MOTOR_2 = 21;
-
-		// Linear actuator channels
-		public static final int WEST_ACTUATOR = 0;
-		public static final int EAST_ACTUATOR = 1;
-
-		// The rotations per degree of the yaw motor
-		public static final double ROTATIONS_PER_DEGREE = ((9.0 / 1.0) * (10.0 / 1.0)) / 360.0;
+	public static final class Pukers {
+		// CAN IDs of each motor
+		public static final int PUKER_1_FLYWHEEL_MOTOR = 22;
+		public static final int PUKER_1_LOADER_MOTOR = 21;
+		public static final int PUKER_2_FLYWHEEL_MOTOR = 25;
+		public static final int PUKER_2_LOADER_MOTOR = 27;
 
 		// Motor velocity of the loader in rotations per second
 		public static final double LOADER_SPEED = 30;
+
+		// Default motor velocity of the flywheel in rotations per second
+		public static final double DEFAULT_SPEED_COMMAND = 70;
 
 		// Radius of the flywheel in meters
 		public static final double FLYWHEEL_RADIUS = 0.054;
 
-		// Hood modulation arm length in meters
-		public static final double HOOD_ARM_LENGTH = 0.24;
-
-		// Length from the end of the actuator to the rotation point of the hood arm
-		public static final double ROTATION_TO_ACTUATOR_LENGTH = 0.16;
-
-		// Actuator full stroke length in meters
-		public static final double ACTUATOR_FULL_STROKE = 0.1;
-
-		// Actuator software max and minimum actuation in meters
-		public static final double ACTUATOR_MAX = 0.07;
-		public static final double ACTUATOR_MIN = 0.00;
-
-		// The length of the actuator that should be subtracted from the command
-		public static final double ACTUATOR_START = 0.09;
-
-		/*
-		 * Maximum absolute rotation of the turret in degrees, 10 degrees means
-		 * it can only rotate 10 degrees to the left and 10 degrees to the right,
-		 * and 180 degrees means it can only do a full 180 degree turn before
-		 * having to go around the way it came.
-		 */
-		public static final double TURRET_DEGREES_OF_FREEDOM = 105.0;
-
-		// Unitless scalar for the turret's flywheel speed
-		public static final double FLYWHEEL_SPEED_SCALAR = 2.0;
-
-		/*
-		 * Unitless divisor for the turret's scan function to slow down the scan's sine
-		 * wave.
-		 */
-		public static final double TURRET_SCAN_DIVISOR = 1.0;
-
-		public static final double TURRET_DEFAULT_SPEED_COMMAND = 50;
+		// The angle of the puker's ball-shooting "barrel"/guides in degrees.
+		public static final double PUKER_ANGLE = 70.0;
 	}
 
-	public static final class Puker {
-		// CAN IDs of each motor
-		public static final int FLYWHEEL_MOTOR = 25;
-		public static final int LOADER_MOTOR = 27;
-
-		// Motor velocity of the loader in rotations per second
-		public static final double LOADER_SPEED = 30;
-
-		// Motor velocity of the flywheel in rotations per second
-		public static final double FLYWHEEL_SPEED = 70;
+	public static final class BallGuidance {
+		// Minimum speed command in m/s
+		public static final double MINIMUM_SPEED = 3.0;	
 	}
 
 	public static final class Controller {
@@ -123,7 +60,8 @@ public final class Constants {
 
 	public static final class Collector {
 		// CAN IDs of each motor
-		public static final int COLLECTOR_PIVOT_MOTOR = 19;
+		public static final int LEFT_COLLECTOR_PIVOT_MOTOR = 29;
+		public static final int RIGHT_COLLECTOR_PIVOT_MOTOR = 19;
 		public static final int COLLECTOR_MOTOR = 16;
 
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
@@ -163,10 +101,13 @@ public final class Constants {
 
 	public static final class RollerFloor {
 		// CAN IDs of each motor
-		public static final int ROLLER_FLOOR_MOTOR = 26;
+		public static final int ROLLER_FLOOR_MOTOR = 23;
 
-		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
-		public static final double ROLLER_FLOOR_SPEED = 0.5;
+		// Gear ratio
+		public static final double GEAR_RATIO = (1.0 / 1.0);
+
+		// Motor speed of the roller floor in rotations per second
+		public static final double ROLLER_FLOOR_SPEED = 2.0;
 	}
 
 	public static final class Filters {

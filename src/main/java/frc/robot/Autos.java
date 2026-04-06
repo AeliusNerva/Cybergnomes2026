@@ -2,9 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.Puker;
+import frc.robot.subsystems.Pukers;
 import frc.robot.subsystems.RollerFloor;
-import frc.robot.subsystems.Turret;
 
 public class Autos {
 	public void BasicPukerAuto() {
@@ -14,8 +13,7 @@ public class Autos {
 		autoTimer.reset();
 		autoTimer.start();
 
-		Puker.spin_up_flywheel();
-		Turret.spin_up_flywheel();
+		Pukers.spin_up_flywheel();
 		RollerFloor.start_roller_floor();
 		Collector.raise_collector();
 
@@ -45,8 +43,7 @@ public class Autos {
 			if (!shootdone) {
 				if (autoTimer.get() > 2.0) {
 					shootdone = true;
-					Puker.fire();
-					Turret.fire();
+					Pukers.fire();
 					Collector.stop_arm();
 				}
 			}
@@ -65,10 +62,8 @@ public class Autos {
 			if (!done_stop_everything) {
 				if (autoTimer.get() > 10.0) {
 					done_stop_everything = true;
-					Puker.stop_firing();
-					Turret.stop_firing();
-					Puker.stop_flywheel();
-					Turret.stop_flywheel();
+					Pukers.stop_firing();
+					Pukers.stop_flywheel();
 					RollerFloor.stop_roller_floor();
 				}
 			}
@@ -77,10 +72,8 @@ public class Autos {
 	}
 
 	public void BasicPukerAutoStopEverythingAnyway() {
-		Puker.stop_firing();
-		Turret.stop_firing();
-		Puker.stop_flywheel();
-		Turret.stop_flywheel();
+		Pukers.stop_firing();
+		Pukers.stop_flywheel();
 		RollerFloor.stop_roller_floor();
 	}
 }

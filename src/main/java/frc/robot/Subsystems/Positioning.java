@@ -78,10 +78,8 @@ public class Positioning {
 		position.z = pigeon.getYaw().getValueAsDouble();
 
 		velocity = velocity.scalar_divide(1.2);
-		if (Timer.getFPGATimestamp() - time > 2.0) {
-			Turret.search_for_target();
-		} else if (first_lock) {
-			Turret.lock_onto_hub();
+		if (first_lock) {
+			// Turret.lock_onto_hub(); <--------------------------------------
 		}
 	}
 }

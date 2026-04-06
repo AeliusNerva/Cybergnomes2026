@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Positioning;
-import frc.robot.subsystems.Puker;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Pukers;
+import frc.robot.subsystems.RollerFloor;
 
 public class Robot extends TimedRobot {
 	@SuppressWarnings("unused")
@@ -22,8 +22,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		rc = new RobotContainer();
 		Collector.init();
-		Turret.init();
-		Puker.init();
+		Pukers.init();
+		RollerFloor.init();
 		pd.setSwitchableChannel(true);
 	}
 

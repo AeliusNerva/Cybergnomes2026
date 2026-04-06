@@ -2,7 +2,7 @@ package frc.robot.commands.Puker;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Puker;
+import frc.robot.subsystems.Pukers;
 
 public class PukerFire extends Command {
 	public PukerFire() {
@@ -10,7 +10,7 @@ public class PukerFire extends Command {
 
 	@Override
 	public void initialize() {
-		Puker.fire();
+		Pukers.fire();
 		RobotContainer.rollercounter += 1;
 	}
 
@@ -20,7 +20,7 @@ public class PukerFire extends Command {
 
 	@Override
 	public void end(boolean interrupted) {
-		Puker.stop_firing();
+		Pukers.stop_firing();
 		RobotContainer.rollercounter -= 1;
 	}
 

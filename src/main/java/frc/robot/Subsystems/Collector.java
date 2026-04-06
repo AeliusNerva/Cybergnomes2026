@@ -11,10 +11,12 @@ import frc.robot.helpers.KrakenServo;
 
 public class Collector {
 	private static final int collector_motor_id = Constants.Collector.COLLECTOR_MOTOR;
-	private static final int collector_pivot_motor_id = Constants.Collector.COLLECTOR_PIVOT_MOTOR;
+	private static final int left_collector_pivot_motor_id = Constants.Collector.LEFT_COLLECTOR_PIVOT_MOTOR;
+	private static final int right_collector_pivot_motor_id = Constants.Collector.RIGHT_COLLECTOR_PIVOT_MOTOR;
 
 	private static final TalonFX collector_motor = new TalonFX(collector_motor_id);
-	private static final TalonFX collector_pivot_motor = new TalonFX(collector_pivot_motor_id);
+	private static final TalonFX left_collector_pivot_motor = new TalonFX(left_collector_pivot_motor_id);
+	private static final TalonFX right_collector_pivot_motor = new TalonFX(right_collector_pivot_motor_id);
 
 	private static final double collector_speed = Constants.Collector.COLLECTOR_SPEED;
 	private static final double collector_rotations_per_degree = Constants.Collector.ROTATIONS_PER_DEGREE;
@@ -29,15 +31,18 @@ public class Collector {
 		config.Slot0.kI = 0.0;
 		config.Slot0.kD = 0.1;
 
-		collector_pivot_motor.getConfigurator().apply(config);
+		left_collector_pivot_motor.getConfigurator().apply(config);
+		right_collector_pivot_motor.getConfigurator().apply(config);
 	}
 
 	public static void raise_collector() {
-		KrakenServo.rotate_to(collector_pivot_motor, raised_deg, collector_rotations_per_degree);
+		KrakenServo.rotate_to(left_collector_pivot_motor, -raised_deg, collector_rotations_per_degree);
+		KrakenServo.rotate_to(right_collector_pivot_motor, raised_deg, collector_rotations_per_degree);
 	}
 
 	public static void lower_collector() {
-		KrakenServo.rotate_to(collector_pivot_motor, lowered_deg, collector_rotations_per_degree);
+		KrakenServo.rotate_to(left_collector_pivot_motor, -lowered_deg, collector_rotations_per_degree);
+		KrakenServo.rotate_to(right_collector_pivot_motor, lowered_deg, collector_rotations_per_degree);
 	}
 
 	public static void start_driver() {
@@ -49,7 +54,8 @@ public class Collector {
 	}
 
 	public static void stop_arm() {
-		collector_pivot_motor.setControl(new DutyCycleOut(0.0));
+		left_collector_pivot_motor.setControl(new DutyCycleOut(0.0));
+		right_collector_pivot_motor.setControl(new DutyCycleOut(0.0));
 	}
 
 	public static void reverse_driver() {

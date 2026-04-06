@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Reversing.ReverseCollector;
-import frc.robot.commands.Reversing.ReverseTurret;
 import frc.robot.commands.Reversing.ReversePuker;
 import frc.robot.commands.RollerFloor.RollerFloor;
 import frc.robot.commands.Collector.RunCollector;
@@ -21,10 +20,9 @@ import frc.robot.commands.Collector.CollectorUp;
 import frc.robot.commands.Collector.CollectorDown;
 import frc.robot.commands.Puker.PukerFire;
 import frc.robot.commands.Puker.PukerFlywheel;
-import frc.robot.commands.Turret.TurretFire;
-import frc.robot.commands.Turret.TurretFlywheel;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Pukers;
 
 public class RobotContainer {
 
@@ -40,7 +38,7 @@ public class RobotContainer {
 
 	private final Trigger rollerfloor = new Trigger(() -> rollercounter > 0);
 
-	private final JoystickButton l1 = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
+	// private final JoystickButton l1 = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
 	private final Trigger l2 = new Trigger(() -> controller.getLeftTriggerAxis() > 0.5);
 	private final JoystickButton r1 = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
 	private final Trigger r2 = new Trigger(() -> controller.getRightTriggerAxis() > 0.5);
@@ -82,18 +80,10 @@ public class RobotContainer {
 
 	private void configureBindings() {
 		// REVERSING
-		Command ReverseTurret = new ReverseTurret();
 		Command ReversePuker = new ReversePuker();
 		Command ReverseCollector = new ReverseCollector();
-		button_y.whileTrue(ReverseTurret);
 		button_y.whileTrue(ReversePuker);
 		button_x.whileTrue(ReverseCollector);
-
-		// TURRET
-		Command TurretFlywheel = new TurretFlywheel();
-		Command TurretFire = new TurretFire();
-		l1.whileTrue(TurretFlywheel);
-		l2.whileTrue(TurretFire);
 
 		// PUKER
 		Command PukerFlywheel = new PukerFlywheel();
@@ -110,19 +100,32 @@ public class RobotContainer {
 		button_b.whileTrue(CollectorDown);
 
 		// SWERVES
-		drivetrain.setDefaultCommand(
-				drivetrain.applyRequest(() -> driveReq
-						/*
-						 * on this date (2026-03-06) as per Andrew's request I hereby declare
-						 * that Xbox controllers can be directly mapped to our swerve drives
-						 * with no inverting, just Y goes to X and vice versa
-						 */
-						.withVelocityX(stick_deadband(controller.getLeftY(), 0.1) * max_speed)
-						.withVelocityY(stick_deadband(controller.getLeftX(), 0.1) * max_speed)
-						.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
-								* max_angular_speed)));
-		
-		
+		/*
+		 * on this date (2026-03-06) as per Andrew's request I hereby decree
+		 * that Xbox controllers can be directly mapped to our swerve drives
+		 * with no inverting, just Y goes to X and vice versa
+		 */
+
+		if (l2.getAsBoolean()) {
+			// Locking orentation onto the hub
+			drivetrain.setDefaultCommand(
+					drivetrain.applyRequest(() -> driveReq
+							.withVelocityX(stick_deadband(controller.getLeftY(), 0.1)
+									* max_speed)
+							.withVelocityY(stick_deadband(controller.getLeftX(), 0.1)
+									* max_speed)
+							.withRotationalRate(Pukers.swerve_command * max_angular_speed)));
+		} else {
+			// Normal
+			drivetrain.setDefaultCommand(
+					drivetrain.applyRequest(() -> driveReq
+							.withVelocityX(stick_deadband(controller.getLeftY(), 0.1)
+									* max_speed)
+							.withVelocityY(stick_deadband(controller.getLeftX(), 0.1)
+									* max_speed)
+							.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
+									* max_angular_speed)));
+		}
 
 		final var idle = new SwerveRequest.Idle();
 		RobotModeTriggers.disabled().whileTrue(
