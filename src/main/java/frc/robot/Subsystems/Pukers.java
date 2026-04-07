@@ -38,13 +38,9 @@ public class Pukers {
 
 	private static final VelocityVoltage vv = new VelocityVoltage(0).withSlot(0);
 
-	public static double swerve_command = 0.0;
-
 	public static void init() {
 		var slot0Configs = new Slot0Configs();
-		slot0Configs.kS = 0.1;
 		slot0Configs.kP = 0.6;
-		slot0Configs.kV = 0.12;
 		slot0Configs.kI = 0.1;
 		slot0Configs.kD = 0.0;
 		puker_1_flywheel_motor.getConfigurator().apply(slot0Configs);
@@ -78,11 +74,6 @@ public class Pukers {
 		if (shooting)
 			puker_1_flywheel_motor.setControl(vv.withVelocity(last_speed_command));
 		puker_2_flywheel_motor.setControl(vv.withVelocity(last_speed_command));
-
-		double target_orientation = Math.atan2(deltapos.x, deltapos.z) + offset;
-
-		swerve_command = target_orientation - Positioning.position.z;
-		swerve_command /= 4;
 	}
 
 	public static void spin_up_flywheel() {
@@ -119,8 +110,8 @@ public class Pukers {
 	public static void reverse_against_the_floor() {
 		if (!shooting) {
 			not_shooting_counter++;
-			puker_1_loader_motor.setControl(vv.withVelocity(-loader_speed));
-			puker_2_loader_motor.setControl(vv.withVelocity(-loader_speed));
+			puker_1_loader_motor.setControl(vv.withVelocity(loader_speed));
+			puker_2_loader_motor.setControl(vv.withVelocity(loader_speed));
 		} else {
 			not_shooting_counter = 0;
 		}

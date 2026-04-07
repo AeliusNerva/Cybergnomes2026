@@ -17,12 +17,12 @@ import frc.robot.commands.Reversing.ReversePuker;
 import frc.robot.commands.RollerFloor.RollerFloor;
 import frc.robot.commands.Collector.RunCollector;
 import frc.robot.commands.Collector.CollectorUp;
+import frc.robot.commands.ZeroGyro;
 import frc.robot.commands.Collector.CollectorDown;
 import frc.robot.commands.Puker.PukerFire;
 import frc.robot.commands.Puker.PukerFlywheel;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Pukers;
 
 public class RobotContainer {
 
@@ -38,7 +38,8 @@ public class RobotContainer {
 
 	private final Trigger rollerfloor = new Trigger(() -> rollercounter > 0);
 
-	// private final JoystickButton l1 = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
+	// private final JoystickButton l1 = new JoystickButton(controller,
+	// XboxController.Button.kLeftBumper.value);
 	private final Trigger l2 = new Trigger(() -> controller.getLeftTriggerAxis() > 0.5);
 	private final JoystickButton r1 = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
 	private final Trigger r2 = new Trigger(() -> controller.getRightTriggerAxis() > 0.5);
@@ -49,6 +50,8 @@ public class RobotContainer {
 	private final JoystickButton button_x = new JoystickButton(controller, XboxController.Button.kX.value);
 
 	private final Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
+
+	private final JoystickButton back = new JoystickButton(controller, XboxController.Button.kBack.value);
 
 	public static int rollercounter = 0;
 
@@ -107,14 +110,16 @@ public class RobotContainer {
 		 */
 
 		if (l2.getAsBoolean()) {
-			// Locking orentation onto the hub
+			// Slow down the robot
 			drivetrain.setDefaultCommand(
 					drivetrain.applyRequest(() -> driveReq
 							.withVelocityX(stick_deadband(controller.getLeftY(), 0.1)
-									* max_speed)
+									* max_speed / 2.0)
 							.withVelocityY(stick_deadband(controller.getLeftX(), 0.1)
-									* max_speed)
-							.withRotationalRate(Pukers.swerve_command * max_angular_speed)));
+									* max_speed / 2.0)
+							.withRotationalRate(
+									-controller.getRightX() * max_angular_speed
+											/ 2.0)));
 		} else {
 			// Normal
 			drivetrain.setDefaultCommand(
@@ -134,5 +139,9 @@ public class RobotContainer {
 		// ROLLER
 		Command RollerFloor = new RollerFloor();
 		rollerfloor.whileTrue(RollerFloor);
+
+		// ZEROING
+		Command ZeroGyro = new ZeroGyro();
+		back.onTrue(ZeroGyro);
 	}
 }

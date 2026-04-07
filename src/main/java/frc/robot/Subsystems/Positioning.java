@@ -22,7 +22,7 @@ public class Positioning {
 	private static double last_time = Timer.getFPGATimestamp();
 
 	private static int pigeon_id = Constants.Positioning.PIGEON_ID;
-	private static Pigeon2 pigeon = new Pigeon2(pigeon_id);
+	public static Pigeon2 pigeon = new Pigeon2(pigeon_id);
 
 	private static final LowPassFilter position_x = new LowPassFilter();
 	private static final LowPassFilter position_y = new LowPassFilter();

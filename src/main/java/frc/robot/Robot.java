@@ -20,6 +20,7 @@ public class Robot extends TimedRobot {
 	PowerDistribution pd = new PowerDistribution(1, ModuleType.kRev);
 	@Override
 	public void robotInit() {
+		pd.clearStickyFaults();
 		rc = new RobotContainer();
 		Collector.init();
 		Pukers.init();

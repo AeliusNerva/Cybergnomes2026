@@ -18,7 +18,7 @@ public final class Constants {
 		public static final int PUKER_2_LOADER_MOTOR = 27;
 
 		// Motor velocity of the loader in rotations per second
-		public static final double LOADER_SPEED = 30;
+		public static final double LOADER_SPEED = 70;
 
 		// Default motor velocity of the flywheel in rotations per second
 		public static final double DEFAULT_SPEED_COMMAND = 70;
@@ -104,7 +104,7 @@ public final class Constants {
 		public static final int ROLLER_FLOOR_MOTOR = 23;
 
 		// Gear ratio
-		public static final double GEAR_RATIO = (1.0 / 1.0);
+		public static final double GEAR_RATIO = (2.0 / 1.0);
 
 		// Motor speed of the roller floor in rotations per second
 		public static final double ROLLER_FLOOR_SPEED = 2.0;

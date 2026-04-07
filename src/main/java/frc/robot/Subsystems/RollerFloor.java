@@ -19,7 +19,7 @@ public class RollerFloor {
 
 	public static void init() {
 		TalonFXConfiguration config = new TalonFXConfiguration();
-		config.Slot0.kP = 1.0;
+		config.Slot0.kP = 0.5;
 		config.Slot0.kI = 0.0;
 		config.Slot0.kD = 0.0;
 

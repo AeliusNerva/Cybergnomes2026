@@ -17,34 +17,31 @@ public class Autos {
 		RollerFloor.start_roller_floor();
 		Collector.raise_collector();
 
-		boolean movedone = false;
+		boolean firstshootdone = false;
+		boolean firstshootstopdone = false;
 		boolean shootdone = false;
 		boolean done_time_to_start_collector = false;
 		boolean done_time_to_stop_collector = false;
 		boolean done_stop_everything = false;
 
-		final double max_speed = Constants.Drive.MAX_SPEED;
-
-		RobotContainer.driveReq
-				.withVelocityX(0.5 * max_speed);
-
-		RobotContainer.drivetrain.setControl(RobotContainer.driveReq);
-
 		while (!done_time_to_stop_collector) {
-			if (!movedone) {
-				if (autoTimer.get() > 0.5) {
-					movedone = true;
-					RobotContainer.driveReq
-							.withVelocityX(0.0 * max_speed);
-
-					RobotContainer.drivetrain.setControl(RobotContainer.driveReq);
+			if (!firstshootdone) {
+				if (autoTimer.get() > 2.0) {
+					firstshootdone = true;
+					Pukers.fire();
+					Collector.stop_arm();
+				}
+			}
+			if (!firstshootstopdone) {
+				if (autoTimer.get() > 2.1) {
+					firstshootstopdone = true;
+					Pukers.stop_firing();
 				}
 			}
 			if (!shootdone) {
-				if (autoTimer.get() > 2.0) {
+				if (autoTimer.get() > 3.0) {
 					shootdone = true;
 					Pukers.fire();
-					Collector.stop_arm();
 				}
 			}
 			if (!done_time_to_start_collector) {
@@ -59,6 +56,7 @@ public class Autos {
 					Collector.stop_driver();
 				}
 			}
+
 			if (!done_stop_everything) {
 				if (autoTimer.get() > 10.0) {
 					done_stop_everything = true;
