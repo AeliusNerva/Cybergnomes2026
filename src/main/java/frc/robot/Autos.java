@@ -15,7 +15,7 @@ public class Autos {
 
 		Pukers.spin_up_flywheel();
 		RollerFloor.start_roller_floor();
-		Collector.raise_collector();
+		//Collector.raise_collector();
 
 		boolean firstshootdone = false;
 		boolean firstshootstopdone = false;
@@ -29,7 +29,7 @@ public class Autos {
 				if (autoTimer.get() > 2.0) {
 					firstshootdone = true;
 					Pukers.fire();
-					Collector.stop_arm();
+					//Collector.stop_arm();
 				}
 			}
 			if (!firstshootstopdone) {
@@ -58,7 +58,7 @@ public class Autos {
 			}
 
 			if (!done_stop_everything) {
-				if (autoTimer.get() > 10.0) {
+				if (autoTimer.get() > 9.0) {
 					done_stop_everything = true;
 					Pukers.stop_firing();
 					Pukers.stop_flywheel();

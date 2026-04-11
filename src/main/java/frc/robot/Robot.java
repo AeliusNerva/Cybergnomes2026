@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -9,6 +10,7 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Positioning;
 import frc.robot.subsystems.Pukers;
 import frc.robot.subsystems.RollerFloor;
+import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
 
 public class Robot extends TimedRobot {
 	@SuppressWarnings("unused")
@@ -17,14 +19,19 @@ public class Robot extends TimedRobot {
 	public Robot() {
 	}
 
+	private final LoggedNetworkNumber puker_speed_input = new LoggedNetworkNumber("/SmartDashboard/PukerSpeed", (int) Constants.Pukers.DEFAULT_SPEED_COMMAND);
 	PowerDistribution pd = new PowerDistribution(1, ModuleType.kRev);
 	@Override
 	public void robotInit() {
 		pd.clearStickyFaults();
 		rc = new RobotContainer();
+
 		Collector.init();
 		Pukers.init();
 		RollerFloor.init();
+
+		DataLogManager.start();
+
 		pd.setSwitchableChannel(true);
 	}
 
@@ -86,6 +93,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		puker_speed_input.periodic();
+		int received_speed = (int) puker_speed_input.get();
+		Pukers.speed_command = received_speed;
 	}
 
 	@Override

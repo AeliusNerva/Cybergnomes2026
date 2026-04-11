@@ -38,18 +38,19 @@ public class RobotContainer {
 
 	private final Trigger rollerfloor = new Trigger(() -> rollercounter > 0);
 
-	// private final JoystickButton l1 = new JoystickButton(controller,
-	// XboxController.Button.kLeftBumper.value);
+	private final JoystickButton l1 = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
 	private final Trigger l2 = new Trigger(() -> controller.getLeftTriggerAxis() > 0.5);
 	private final JoystickButton r1 = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
 	private final Trigger r2 = new Trigger(() -> controller.getRightTriggerAxis() > 0.5);
 
-	private final JoystickButton button_y = new JoystickButton(controller, XboxController.Button.kY.value);
-	private final JoystickButton button_b = new JoystickButton(controller, XboxController.Button.kB.value);
+	// private final JoystickButton button_y = new JoystickButton(controller, XboxController.Button.kY.value);
+	// private final JoystickButton button_b = new JoystickButton(controller, XboxController.Button.kB.value);
 	private final JoystickButton button_a = new JoystickButton(controller, XboxController.Button.kA.value);
 	private final JoystickButton button_x = new JoystickButton(controller, XboxController.Button.kX.value);
 
 	private final Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
+	private final Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
+	// private final Trigger dpad_inline = new Trigger(() -> controller.getPOV() == 90 || controller.getPOV() == -90);
 
 	private final JoystickButton back = new JoystickButton(controller, XboxController.Button.kBack.value);
 
@@ -72,7 +73,7 @@ public class RobotContainer {
 
 	public RobotContainer() {
 		NamedCommands.registerCommand("Collector Down", new CollectorDown());
-		// NamedCommands.registerCommand("Collector Up", new CollectorUp());
+		NamedCommands.registerCommand("Collector Up", new CollectorUp());
 
 		autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -85,7 +86,7 @@ public class RobotContainer {
 		// REVERSING
 		Command ReversePuker = new ReversePuker();
 		Command ReverseCollector = new ReverseCollector();
-		button_y.whileTrue(ReversePuker);
+		l2.whileTrue(ReversePuker);
 		button_x.whileTrue(ReverseCollector);
 
 		// PUKER
@@ -100,7 +101,7 @@ public class RobotContainer {
 		Command CollectorDown = new CollectorDown();
 		button_a.whileTrue(RunCollector);
 		dpad_up.whileTrue(CollectorUp);
-		button_b.whileTrue(CollectorDown);
+		dpad_down.whileTrue(CollectorDown);
 
 		// SWERVES
 		/*
@@ -109,7 +110,7 @@ public class RobotContainer {
 		 * with no inverting, just Y goes to X and vice versa
 		 */
 
-		if (l2.getAsBoolean()) {
+		if (l1.getAsBoolean()) {
 			// Slow down the robot
 			drivetrain.setDefaultCommand(
 					drivetrain.applyRequest(() -> driveReq
