@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
@@ -11,6 +12,8 @@ import frc.robot.subsystems.Positioning;
 import frc.robot.subsystems.Pukers;
 import frc.robot.subsystems.RollerFloor;
 import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
+
+import com.ctre.phoenix6.hardware.TalonFX;
 
 public class Robot extends TimedRobot {
 	@SuppressWarnings("unused")
@@ -23,6 +26,7 @@ public class Robot extends TimedRobot {
 	PowerDistribution pd = new PowerDistribution(1, ModuleType.kRev);
 	@Override
 	public void robotInit() {
+
 		pd.clearStickyFaults();
 		rc = new RobotContainer();
 

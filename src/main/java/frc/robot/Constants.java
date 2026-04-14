@@ -17,11 +17,8 @@ public final class Constants {
 		public static final int PUKER_2_FLYWHEEL_MOTOR = 25;
 		public static final int PUKER_2_LOADER_MOTOR = 27;
 
-		// Motor velocity of the loader in rotations per second
-		public static final double LOADER_SPEED = 70.0;
-
 		// Default motor velocity of the flywheel in rotations per second
-		public static final double DEFAULT_SPEED_COMMAND = 70.0;
+		public static final double DEFAULT_SPEED_COMMAND = 80.0;
 	}
 
 	public static final class BallGuidance {
@@ -61,14 +58,8 @@ public final class Constants {
 		// Motor speed of the loader, 0.0 -> 0% max, 1.0 -> 100% max
 		public static final double COLLECTOR_SPEED = 0.9;
 
-		public static final double ROTATIONS_PER_DEGREE = ((27.0 / 1.0) * (8.0 / 5.0)) / 360.0;
-
 		// Pivot motor speed in rotations per second
 		public static final double PIVOT_SPEED = 15;
-
-		// Collector positions in degrees
-		public static final double RAISED_DEG = -10.0;
-		public static final double LOWERED_DEG = -115.0;
 	}
 
 	public static final class Arena {

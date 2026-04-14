@@ -27,7 +27,7 @@ public class Collector {
 	public static void init() {
 		TalonFXConfiguration config = new TalonFXConfiguration();
 		config.Slot0.kP = 0.4;
-		config.Slot0.kI = 0.0;
+		config.Slot0.kI = 0.05;
 		config.Slot0.kD = 0.05;
 
 		left_collector_pivot_motor.getConfigurator().apply(config);
