@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Amps;
+
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -26,14 +30,17 @@ public class Pukers {
 	private static final VelocityVoltage vv = new VelocityVoltage(0).withSlot(0);
 
 	public static void init() {
-		var slot0Configs = new Slot0Configs();
-		slot0Configs.kP = 0.6;
-		slot0Configs.kI = 0.1;
-		slot0Configs.kD = 0.0;
-		puker_1_flywheel_motor.getConfigurator().apply(slot0Configs);
-		puker_1_loader_motor.getConfigurator().apply(slot0Configs);
-		puker_2_flywheel_motor.getConfigurator().apply(slot0Configs);
-		puker_2_loader_motor.getConfigurator().apply(slot0Configs);
+		TalonFXConfiguration config = new TalonFXConfiguration();
+		config.Slot0.kP = 0.6;
+		config.Slot0.kI = 0.1;
+		config.Slot0.kD = 0.0;
+
+		config.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Amps.of(10)));
+
+		puker_1_flywheel_motor.getConfigurator().apply(config);
+		puker_1_loader_motor.getConfigurator().apply(config);
+		puker_2_flywheel_motor.getConfigurator().apply(config);
+		puker_2_loader_motor.getConfigurator().apply(config);
 	}
 
 	public static void spin_up_flywheel() {

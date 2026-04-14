@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Amps;
+
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -22,6 +25,8 @@ public class RollerFloor {
 		config.Slot0.kP = 0.5;
 		config.Slot0.kI = 0.0;
 		config.Slot0.kD = 0.0;
+
+		config.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Amps.of(10)));
 
 		roller_floor_motor.getConfigurator().apply(config);
 	}

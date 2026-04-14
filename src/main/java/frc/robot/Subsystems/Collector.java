@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Amps;
+
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
@@ -29,6 +32,8 @@ public class Collector {
 		config.Slot0.kP = 0.4;
 		config.Slot0.kI = 0.05;
 		config.Slot0.kD = 0.05;
+
+		config.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Amps.of(10)));
 
 		left_collector_pivot_motor.getConfigurator().apply(config);
 
