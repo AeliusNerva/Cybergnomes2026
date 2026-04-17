@@ -15,8 +15,9 @@ public class Autos {
 
 		Pukers.spin_up_flywheel();
 		RollerFloor.start_roller_floor();
-		//Collector.raise_collector();
+		Collector.raise_collector();
 
+		boolean movedone = false;
 		boolean firstshootdone = false;
 		boolean firstshootstopdone = false;
 		boolean shootdone = false;
@@ -24,12 +25,24 @@ public class Autos {
 		boolean done_time_to_stop_collector = false;
 		boolean done_stop_everything = false;
 
+	
+		final double max_speed = Constants.Drive.MAX_SPEED;
+
 		while (!done_time_to_stop_collector) {
+			if (!movedone) {
+				if (autoTimer.get() > 2.0 / max_speed) { // 2 meters / max speed (m/s) = seconds
+					movedone = true;
+					RobotContainer.driveReq
+							.withVelocityX(1.0 * max_speed);
+
+					RobotContainer.drivetrain.setControl(RobotContainer.driveReq);
+				}
+			}
 			if (!firstshootdone) {
 				if (autoTimer.get() > 2.0) {
 					firstshootdone = true;
 					Pukers.fire();
-					//Collector.stop_arm();
+					Collector.stop_arm();
 				}
 			}
 			if (!firstshootstopdone) {

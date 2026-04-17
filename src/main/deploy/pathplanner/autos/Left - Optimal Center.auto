@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Top"
+            "pathName": "Left - Optimal Center"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Optimal Center",
   "choreoAuto": false
 }

@@ -1,0 +1,19 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right - Kaboom 2000"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Kaboom 2000",
+  "choreoAuto": false
+}

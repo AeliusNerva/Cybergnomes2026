@@ -1,9 +1,5 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Amps;
-
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -27,6 +23,9 @@ public class Pukers {
 	private static boolean shooting = false;
 	private static int not_shooting_counter = 0;
 
+	public static boolean left_puker_enable = true;
+	public static boolean right_puker_enable = true;
+
 	private static final VelocityVoltage vv = new VelocityVoltage(0).withSlot(0);
 
 	public static void init() {
@@ -35,8 +34,6 @@ public class Pukers {
 		config.Slot0.kI = 0.1;
 		config.Slot0.kD = 0.0;
 
-		config.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Amps.of(10)));
-
 		puker_1_flywheel_motor.getConfigurator().apply(config);
 		puker_1_loader_motor.getConfigurator().apply(config);
 		puker_2_flywheel_motor.getConfigurator().apply(config);
@@ -44,8 +41,16 @@ public class Pukers {
 	}
 
 	public static void spin_up_flywheel() {
-		puker_1_flywheel_motor.setControl(vv.withVelocity(speed_command));
-		puker_2_flywheel_motor.setControl(vv.withVelocity(speed_command));
+		if (left_puker_enable) {
+			puker_1_flywheel_motor.setControl(vv.withVelocity(speed_command));
+		} else {
+			puker_1_flywheel_motor.setControl(new DutyCycleOut(0.0));
+		}
+		if (left_puker_enable) {
+			puker_2_flywheel_motor.setControl(vv.withVelocity(speed_command));
+		} else {
+			puker_2_flywheel_motor.setControl(new DutyCycleOut(0.0));
+		}
 	}
 
 	public static void stop_flywheel() {
@@ -55,8 +60,16 @@ public class Pukers {
 
 	public static void fire() {
 		shooting = true;
-		puker_1_loader_motor.setControl(vv.withVelocity(-speed_command / 1.5));
-		puker_2_loader_motor.setControl(vv.withVelocity(-speed_command / 1.5));
+		if (left_puker_enable) {
+			puker_1_loader_motor.setControl(vv.withVelocity(-speed_command / 1.5));
+		} else {
+			puker_1_loader_motor.setControl(new DutyCycleOut(0.0));
+		}
+		if (right_puker_enable) {
+			puker_2_loader_motor.setControl(vv.withVelocity(-speed_command / 1.5));
+		} else {
+			puker_2_loader_motor.setControl(new DutyCycleOut(0.0));
+		}
 	}
 
 	public static void stop_firing() {

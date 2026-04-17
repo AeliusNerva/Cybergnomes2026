@@ -2,8 +2,14 @@
   "robotWidth": 0.838,
   "robotLength": 0.66,
   "holonomicMode": true,
-  "pathFolders": [],
-  "autoFolders": [],
+  "pathFolders": [
+    "Kaboom 2000",
+    "Optimal Center"
+  ],
+  "autoFolders": [
+    "Kaboom 2000",
+    "Optimal Center"
+  ],
   "defaultMaxVel": 5.0,
   "defaultMaxAccel": 5.0,
   "defaultMaxAngVel": 540.0,

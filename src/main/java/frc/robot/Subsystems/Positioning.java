@@ -1,9 +1,13 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.helpers.Limelight;
@@ -29,6 +33,26 @@ public class Positioning {
 
 	private static final LowPassFilter difference_x = new LowPassFilter();
 	private static final LowPassFilter difference_y = new LowPassFilter();
+
+	// Hub stuff
+	private static Vector3 hub;
+
+	private static Optional<Alliance> ally = DriverStation.getAlliance();
+
+	static {
+		if (ally.isPresent()) {
+			if (ally.get() == Alliance.Red) {
+				hub = Constants.Arena.RED_HUB;
+			} else if (ally.get() == Alliance.Blue) {
+				hub = Constants.Arena.BLUE_HUB;
+			}
+		} else {
+			hub = Constants.Arena.RED_HUB;
+		}
+	}
+
+	public static Vector3 delta_pos = new Vector3(0.0, 0.0, 0.0);
+
 
 	public static void pigeon_init() {
 		// Clear any sticky faults
@@ -67,11 +91,6 @@ public class Positioning {
 				position.y = limelight_data.y;
 				position.x = position_x.low_pass(position.x);
 				position.y = position_y.low_pass(position.y);
-
-				Vector3 difference = position.sub(last_position);
-				difference.x = difference_x.low_pass(difference.x);
-				difference.y = difference_y.low_pass(difference.y);
-				velocity = difference.scalar_divide(dt);
 			}
 		}
 

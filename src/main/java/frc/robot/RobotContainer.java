@@ -111,7 +111,7 @@ public class RobotContainer {
 		 */
 
 		if (l1.getAsBoolean()) {
-			// Slow down the robot
+			// Ease to hub
 			drivetrain.setDefaultCommand(
 					drivetrain.applyRequest(() -> driveReq
 							.withVelocityX(stick_deadband(controller.getLeftY(), 0.1)
