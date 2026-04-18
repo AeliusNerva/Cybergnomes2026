@@ -18,37 +18,25 @@ public class Autos {
 		Collector.raise_collector();
 
 		boolean movedone = false;
-		boolean firstshootdone = false;
-		boolean firstshootstopdone = false;
 		boolean shootdone = false;
 		boolean done_time_to_start_collector = false;
 		boolean done_time_to_stop_collector = false;
-		boolean done_stop_everything = false;
 
-	
 		final double max_speed = Constants.Drive.MAX_SPEED;
+
+		RobotContainer.driveReq
+				.withVelocityX(max_speed / 4);
+
+		RobotContainer.drivetrain.setControl(RobotContainer.driveReq);
 
 		while (!done_time_to_stop_collector) {
 			if (!movedone) {
-				if (autoTimer.get() > 2.0 / max_speed) { // 2 meters / max speed (m/s) = seconds
+				if (autoTimer.get() > 1.5 / (max_speed / 4)) { // 2 meters / speed (m/s) = seconds
 					movedone = true;
 					RobotContainer.driveReq
-							.withVelocityX(1.0 * max_speed);
+							.withVelocityX(0.0 * max_speed);
 
 					RobotContainer.drivetrain.setControl(RobotContainer.driveReq);
-				}
-			}
-			if (!firstshootdone) {
-				if (autoTimer.get() > 2.0) {
-					firstshootdone = true;
-					Pukers.fire();
-					Collector.stop_arm();
-				}
-			}
-			if (!firstshootstopdone) {
-				if (autoTimer.get() > 2.1) {
-					firstshootstopdone = true;
-					Pukers.stop_firing();
 				}
 			}
 			if (!shootdone) {
@@ -58,7 +46,7 @@ public class Autos {
 				}
 			}
 			if (!done_time_to_start_collector) {
-				if (autoTimer.get() > 6.0) {
+				if (autoTimer.get() > 5.0) {
 					done_time_to_start_collector = true;
 					Collector.start_driver();
 				}
@@ -69,15 +57,6 @@ public class Autos {
 					Collector.stop_driver();
 				}
 			}
-
-			if (!done_stop_everything) {
-				if (autoTimer.get() > 9.0) {
-					done_stop_everything = true;
-					Pukers.stop_firing();
-					Pukers.stop_flywheel();
-					RollerFloor.stop_roller_floor();
-				}
-			}
 			Timer.delay(0.05);
 		}
 	}
@@ -86,5 +65,7 @@ public class Autos {
 		Pukers.stop_firing();
 		Pukers.stop_flywheel();
 		RollerFloor.stop_roller_floor();
+		Collector.stop_arm();
+		Collector.stop_driver();
 	}
 }

@@ -23,7 +23,9 @@ import frc.robot.commands.Puker.PukerFire;
 import frc.robot.commands.Puker.PukerFlywheel;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Positioning;
 
+@SuppressWarnings("unused")
 public class RobotContainer {
 
 	private final XboxController controller = new XboxController(0);
@@ -38,19 +40,22 @@ public class RobotContainer {
 
 	private final Trigger rollerfloor = new Trigger(() -> rollercounter > 0);
 
-	private final JoystickButton l1 = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
+	// private final JoystickButton l1 = new JoystickButton(controller,
+	// XboxController.Button.kLeftBumper.value);
 	private final Trigger l2 = new Trigger(() -> controller.getLeftTriggerAxis() > 0.5);
 	private final JoystickButton r1 = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
 	private final Trigger r2 = new Trigger(() -> controller.getRightTriggerAxis() > 0.5);
 
-	// private final JoystickButton button_y = new JoystickButton(controller, XboxController.Button.kY.value);
+	// private final JoystickButton button_y = new JoystickButton(controller,
+	// XboxController.Button.kY.value);
 	// private final JoystickButton button_b = new JoystickButton(controller, XboxController.Button.kB.value);
 	private final JoystickButton button_a = new JoystickButton(controller, XboxController.Button.kA.value);
 	private final JoystickButton button_x = new JoystickButton(controller, XboxController.Button.kX.value);
 
 	private final Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
 	private final Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
-	// private final Trigger dpad_inline = new Trigger(() -> controller.getPOV() == 90 || controller.getPOV() == -90);
+	// private final Trigger dpad_inline = new Trigger(() -> controller.getPOV() ==
+	// 90 || controller.getPOV() == -90);
 
 	private final JoystickButton back = new JoystickButton(controller, XboxController.Button.kBack.value);
 
@@ -60,7 +65,7 @@ public class RobotContainer {
 
 	private double stick_deadband(double input, double deadband) {
 		if (Math.abs(input) > Math.abs(deadband)) {
-			return input;
+			return (input - deadband) / (1.0 - deadband);
 		} else {
 			return 0.0;
 		}
@@ -110,17 +115,23 @@ public class RobotContainer {
 		 * with no inverting, just Y goes to X and vice versa
 		 */
 
-		if (l1.getAsBoolean()) {
+		/*
+		 * 2026-04-17: yeah fuh that boi
+		 */
+
+		/*
+		if (controller.getBButton()) {
 			// Ease to hub
 			drivetrain.setDefaultCommand(
-					drivetrain.applyRequest(() -> driveReq
-							.withVelocityX(stick_deadband(controller.getLeftY(), 0.1)
+					drivetrain.applyRequest(() -> driveReq.withVelocityX(
+							stick_deadband(Math.min(1.0, Positioning.delta_pos.y), 0.1)
 									* max_speed / 2.0)
-							.withVelocityY(stick_deadband(controller.getLeftX(), 0.1)
+							.withVelocityY(stick_deadband(
+									Math.min(1.0, Positioning.delta_pos.x), 0.1)
 									* max_speed / 2.0)
-							.withRotationalRate(
-									-controller.getRightX() * max_angular_speed
-											/ 2.0)));
+							.withRotationalRate(stick_deadband(
+									Math.min(1.0, Positioning.delta_pos.x), 0.1)
+									* max_angular_speed / 2.0)));
 		} else {
 			// Normal
 			drivetrain.setDefaultCommand(
@@ -132,6 +143,16 @@ public class RobotContainer {
 							.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
 									* max_angular_speed)));
 		}
+		*/
+
+		drivetrain.setDefaultCommand(
+			drivetrain.applyRequest(() -> driveReq
+				.withVelocityX(stick_deadband(controller.getLeftY(), 0.1)
+					* max_speed)
+				.withVelocityY(stick_deadband(controller.getLeftX(), 0.1)
+					* max_speed)
+				.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
+					* max_angular_speed)));
 
 		final var idle = new SwerveRequest.Idle();
 		RobotModeTriggers.disabled().whileTrue(

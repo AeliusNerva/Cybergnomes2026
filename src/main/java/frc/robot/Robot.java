@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
@@ -46,6 +47,9 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
 		Positioning.position();
+
+		SmartDashboard.putNumber("puker_1", Pukers.get_velocity_puker_1());
+		SmartDashboard.putNumber("puker_2", Pukers.get_velocity_puker_2());
 	}
 
 	@Override
