@@ -24,19 +24,19 @@ public class Autos {
 
 		final double max_speed = Constants.Drive.MAX_SPEED;
 
-		RobotContainer.driveReq
+		Robot.driveReq
 				.withVelocityX(max_speed / 4);
 
-		RobotContainer.drivetrain.setControl(RobotContainer.driveReq);
+		Robot.drivetrain.setControl(Robot.driveReq);
 
 		while (!done_time_to_stop_collector) {
 			if (!movedone) {
 				if (autoTimer.get() > 1.5 / (max_speed / 4)) { // 2 meters / speed (m/s) = seconds
 					movedone = true;
-					RobotContainer.driveReq
+					Robot.driveReq
 							.withVelocityX(0.0 * max_speed);
 
-					RobotContainer.drivetrain.setControl(RobotContainer.driveReq);
+					Robot.drivetrain.setControl(Robot.driveReq);
 				}
 			}
 			if (!shootdone) {

@@ -58,19 +58,19 @@ public class Positioning {
 	public static void position() {
 		if (ally.isPresent()) {
 			if (ally.get() == Alliance.Red) {
-				hub = Constants.Arena.RED_HUB;
+				hub = Constants.Arena.RED_HUB.copy();
 				hub.x += 2.0;
 			} else if (ally.get() == Alliance.Blue) {
-				hub = Constants.Arena.BLUE_HUB;
+				hub = Constants.Arena.BLUE_HUB.copy();
 				hub.x -= 2.0;
 			}
 		} else {
-			hub = Constants.Arena.RED_HUB;
+			hub = Constants.Arena.RED_HUB.copy();
 		}
 
 		// Get the grounded position of the robot
 		Limelight.periodic();
-		Vector3 limelight_data = Limelight.robot_limelight_position;
+		Vector3 limelight_data = Limelight.robot_limelight_position.copy();
 
 		if (limelight_data.z > 0.0) {
 			if (limelight_data.x != 0.0 && limelight_data.y != 0.0) {

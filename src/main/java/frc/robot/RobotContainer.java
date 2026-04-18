@@ -29,14 +29,6 @@ import frc.robot.subsystems.Positioning;
 public class RobotContainer {
 
 	private final XboxController controller = new XboxController(0);
-	public static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-
-	public static final SwerveRequest.FieldCentric driveReq = new SwerveRequest.FieldCentric()
-			.withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
-			.withSteerRequestType(SwerveModule.SteerRequestType.Position);
-
-	private final double max_speed = Constants.Drive.MAX_SPEED;
-	private final double max_angular_speed = Constants.Drive.MAX_ANGULAR_SPEED;
 
 	private final Trigger rollerfloor = new Trigger(() -> rollercounter > 0);
 
@@ -62,14 +54,6 @@ public class RobotContainer {
 	public static int rollercounter = 0;
 
 	private final SendableChooser<Command> autoChooser;
-
-	private double stick_deadband(double input, double deadband) {
-		if (Math.abs(input) > Math.abs(deadband)) {
-			return (input - deadband) / (1.0 - deadband);
-		} else {
-			return 0.0;
-		}
-	}
 
 	public Command getAutonomousCommand() {
 		// This returns the command for the auto you picked on the Dashboard
@@ -107,56 +91,6 @@ public class RobotContainer {
 		button_a.whileTrue(RunCollector);
 		dpad_up.whileTrue(CollectorUp);
 		dpad_down.whileTrue(CollectorDown);
-
-		// SWERVES
-		/*
-		 * on this date (2026-03-06) as per Andrew's request I hereby decree
-		 * that Xbox controllers can be directly mapped to our swerve drives
-		 * with no inverting, just Y goes to X and vice versa
-		 */
-
-		/*
-		 * 2026-04-17: yeah fuh that boi
-		 */
-
-		/*
-		if (controller.getBButton()) {
-			// Ease to hub
-			drivetrain.setDefaultCommand(
-					drivetrain.applyRequest(() -> driveReq.withVelocityX(
-							stick_deadband(Math.min(1.0, Positioning.delta_pos.y), 0.1)
-									* max_speed / 2.0)
-							.withVelocityY(stick_deadband(
-									Math.min(1.0, Positioning.delta_pos.x), 0.1)
-									* max_speed / 2.0)
-							.withRotationalRate(stick_deadband(
-									Math.min(1.0, Positioning.delta_pos.x), 0.1)
-									* max_angular_speed / 2.0)));
-		} else {
-			// Normal
-			drivetrain.setDefaultCommand(
-					drivetrain.applyRequest(() -> driveReq
-							.withVelocityX(stick_deadband(controller.getLeftY(), 0.1)
-									* max_speed)
-							.withVelocityY(stick_deadband(controller.getLeftX(), 0.1)
-									* max_speed)
-							.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
-									* max_angular_speed)));
-		}
-		*/
-
-		drivetrain.setDefaultCommand(
-			drivetrain.applyRequest(() -> driveReq
-				.withVelocityX(stick_deadband(controller.getLeftY(), 0.1)
-					* max_speed)
-				.withVelocityY(stick_deadband(controller.getLeftX(), 0.1)
-					* max_speed)
-				.withRotationalRate(stick_deadband(-controller.getRightX(), 0.1)
-					* max_angular_speed)));
-
-		final var idle = new SwerveRequest.Idle();
-		RobotModeTriggers.disabled().whileTrue(
-				drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
 		// ROLLER
 		Command RollerFloor = new RollerFloor();

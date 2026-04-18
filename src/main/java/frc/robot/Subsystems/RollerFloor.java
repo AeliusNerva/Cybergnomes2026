@@ -32,7 +32,7 @@ public class RollerFloor {
 	}
 
 	public static void start_roller_floor() {
-		// roller_floor_motor.setControl(vv.withVelocity(-roller_floor_speed * gear_ratio));
+		roller_floor_motor.setControl(vv.withVelocity(-roller_floor_speed * gear_ratio));
 	}
 
 	public static void stop_roller_floor() {
