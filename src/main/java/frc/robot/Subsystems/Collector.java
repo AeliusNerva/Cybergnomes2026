@@ -29,9 +29,9 @@ public class Collector {
 
 	public static void init() {
 		TalonFXConfiguration config = new TalonFXConfiguration();
-		config.Slot0.kP = 0.4;
-		config.Slot0.kI = 0.05;
-		config.Slot0.kD = 0.05;
+		config.Slot0.kP = 0.2;
+		config.Slot0.kI = 0.0;
+		config.Slot0.kD = 0.0;
 
 		config.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Amps.of(10)));
 
